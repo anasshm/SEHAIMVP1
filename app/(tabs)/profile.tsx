@@ -6,11 +6,13 @@ import { useAuth } from '@/src/services/AuthContext';
 import { useOnboarding } from '../OnboardingContext';
 import { InfoCard } from '@/components/ui/InfoCard';
 import { FieldRow } from '@/components/ui/FieldRow';
+import i18n, { isRTL } from '@/utils/i18n';
 
 export default function ProfileScreen() {
   const router = useRouter();
   const { user, signOut } = useAuth();
   const { onboardingData, isLoading: isOnboardingDataLoading } = useOnboarding();
+  const isArabic = isRTL();
   
   // User data state
   const [userData, setUserData] = useState({
@@ -48,7 +50,7 @@ export default function ProfileScreen() {
       router.replace('/(auth)/login');
     } catch (error) {
       console.error('Logout error:', error);
-      Alert.alert('Error', 'Failed to log out. Please try again.');
+      Alert.alert(i18n.t('profile.error'), i18n.t('profile.failedToLogOut'));
     }
   };
 
@@ -58,7 +60,7 @@ export default function ProfileScreen() {
       await WebBrowser.openBrowserAsync('https://createvaluellc.com/privacy');
     } catch (error) {
       console.error('Error opening Privacy Policy:', error);
-      Alert.alert('Error', 'Unable to open Privacy Policy. Please try again.');
+      Alert.alert(i18n.t('profile.error'), i18n.t('profile.unableToOpenPrivacy'));
     }
   };
 
@@ -67,7 +69,7 @@ export default function ProfileScreen() {
       await WebBrowser.openBrowserAsync('https://www.apple.com/legal/internet-services/itunes/dev/stdeula/');
     } catch (error) {
       console.error('Error opening Terms and Conditions:', error);
-      Alert.alert('Error', 'Unable to open Terms and Conditions. Please try again.');
+      Alert.alert(i18n.t('profile.error'), i18n.t('profile.unableToOpenTerms'));
     }
   };
 
@@ -75,18 +77,23 @@ export default function ProfileScreen() {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#f5f5f7' }}>
       <View className="flex-1 bg-app-bg">
       <View className="px-4 pb-4">
-        <Text className="text-[32px] font-bold text-[#1D1923]">Profile</Text>
+        <Text 
+          className="text-[32px] font-bold text-[#1D1923]"
+          style={{ textAlign: isArabic ? 'right' : 'left' }}
+        >
+          {i18n.t('profile.title')}
+        </Text>
       </View>
       
       <ScrollView className="flex-1">
         {!user ? (
           <View className="p-4 items-center">
-            <Text className="text-text-primary text-lg mb-4 text-center">Sign in to track your nutrition</Text>
+            <Text className="text-text-primary text-lg mb-4 text-center">{i18n.t('profile.signInToTrack')}</Text>
             <TouchableOpacity 
               className="bg-blue-500 py-3 px-6 rounded-lg"
               onPress={() => router.push('/(auth)/login')}
             >
-              <Text className="text-white font-semibold text-base">Sign In / Register</Text>
+              <Text className="text-white font-semibold text-base">{i18n.t('profile.signInRegister')}</Text>
             </TouchableOpacity>
           </View>
         ) : (
@@ -105,7 +112,7 @@ export default function ProfileScreen() {
         
         {/* Section for Onboarding Data */}
         {user && (
-          <InfoCard title="My physical info">
+          <InfoCard title={i18n.t('profile.myPhysicalInfo')}>
             {isOnboardingDataLoading ? (
               <View className="p-4 items-center justify-center">
                 <ActivityIndicator size="small" color="#4A90E2" />
@@ -113,20 +120,20 @@ export default function ProfileScreen() {
             ) : (
               <>
                 <FieldRow 
-                  label="Birthday"
-                  value={onboardingData.dateOfBirth ? onboardingData.dateOfBirth : 'Not set'}
+                  label={i18n.t('profile.birthday')}
+                  value={onboardingData.dateOfBirth ? onboardingData.dateOfBirth : i18n.t('profile.notSet')}
                 />
                 <FieldRow 
-                  label="Height"
+                  label={i18n.t('profile.height')}
                   value={onboardingData.height 
                     ? `${onboardingData.height.value} ${onboardingData.height.unit}` 
-                    : 'Not set'}
+                    : i18n.t('profile.notSet')}
                 />
                 <FieldRow 
-                  label="Weight"
+                  label={i18n.t('profile.weight')}
                   value={onboardingData.weight 
                     ? `${onboardingData.weight.value} ${onboardingData.weight.unit}` 
-                    : 'Not set'}
+                    : i18n.t('profile.notSet')}
                   isLast={true}
                 />
               </>
@@ -134,9 +141,9 @@ export default function ProfileScreen() {
           </InfoCard>
         )}
         
-        <InfoCard title="App settings">
+        <InfoCard title={i18n.t('profile.appSettings')}>
             <FieldRow 
-              label="Notifications"
+              label={i18n.t('profile.notifications')}
               right={
                 <Switch
                   value={userData.notifications}
@@ -148,20 +155,20 @@ export default function ProfileScreen() {
             />
         </InfoCard>
         
-        <InfoCard title="Legal">
+        <InfoCard title={i18n.t('profile.legal')}>
           <TouchableOpacity onPress={openPrivacyPolicy}>
             <FieldRow 
-              label="Privacy Policy"
+              label={i18n.t('profile.privacyPolicy')}
               right={
-                <Text className="text-[15px] text-[#6E7685]">→</Text>
+                <Text className="text-[15px] text-[#6E7685]">{isArabic ? '←' : '→'}</Text>
               }
             />
           </TouchableOpacity>
           <TouchableOpacity onPress={openTermsAndConditions}>
             <FieldRow 
-              label="Terms and Conditions"
+              label={i18n.t('profile.termsAndConditions')}
               right={
-                <Text className="text-[15px] text-[#6E7685]">→</Text>
+                <Text className="text-[15px] text-[#6E7685]">{isArabic ? '←' : '→'}</Text>
               }
               isLast={true}
             />
@@ -174,7 +181,7 @@ export default function ProfileScreen() {
               className="bg-[#D32F2F] rounded-[20px] py-[14px] items-center shadow-md"
               onPress={handleLogout}
             >
-              <Text className="text-white text-[17px] font-semibold">Log Out</Text>
+              <Text className="text-white text-[17px] font-semibold">{i18n.t('profile.logOut')}</Text>
             </TouchableOpacity>
           </View>
         )}
