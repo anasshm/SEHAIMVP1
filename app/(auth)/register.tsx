@@ -5,6 +5,7 @@ import { useAuth } from '@/src/services/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 import { styled } from 'nativewind';
 import { palette } from '@/constants/Colors';
+import AppLogo from '@/components/ui/AppLogo';
 
 // Create styled components with NativeWind
 const StyledView = styled(View);
@@ -136,8 +137,8 @@ export default function RegisterScreen() {
       <StyledView className="flex-1 px-6 py-10 justify-center">
         {/* Logo and Title */}
         <StyledView className="items-center mb-8">
-          <StyledView className="w-16 h-16 rounded-xl items-center justify-center mb-6" style={{ backgroundColor: palette.primary }}>
-            <Ionicons name="flash" size={32} color="white" />
+          <StyledView className="mb-6">
+            <AppLogo size={64} showBackground={false} />
           </StyledView>
           <StyledText className="text-3xl font-bold text-center mb-2">Brace Yourself</StyledText>
           <StyledText className="text-2xl font-bold text-center">for What's Next</StyledText>

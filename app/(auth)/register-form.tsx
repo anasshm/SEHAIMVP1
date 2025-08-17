@@ -8,6 +8,7 @@ import { styled } from 'nativewind';
 import { palette } from '@/constants/Colors'; // Import palette
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n, { isRTL } from '@/utils/i18n';
+import AppLogo from '@/components/ui/AppLogo';
 
 // Create styled components with NativeWind
 const StyledView = styled(View);
@@ -165,8 +166,8 @@ export default function RegisterFormScreen() {
 
           {/* App Logo */}
           <StyledView className="items-center mb-6">
-            <StyledView style={{ backgroundColor: palette.primary }} className="w-14 h-14 rounded-xl items-center justify-center mb-6">
-              <Ionicons name="flash" size={28} color="white" />
+            <StyledView className="mb-6">
+              <AppLogo size={56} showBackground={false} />
             </StyledView>
           </StyledView>
           

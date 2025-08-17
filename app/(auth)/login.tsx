@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { styled } from 'nativewind';
 import { palette } from '@/constants/Colors';
 import i18n, { isRTL } from '@/utils/i18n';
+import AppLogo from '@/components/ui/AppLogo';
 
 // Create styled components with NativeWind
 const StyledView = styled(View);
@@ -202,8 +203,8 @@ export default function LoginScreen() {
 
           {/* App Logo */}
           <StyledView className="items-center mb-6">
-            <StyledView className="w-14 h-14 rounded-xl items-center justify-center mb-6" style={{ backgroundColor: palette.primary }}>
-              <Ionicons name="flash" size={28} color="white" />
+            <StyledView className="mb-6">
+              <AppLogo size={56} showBackground={false} />
             </StyledView>
           </StyledView>
           
