@@ -7,7 +7,8 @@ import { isRTL } from '@/utils/i18n';
 
 // --- Constants ---
 export const ONBOARDING_STEPS = [ // Order matters for navigation and finding index
-  'step_seh_ai_comparison',  // NEW: Testing page - always first for easy testing
+  'step_lasting_results',  // NEW: Testing page - always first for easy testing
+  'step_seh_ai_comparison',
   'step_desired_weight',
   'step1_calorie_apps',
   'step_date_of_birth',
@@ -25,7 +26,8 @@ export const ONBOARDING_STEPS = [ // Order matters for navigation and finding in
 ];
 // Define specifically the steps that contribute to the progress bar calculation
 export const PROGRESS_BAR_STEPS = [
-  'step_seh_ai_comparison',  // NEW: Testing page - always first for easy testing
+  'step_lasting_results',  // NEW: Testing page - always first for easy testing
+  'step_seh_ai_comparison',
   'step_desired_weight',
   'step1_calorie_apps',
   'step_date_of_birth',

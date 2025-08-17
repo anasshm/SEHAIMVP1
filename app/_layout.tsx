@@ -90,8 +90,8 @@ function RootLayoutNav() {
         // User logged in but onboarding NOT complete.
         // Send them to the START of onboarding IF they are not already in the onboarding or paywall group.
         if (!inOnboardingGroup && !inPaywallGroup) { 
-                  console.log('[RootLayout] User logged in, onboarding incomplete. Redirecting to step_seh_ai_comparison...');
-        router.replace('/(onboarding)/step_seh_ai_comparison'); 
+                  console.log('[RootLayout] User logged in, onboarding incomplete. Redirecting to step_lasting_results...');
+        router.replace('/(onboarding)/step_lasting_results'); 
         } else {
            console.log('[RootLayout] User logged in, onboarding incomplete, already in onboarding/paywall group. Staying.');
         }
