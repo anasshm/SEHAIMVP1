@@ -157,17 +157,7 @@ Return ONLY a JSON object with EXACTLY:
 - "targetProteinGrams": number
 - "targetCarbsGrams": number
 - "targetFatsGrams": number
-- "briefRationale": string (When writing briefRationale, use ONE of the following templates (≤2 sentences). Only mention the user's current weight and their goal to lose weight—no calories, macros, or extra numbers.
-
-1) "You're at {{weight_kg}} kg and aiming to lose weight; this plan moves you forward at a steady, sustainable pace. You can absolutely do this—consistency wins."
-
-2) "{{weight_kg}} kg today, goal: lose weight. Follow this plan, stay steady, and the change will come—you've got this."
-
-3) "At {{weight_kg}} kg with a goal to lose weight, this is set for real progress without burnout. Keep showing up—you can do this."
-
-4) "Current weight: {{weight_kg}} kg; goal: weight loss. This keeps things sustainable and doable—stick with it and you'll make it happen."
-
-5) "You're at {{weight_kg}} kg and choosing to lose weight; this keeps the path steady and kind. Trust the process—you've got this.")
+- "briefRationale": string (Use this exact template: "You're at {{weight_kg}} kg and aiming to lose weight; this plan moves you forward at a steady, sustainable pace. You can absolutely do this")
 No extra keys. No arrays or objects other than those five fields.`;
 
   // Convert activity level code to sessions per week for the new prompt format
