@@ -5,7 +5,7 @@ import { useAuth } from '@/src/services/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
 import { styled } from 'nativewind';
 import { palette } from '@/constants/Colors';
-import i18n from '@/utils/i18n';
+import i18n, { isRTL } from '@/utils/i18n';
 
 // Create styled components with NativeWind
 const StyledView = styled(View);
@@ -18,6 +18,7 @@ const StyledKeyboardAvoidingView = styled(KeyboardAvoidingView);
 export default function LoginScreen() {
   const router = useRouter();
   const { signIn, signUp, signInWithGoogle, isGoogleLoading } = useAuth();
+  const isArabic = isRTL();
   
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -188,14 +189,14 @@ export default function LoginScreen() {
           keyboardShouldPersistTaps="handled"
         >
           {/* Header with title */}
-          <StyledView className="flex-row items-center justify-between mb-10">
+          <StyledView className={`flex-row items-center justify-between mb-10 ${isArabic ? 'flex-row-reverse' : ''}`}>
             <StyledTouchableOpacity 
               className="p-2" 
               onPress={() => router.back()}
             >
-              <StyledText className="text-base" style={{ color: palette.primary }}>{i18n.t('auth.cancel')}</StyledText>
+              <StyledText className="text-base" style={{ color: palette.primary, textAlign: isArabic ? 'right' : 'left' }}>{i18n.t('auth.cancel')}</StyledText>
             </StyledTouchableOpacity>
-            <StyledText className="text-lg font-semibold">{i18n.t('auth.login')}</StyledText>
+            <StyledText className="text-lg font-semibold" style={{ textAlign: 'center' }}>{i18n.t('auth.login')}</StyledText>
             <StyledView className="w-14" />
           </StyledView>
 
@@ -217,9 +218,10 @@ export default function LoginScreen() {
               keyboardType="email-address"
               autoCapitalize="none"
               onBlur={() => setTouched({ ...touched, email: true })}
+              style={{ textAlign: isArabic ? 'right' : 'left', writingDirection: isArabic ? 'rtl' : 'ltr' }}
             />
             {touched.email && errors.email ? (
-              <StyledText className="text-red-500 mt-1">{errors.email}</StyledText>
+              <StyledText className="text-red-500 mt-1" style={{ textAlign: isArabic ? 'right' : 'left' }}>{errors.email}</StyledText>
             ) : null}
           </StyledView>
           
@@ -232,16 +234,17 @@ export default function LoginScreen() {
               onChangeText={setPassword}
               secureTextEntry
               onBlur={() => setTouched({ ...touched, password: true })}
+              style={{ textAlign: isArabic ? 'right' : 'left', writingDirection: isArabic ? 'rtl' : 'ltr' }}
             />
             {touched.password && errors.password ? (
-              <StyledText className="text-red-500 mt-1">{errors.password}</StyledText>
+              <StyledText className="text-red-500 mt-1" style={{ textAlign: isArabic ? 'right' : 'left' }}>{errors.password}</StyledText>
             ) : null}
           </StyledView>
           
-          <StyledView className="items-end mb-6">
+          <StyledView className={`mb-6 ${isArabic ? 'items-start' : 'items-end'}`}>
             <Link href="/(auth)/forgot-password" asChild>
               <StyledTouchableOpacity className="py-2">
-                <StyledText className="text-sm font-bold" style={{ color: palette.primary }}>{i18n.t('auth.forgotPassword')}</StyledText>
+                <StyledText className="text-sm font-bold" style={{ color: palette.primary, textAlign: isArabic ? 'left' : 'right' }}>{i18n.t('auth.forgotPassword')}</StyledText>
               </StyledTouchableOpacity>
             </Link>
           </StyledView>
@@ -264,11 +267,11 @@ export default function LoginScreen() {
           </StyledView>
           
           <StyledTouchableOpacity 
-            className="flex-row bg-white border-2 border-gray-200 py-5 px-4 rounded-full items-center justify-center mb-4"
+            className={`flex-row bg-white border-2 border-gray-200 py-5 px-4 rounded-full items-center justify-center mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}
             onPress={handleGoogleSignIn}
             disabled={isGoogleLoading}
           >
-            <StyledView className="w-5 h-5 mr-2 items-center justify-center">
+            <StyledView className={`w-5 h-5 items-center justify-center ${isArabic ? 'ml-2' : 'mr-2'}`}>
               <Ionicons name="logo-google" size={18} color="#4285F4" />
             </StyledView>
             <StyledText className="text-black text-lg font-semibold">
@@ -277,20 +280,20 @@ export default function LoginScreen() {
           </StyledTouchableOpacity>
           
           <StyledTouchableOpacity 
-            className="flex-row bg-white border-2 border-gray-200 py-5 px-4 rounded-full items-center justify-center mb-8"
+            className={`flex-row bg-white border-2 border-gray-200 py-5 px-4 rounded-full items-center justify-center mb-8 ${isArabic ? 'flex-row-reverse' : ''}`}
             onPress={() => Alert.alert(i18n.t('auth.comingSoon.title'), i18n.t('auth.comingSoon.appleSignIn'))}
           >
-            <StyledView className="w-5 h-5 mr-2 items-center justify-center">
+            <StyledView className={`w-5 h-5 items-center justify-center ${isArabic ? 'ml-2' : 'mr-2'}`}>
               <Ionicons name="logo-apple" size={18} color="#000000" />
             </StyledView>
             <StyledText className="text-black text-lg font-semibold">{i18n.t('auth.loginWithApple')}</StyledText>
           </StyledTouchableOpacity>
           
-          <StyledView className="flex-row justify-center">
-            <StyledText className="text-sm text-gray-600">{i18n.t('auth.dontHaveAccount')} </StyledText>
+          <StyledView className={`flex-row justify-center ${isArabic ? 'flex-row-reverse' : ''}`}>
+            <StyledText className="text-sm text-gray-600" style={{ textAlign: 'center' }}>{i18n.t('auth.dontHaveAccount')} </StyledText>
             <Link href="/(auth)/register-form" asChild>
               <StyledTouchableOpacity>
-                <StyledText className="text-sm font-bold" style={{ color: palette.primary }}>{i18n.t('auth.signUp')}</StyledText>
+                <StyledText className="text-sm font-bold" style={{ color: palette.primary, textAlign: 'center' }}>{i18n.t('auth.signUp')}</StyledText>
               </StyledTouchableOpacity>
             </Link>
           </StyledView>
