@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import { palette } from '../../constants/Colors'; // Adjust path as necessary
+import i18n, { isRTL } from '@/utils/i18n';
 
 interface DayCarouselProps {
   selectedDate: Date;
@@ -44,17 +45,45 @@ const onScrollToIndexFailed = (info: {
 const DayCarousel: React.FC<DayCarouselProps> = ({ selectedDate, onDateSelect }) => {
   const days: DayItem[] = [];
   const today = new Date();
-  const dayOfWeekFormatter = new Intl.DateTimeFormat('en-US', { weekday: 'short' });
+  
+  // Day names mapping for translation
+  const getDayKey = (dayIndex: number): string => {
+    const dayKeys = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+    return dayKeys[dayIndex];
+  };
 
-  for (let i = 6; i >= 0; i--) {
-    const date = new Date(today);
-    date.setDate(today.getDate() - i);
-    days.push({
-      date,
-      dayOfMonth: date.getDate().toString(),
-      dayOfWeek: dayOfWeekFormatter.format(date).substring(0, 3), // e.g., "Tue"
-    });
+  // For RTL (Arabic), show today and next 6 days
+  // For LTR (English), show last 6 days and today
+  if (isRTL()) {
+    // Arabic: Show today + next 6 days (17, 18, 19, 20, 21, 22, 23)
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(today);
+      date.setDate(today.getDate() + i);
+      const dayKey = getDayKey(date.getDay());
+      
+      days.push({
+        date,
+        dayOfMonth: date.getDate().toString(),
+        dayOfWeek: i18n.t(`days.${dayKey}`),
+      });
+    }
+  } else {
+    // English: Show last 6 days + today (12, 13, 14, 15, 16, 17)
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date(today);
+      date.setDate(today.getDate() - i);
+      const dayKey = getDayKey(date.getDay());
+      
+      days.push({
+        date,
+        dayOfMonth: date.getDate().toString(),
+        dayOfWeek: i18n.t(`days.${dayKey}`),
+      });
+    }
   }
+  
+  // For RTL, we'll use the inverted prop on FlatList instead of reversing the array
+  const displayDays = days;
 
   const renderItem = ({ item }: { item: DayItem }) => {
     const isSelected = isSameDay(item.date, selectedDate);
@@ -93,7 +122,7 @@ const DayCarousel: React.FC<DayCarouselProps> = ({ selectedDate, onDateSelect })
 
     return (
       <TouchableOpacity onPress={() => onDateSelect(item.date)} style={styles.itemContainer}>
-        <Text style={dayOfWeekStyle}>{item.dayOfWeek.toUpperCase()}</Text>
+        <Text style={dayOfWeekStyle}>{item.dayOfWeek}</Text>
         <View style={circleStyle}>
           <Text style={dayOfMonthStyle}>{item.dayOfMonth}</Text>
         </View>
@@ -101,18 +130,30 @@ const DayCarousel: React.FC<DayCarouselProps> = ({ selectedDate, onDateSelect })
     );
   };
 
+  // Find the index of today in the display array
+  const todayIndex = displayDays.findIndex(day => isSameDay(day.date, today));
+  
+  // For RTL (Arabic): today is at index 0, for LTR (English): today is at the last index
+  let initialIndex;
+  if (isRTL()) {
+    initialIndex = 0; // Today is the first item in Arabic
+  } else {
+    initialIndex = todayIndex >= 0 ? todayIndex : (displayDays.length > 0 ? displayDays.length - 1 : 0);
+  }
+
   return (
     <View style={styles.container}>
       <FlatList
-        data={days}
+        data={displayDays}
         renderItem={renderItem}
         keyExtractor={(item: DayItem) => item.date.toISOString()}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.listContentContainer}
-        initialScrollIndex={days.length > 0 ? days.length - 1 : 0} // Scroll to the last item (Today)
+        initialScrollIndex={initialIndex} // Scroll to today
         getItemLayout={getItemLayout}
         onScrollToIndexFailed={onScrollToIndexFailed}
+        inverted={isRTL()} // Invert the scroll direction for RTL
       />
     </View>
   );
