@@ -193,7 +193,7 @@ export default function LoginScreen() {
           <StyledView className={`flex-row items-center justify-between mb-10 ${isArabic ? 'flex-row-reverse' : ''}`}>
             <StyledTouchableOpacity 
               className="p-2" 
-              onPress={() => router.back()}
+              onPress={() => router.replace('/(auth)/register')}
             >
               <StyledText className="text-base" style={{ color: palette.primary, textAlign: isArabic ? 'right' : 'left' }}>{i18n.t('auth.cancel')}</StyledText>
             </StyledTouchableOpacity>
@@ -242,10 +242,10 @@ export default function LoginScreen() {
             ) : null}
           </StyledView>
           
-          <StyledView className={`mb-6 ${isArabic ? 'items-start' : 'items-end'}`}>
+          <StyledView className={`mb-6 ${isArabic ? 'items-end' : 'items-end'}`}>
             <Link href="/(auth)/forgot-password" asChild>
               <StyledTouchableOpacity className="py-2">
-                <StyledText className="text-sm font-bold" style={{ color: palette.primary, textAlign: isArabic ? 'left' : 'right' }}>{i18n.t('auth.forgotPassword')}</StyledText>
+                <StyledText className="text-sm font-bold" style={{ color: palette.primary, textAlign: isArabic ? 'right' : 'right' }}>{i18n.t('auth.forgotPassword')}</StyledText>
               </StyledTouchableOpacity>
             </Link>
           </StyledView>
