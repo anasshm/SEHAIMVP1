@@ -54,7 +54,7 @@ export default function StepDesiredWeightScreen() {
         <View className="flex-1 justify-center items-center">
           {/* Current Weight Display */}
           <Text className="text-5xl font-bold text-gray-800 mb-8">
-            {selectedWeight} kg
+            {selectedWeight} {isRTL() ? 'كغ' : 'kg'}
           </Text>
           
           {/* Ruler Picker */}
