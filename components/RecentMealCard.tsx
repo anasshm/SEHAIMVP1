@@ -1,12 +1,11 @@
 import React from 'react';
 
 import { View, Text, Image, StyleSheet } from 'react-native';
-import { format } from 'date-fns';
 import { Meal } from '@/models/meal';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { palette } from '@/constants/Colors';
 import { neumorphicLayerStyle } from '@/utils/styles';
-import { isRTL } from '@/utils/i18n';
+import { isRTL, formatTime } from '@/utils/i18n';
 
 type RecentMealCardProps = {
   meal: Meal;
@@ -14,7 +13,7 @@ type RecentMealCardProps = {
 
 export default function RecentMealCard({ meal }: RecentMealCardProps) {
   // Format the time
-  const formattedTime = meal.meal_time ? format(new Date(meal.meal_time), 'h:mm a') : '';
+  const formattedTime = meal.meal_time ? formatTime(new Date(meal.meal_time)) : '';
   
   const isArabic = isRTL();
 

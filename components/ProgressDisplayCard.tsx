@@ -5,7 +5,7 @@ import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { palette } from '@/constants/Colors';
 import { CARD_PRESETS } from '@/utils/ringSizes';
 import { neumorphicLayerStyle } from '@/utils/styles';
-import i18n from '@/utils/i18n'; 
+import i18n, { isRTL } from '@/utils/i18n'; 
 
 interface ProgressDisplayCardProps {
   currentValue: number;
@@ -64,6 +64,7 @@ const ProgressDisplayCard: React.FC<ProgressDisplayCardProps> = ({
   }
 
   const cardDimensions = CARD_PRESETS[variant];
+  const isArabic = isRTL();
 
   return (
     <View 
@@ -76,11 +77,27 @@ const ProgressDisplayCard: React.FC<ProgressDisplayCardProps> = ({
       ]}
       className="items-center p-3"
     >
-      <View className="items-start mb-2 w-full px-1" style={{ height: 50 }}>
-        <Text style={{ color: palette.primary }} className="text-lg font-bold mb-1">
+      <View 
+        className={`mb-2 w-full px-1 ${isArabic ? 'items-end' : 'items-start'}`} 
+        style={{ height: 50 }}
+      >
+        <Text 
+          style={{ 
+            color: palette.primary,
+            textAlign: isArabic ? 'right' : 'left'
+          }} 
+          className="text-lg font-bold mb-1"
+        >
           {displayText} 
         </Text>
-        <Text style={{ color: palette.inactive, fontSize: 15, lineHeight: 17 }}>
+        <Text 
+          style={{ 
+            color: palette.inactive, 
+            fontSize: 15, 
+            lineHeight: 17,
+            textAlign: isArabic ? 'right' : 'left'
+          }}
+        >
           {statusText} 
         </Text>
       </View>

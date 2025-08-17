@@ -1,6 +1,8 @@
 import { I18n } from 'i18n-js';
 import { getLocales } from 'expo-localization';
 import { I18nManager } from 'react-native';
+import { format } from 'date-fns';
+import { ar as arLocale, enUS as enLocale } from 'date-fns/locale';
 
 // Import translation files
 import en from '../locales/en.json';
@@ -47,5 +49,30 @@ export const getCurrentLocale = () => i18n.locale;
 
 // Helper function to check if current locale is RTL
 export const isRTL = () => i18n.locale === 'ar';
+
+// Helper function to format dates based on current locale
+export const formatDate = (date: Date, formatString: string) => {
+  const locale = i18n.locale === 'ar' ? arLocale : enLocale;
+  return format(date, formatString, { locale });
+};
+
+// Helper function to format time with localized AM/PM
+export const formatTime = (date: Date) => {
+  if (i18n.locale === 'ar') {
+    // For Arabic, use 24-hour format or localized time
+    return format(date, 'h:mm a', { locale: arLocale });
+  }
+  return format(date, 'h:mm a', { locale: enLocale });
+};
+
+// Helper function to format date and time for meal logging
+export const formatMealDateTime = (date: Date) => {
+  if (i18n.locale === 'ar') {
+    // For Arabic: "في ٤:٠١ ص، ١٧ أغسطس" 
+    return format(date, 'h:mm a، d MMMM', { locale: arLocale });
+  }
+  // For English: "4:01 AM, Aug 17"
+  return format(date, 'h:mm a, MMM d', { locale: enLocale });
+};
 
 export default i18n; 

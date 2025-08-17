@@ -4,6 +4,7 @@ import { listMeals } from '@/services/mealService';
 import { Meal } from '@/models/meal';
 import RecentMealCard from '@/components/RecentMealCard';
 import { useRouter } from 'expo-router';
+import i18n, { isRTL } from '@/utils/i18n';
 
 const MEALS_PER_PAGE = 15;
 
@@ -14,6 +15,7 @@ export default function HistoryScreen() {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const router = useRouter();
+  const isArabic = isRTL();
 
   const fetchMeals = useCallback(async (isRefreshing = false) => {
     if (!isRefreshing) {
@@ -79,7 +81,12 @@ export default function HistoryScreen() {
     <SafeAreaView style={{ flex: 1, backgroundColor: '#f5f5f7' }}>
       <View className="flex-1 bg-app-bg">
         <View className="px-4 pb-4"> 
-          <Text className="text-3xl font-bold text-text-primary">Meal history</Text>
+          <Text 
+            className="text-3xl font-bold text-text-primary"
+            style={{ textAlign: isArabic ? 'right' : 'left' }}
+          >
+            {i18n.t('history.title')}
+          </Text>
         </View>
         <FlatList
           data={meals}
@@ -105,8 +112,11 @@ export default function HistoryScreen() {
           }
           ListEmptyComponent={
             <View className="bg-card-bg rounded-card p-4 mx-4 border border-card-border mt-4">
-              <Text className="text-text-secondary text-center">
-                {loading ? 'Loading meals...' : 'No meals logged yet. Tap the Camera tab to log your first meal!'}
+              <Text 
+                className="text-text-secondary text-center"
+                style={{ textAlign: isArabic ? 'right' : 'center' }}
+              >
+                {loading ? i18n.t('history.loadingMeals') : i18n.t('history.noMealsLogged')}
               </Text>
             </View>
           }

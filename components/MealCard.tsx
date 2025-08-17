@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { ThemedText } from './ThemedText';
 import { Meal } from '@/models/meal';
-import { format } from 'date-fns';
+import { formatTime } from '@/utils/i18n';
 
 interface MealCardProps {
   meal: Meal;
@@ -12,7 +12,7 @@ interface MealCardProps {
 export function MealCard({ meal, onPress }: MealCardProps) {
   // Format the date to show time (e.g., "2:10 PM")
   const formattedTime = meal.meal_time 
-    ? format(new Date(meal.meal_time), 'h:mm a')
+    ? formatTime(new Date(meal.meal_time))
     : '';
 
   return (

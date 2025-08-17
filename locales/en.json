@@ -126,7 +126,29 @@
     "title": "Meal History",
     "noMeals": "No meals found",
     "today": "Today",
-    "yesterday": "Yesterday"
+    "yesterday": "Yesterday",
+    "loadingMeals": "Loading meals...",
+    "noMealsLogged": "No meals logged yet. Tap the Camera tab to log your first meal!",
+    "mealDetail": {
+      "loggedAt": "Logged at:",
+      "calories": "Calories",
+      "protein": "Protein",
+      "carbs": "Carbs",
+      "fat": "Fat",
+      "deleteMeal": "Delete Meal",
+      "error": "Error",
+      "mealIdMissing": "Meal ID is missing.",
+      "mealNotFound": "Meal not found.",
+      "failedToLoad": "Failed to load meal details.",
+      "deleteMealTitle": "Delete Meal",
+      "deleteConfirmation": "Are you sure you want to delete \"{mealName}\"?",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "success": "Success",
+      "mealDeletedSuccess": "Meal deleted successfully.",
+      "failedToDelete": "Failed to delete meal.",
+      "deleteError": "An error occurred while deleting the meal."
+    }
   },
   "profile": {
     "title": "Profile",

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { ThemedText } from './ThemedText';
 import { Meal } from '@/models/meal';
-import { format } from 'date-fns';
+import { formatMealDateTime } from '@/utils/i18n';
 
 interface VerticalMealCardProps {
   meal: Meal;
@@ -12,7 +12,7 @@ interface VerticalMealCardProps {
 export function VerticalMealCard({ meal, onPress }: VerticalMealCardProps) {
   // Format the date to show date and time (e.g., "May 3, 2:10 PM")
   const formattedDateTime = meal.meal_time 
-    ? format(new Date(meal.meal_time), 'MMM d, h:mm a')
+    ? formatMealDateTime(new Date(meal.meal_time))
     : '';
 
   return (

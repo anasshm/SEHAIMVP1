@@ -4,7 +4,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { getMeal, deleteMeal } from '@/services/mealService'; // Assuming path to your meal service
 import { Meal } from '@/models/meal'; // Assuming path to your Meal model
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
-import { format } from 'date-fns';
+import i18n, { isRTL, formatMealDateTime } from '@/utils/i18n';
 
 // Helper component for consistent styling of nutrient cards
 const NutrientDisplayCard = ({ iconName, iconType, iconColor, label, value, unit, cardClassName, textClassName, valueClassName, iconSize = 24 }: {
@@ -35,10 +35,11 @@ export default function MealDetailScreen() {
   const [meal, setMeal] = useState<Meal | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isDeleting, setIsDeleting] = useState(false);
+  const isArabic = isRTL();
 
   useEffect(() => {
     if (!mealId) {
-        Alert.alert('Error', 'Meal ID is missing.');
+        Alert.alert(i18n.t('history.mealDetail.error'), i18n.t('history.mealDetail.mealIdMissing'));
         setIsLoading(false);
         router.back();
         return;
@@ -47,7 +48,7 @@ export default function MealDetailScreen() {
     getMeal(mealId)
       .then(data => {
         if (!data) {
-          Alert.alert('Error', 'Meal not found.');
+          Alert.alert(i18n.t('history.mealDetail.error'), i18n.t('history.mealDetail.mealNotFound'));
           router.back();
         } else {
           setMeal(data);
@@ -56,7 +57,7 @@ export default function MealDetailScreen() {
       })
       .catch(error => {
         console.error('Failed to fetch meal:', error);
-        Alert.alert('Error', 'Failed to load meal details.');
+        Alert.alert(i18n.t('history.mealDetail.error'), i18n.t('history.mealDetail.failedToLoad'));
         setIsLoading(false);
         router.back();
       });
@@ -66,33 +67,33 @@ export default function MealDetailScreen() {
     if (!meal || !meal.id) return;
 
     Alert.alert(
-      'Delete Meal',
-      `Are you sure you want to delete "${meal.name}"?`,
+      i18n.t('history.mealDetail.deleteMealTitle'),
+      i18n.t('history.mealDetail.deleteConfirmation').replace('{mealName}', meal.name),
       [
         {
-          text: 'Cancel',
+          text: i18n.t('history.mealDetail.cancel'),
           style: 'cancel',
         },
         {
-          text: 'Delete',
+          text: i18n.t('history.mealDetail.delete'),
           style: 'destructive',
           onPress: async () => {
             setIsDeleting(true);
             try {
               const success = await deleteMeal(meal.id!);
               if (success) {
-                Alert.alert('Success', 'Meal deleted successfully.');
+                Alert.alert(i18n.t('history.mealDetail.success'), i18n.t('history.mealDetail.mealDeletedSuccess'));
                 // Pass refreshTimestamp to trigger dashboard refresh
                 router.push({ 
                   pathname: '/(tabs)', // Assuming this is your dashboard route
                   params: { refreshTimestamp: Date.now().toString() } 
                 });
               } else {
-                Alert.alert('Error', 'Failed to delete meal.');
+                Alert.alert(i18n.t('history.mealDetail.error'), i18n.t('history.mealDetail.failedToDelete'));
               }
             } catch (error) {
               console.error('Failed to delete meal:', error);
-              Alert.alert('Error', 'An error occurred while deleting the meal.');
+              Alert.alert(i18n.t('history.mealDetail.error'), i18n.t('history.mealDetail.deleteError'));
             } finally {
               setIsDeleting(false);
             }
@@ -108,10 +109,10 @@ export default function MealDetailScreen() {
 
   if (!meal) {
     // Already handled in useEffect, but good as a fallback
-    return <View className="flex-1 justify-center items-center bg-app-bg"><Text className="text-text-secondary">Meal not found.</Text></View>;
+    return <View className="flex-1 justify-center items-center bg-app-bg"><Text className="text-text-secondary">{i18n.t('history.mealDetail.mealNotFound')}</Text></View>;
   }
 
-  const formattedTime = meal.meal_time ? format(new Date(meal.meal_time), 'h:mm a, MMM d') : 'N/A';
+  const formattedTime = meal.meal_time ? formatMealDateTime(new Date(meal.meal_time)) : 'N/A';
 
   return (
     <ScrollView className="flex-1 bg-app-bg p-4 pt-12">
@@ -128,8 +129,18 @@ export default function MealDetailScreen() {
             resizeMode="cover"
           />
         )}
-        <Text className="text-text-primary text-2xl font-bold mb-2">{meal.name}</Text>
-        <Text className="text-text-secondary text-sm mb-4">Logged at: {formattedTime}</Text>
+        <Text 
+          className="text-text-primary text-2xl font-bold mb-2"
+          style={{ textAlign: isArabic ? 'right' : 'left' }}
+        >
+          {meal.name}
+        </Text>
+        <Text 
+          className="text-text-secondary text-sm mb-4"
+          style={{ textAlign: isArabic ? 'right' : 'left' }}
+        >
+          {i18n.t('history.mealDetail.loggedAt')} {formattedTime}
+        </Text>
 
         {/* Nutritional Information Section - Updated UI */}
         <View className="my-4">
@@ -139,7 +150,7 @@ export default function MealDetailScreen() {
             iconName="fire"
             iconColor="#4A5568" // Darker grey for calories icon as per screenshot
             iconSize={28}
-            label="Calories"
+            label={i18n.t('history.mealDetail.calories')}
             value={meal.calories || 0}
             cardClassName="w-full py-4 mb-3"
             valueClassName="text-3xl"
@@ -151,7 +162,7 @@ export default function MealDetailScreen() {
               iconType="MaterialCommunityIcons"
               iconName="food-drumstick"
               iconColor="#E53E3E" // Red for protein
-              label="Protein"
+              label={i18n.t('history.mealDetail.protein')}
               value={meal.protein || 0}
               unit="g"
               cardClassName="flex-1"
@@ -160,7 +171,7 @@ export default function MealDetailScreen() {
               iconType="MaterialCommunityIcons"
               iconName="barley"
               iconColor="#D69E2E" // Beige/brown for carbs (adjusted from screenshot)
-              label="Carbs"
+              label={i18n.t('history.mealDetail.carbs')}
               value={meal.carbs || 0}
               unit="g"
               cardClassName="flex-1"
@@ -169,7 +180,7 @@ export default function MealDetailScreen() {
               iconType="FontAwesome5" // Using FontAwesome5 for a yellow icon, adjust if needed
               iconName="tint" // Changed from 'cheese' to 'tint' for a droplet, common for fat. Could also use 'burn' or a custom one.
               iconColor="#ECC94B" // Yellow for fat
-              label="Fat"
+              label={i18n.t('history.mealDetail.fat')}
               value={meal.fat || 0}
               unit="g"
               cardClassName="flex-1"
@@ -185,7 +196,7 @@ export default function MealDetailScreen() {
           {isDeleting ? (
             <ActivityIndicator color="#fff" />
           ) : (
-            <Text className="text-white font-bold text-base">Delete Meal</Text>
+            <Text className="text-white font-bold text-base">{i18n.t('history.mealDetail.deleteMeal')}</Text>
           )}
         </TouchableOpacity>
       </View>
