@@ -5,6 +5,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors';
 import i18n, { isRTL } from '@/utils/i18n';
+import * as Haptics from 'expo-haptics';
 
 // Define activity level options with icons
 const ACTIVITY_LEVEL_OPTIONS = [
@@ -20,6 +21,7 @@ export default function StepActivityLevelScreen() {
 
   const goToNextStep = () => {
     if (selectedActivityLevel) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       setActivityLevel(selectedActivityLevel);
       console.log('User activity level:', selectedActivityLevel);
       router.push('/(onboarding)/step7_diet'); 
@@ -36,7 +38,10 @@ export default function StepActivityLevelScreen() {
           isSelected ? { backgroundColor: palette.primary, borderColor: palette.primary } : {},
           { flexDirection: isRTL() ? 'row-reverse' : 'row' }
         ]}
-        onPress={() => setSelectedActivityLevel(option.id)}
+        onPress={() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          setSelectedActivityLevel(option.id);
+        }}
       >
         <Ionicons 
           name={option.icon} 

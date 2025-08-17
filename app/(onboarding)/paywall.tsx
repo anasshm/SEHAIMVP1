@@ -4,6 +4,7 @@ import { Stack, useRouter } from 'expo-router';
 import { useAuth } from '@/src/services/AuthContext';
 import { palette } from '@/constants/Colors'; // Import palette
 import i18n, { isRTL } from '@/utils/i18n';
+import * as Haptics from 'expo-haptics';
 
 export default function PaywallScreen() {
   const router = useRouter();
@@ -11,8 +12,10 @@ export default function PaywallScreen() {
 
   const handleAccessCode = () => {
     if (accessCode.trim().toLowerCase() === 'bihfih123') {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       router.replace('/(auth)/register-form'); 
     } else {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       Alert.alert(i18n.t('common.error'), i18n.t('onboarding.paywall.invalidCode'));
     }
   };

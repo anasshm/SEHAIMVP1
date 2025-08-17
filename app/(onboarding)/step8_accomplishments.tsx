@@ -7,6 +7,7 @@ import { Stack, useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { palette } from '@/constants/Colors'; // Import palette
 import i18n, { isRTL } from '@/utils/i18n';
+import * as Haptics from 'expo-haptics';
 
 // Define the type for an option
 type AccomplishmentOption = {
@@ -28,11 +29,13 @@ export default function Step8AccomplishmentsScreen() {
   const [selectedAccomplishment, setSelectedAccomplishment] = useState<string | null>(null);
 
   const handleSelectAccomplishment = (accomplishmentId: string) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setSelectedAccomplishment(accomplishmentId);
   };
 
   const goToNextStep = () => {
     if (selectedAccomplishment) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       console.log('Accomplishment selected:', selectedAccomplishment);
       router.push('/(onboarding)/step9_obstacles'); // Navigate to Obstacles step
     }

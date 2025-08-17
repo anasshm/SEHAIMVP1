@@ -5,6 +5,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors'; // Import palette
 import i18n, { isRTL } from '@/utils/i18n';
+import * as Haptics from 'expo-haptics';
 
 // Define the type for an option
 type ObstacleOption = {
@@ -28,11 +29,13 @@ export default function Step9ObstaclesScreen() {
   const [selectedObstacle, setSelectedObstacle] = useState<string | null>(null);
 
   const handleSelectObstacle = (obstacleId: string) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setSelectedObstacle(obstacleId);
   };
 
   const goToNextStep = () => {
     if (selectedObstacle) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       console.log('Obstacle selected:', selectedObstacle);
       setObstacles(selectedObstacle ? [selectedObstacle] : null);
       router.push('/(onboarding)/paywall');

@@ -4,6 +4,7 @@ import { Stack, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons'; // Or FontAwesome, etc.
 import { palette } from '@/constants/Colors';
 import i18n, { isRTL } from '@/utils/i18n';
+import * as Haptics from 'expo-haptics';
 
 export default function Step2ExperienceScreen() {
   const router = useRouter();
@@ -11,6 +12,7 @@ export default function Step2ExperienceScreen() {
 
   const goToNextStep = () => {
     if (selectedOption) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       // TODO: Save the selection if needed (e.g., to state management or async storage)
       console.log('User experience:', selectedOption);
       router.push('/(onboarding)/step6_goal'); // Navigate to Goal step
@@ -26,7 +28,10 @@ export default function Step2ExperienceScreen() {
           isSelected ? { backgroundColor: palette.primary, borderColor: palette.primary } : {},
           { flexDirection: isRTL() ? 'row-reverse' : 'row' }
         ]}
-        onPress={() => setSelectedOption(value)}
+        onPress={() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          setSelectedOption(value);
+        }}
       >
         <Ionicons 
           name={iconName} 

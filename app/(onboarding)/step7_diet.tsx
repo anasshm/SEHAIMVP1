@@ -4,6 +4,7 @@ import { Stack, useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { palette } from '@/constants/Colors';
 import i18n, { isRTL } from '@/utils/i18n';
+import * as Haptics from 'expo-haptics';
 
 // Define the type for an option
 type DietOption = {
@@ -25,11 +26,13 @@ export default function Step7DietScreen() {
   const [selectedDiet, setSelectedDiet] = useState<string | null>(null);
 
   const handleSelectDiet = (dietId: string) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setSelectedDiet(dietId);
   };
 
   const goToNextStep = () => {
     if (selectedDiet) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       console.log('Diet selected:', selectedDiet);
       router.push('/(onboarding)/step8_accomplishments'); // Navigate to Accomplishments step
     }

@@ -5,6 +5,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors';
 import i18n, { isRTL } from '@/utils/i18n';
+import * as Haptics from 'expo-haptics';
 
 // Define the type for an option
 type GoalOption = {
@@ -26,11 +27,13 @@ export default function Step6GoalScreen() {
   const [selectedGoal, setSelectedGoal] = useState<string | null>(null);
 
   const handleSelectGoal = (goalId: string) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setSelectedGoal(goalId);
   };
 
   const goToNextStep = () => {
     if (selectedGoal) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       setGoal(selectedGoal);
       console.log('Goal selected:', selectedGoal);
       router.push('/(onboarding)/step_activity_level'); // Navigate to Activity Level step

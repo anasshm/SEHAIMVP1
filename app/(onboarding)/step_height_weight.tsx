@@ -6,6 +6,7 @@ import { Stack, useRouter } from 'expo-router';
 import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors';
 import i18n, { isRTL } from '@/utils/i18n';
+import * as Haptics from 'expo-haptics';
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
@@ -55,6 +56,7 @@ export default function StepHeightWeightScreen() {
   const weightOptions = useMemo(() => weightsKg, []);
 
   const handleContinue = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     const heightString = heightOptions[selectedHeightIndex]; // e.g., "165 cm"
     const weightString = weightOptions[selectedWeightIndex]; // e.g., "52 kg"
 
@@ -113,7 +115,10 @@ export default function StepHeightWeightScreen() {
             key="metric-height"
             selectedIndex={selectedHeightIndex}
             options={heightOptions}
-            onChange={(index) => setSelectedHeightIndex(index)}
+            onChange={(index) => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              setSelectedHeightIndex(index);
+            }}
             renderItem={renderWheelyItem}
             selectedIndicatorStyle={{ backgroundColor: '#f3f4f6', borderRadius: 8, height: 40 }} 
             containerStyle={{ height: 200, width: '100%' }}
@@ -132,7 +137,10 @@ export default function StepHeightWeightScreen() {
             key="metric-weight"
             selectedIndex={selectedWeightIndex}
             options={weightOptions}
-            onChange={(index) => setSelectedWeightIndex(index)}
+            onChange={(index) => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              setSelectedWeightIndex(index);
+            }}
             renderItem={renderWheelyItem}
             selectedIndicatorStyle={{ backgroundColor: '#f3f4f6', borderRadius: 8, height: 40 }} 
             containerStyle={{ height: 200, width: '100%' }}

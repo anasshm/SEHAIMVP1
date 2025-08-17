@@ -4,6 +4,7 @@ import { Stack, useRouter } from 'expo-router';
 import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors';
 import i18n, { isRTL } from '@/utils/i18n';
+import * as Haptics from 'expo-haptics';
 
 // Define gender options with translation keys
 const GENDER_OPTIONS = [
@@ -18,6 +19,7 @@ export default function Step5GenderScreen() {
 
   const goToNextStep = () => {
     if (selectedGender) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       setGender(selectedGender);
       console.log('User gender:', selectedGender);
       // Navigate to the next screen (final signup/login)
@@ -35,7 +37,10 @@ export default function Step5GenderScreen() {
           isSelected ? { backgroundColor: palette.primary, borderColor: palette.primary } : {},
           { flexDirection: isRTL() ? 'row-reverse' : 'row' }
         ]}
-        onPress={() => setSelectedGender(option.id)}
+        onPress={() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          setSelectedGender(option.id);
+        }}
       >
         {/* No icon needed here based on example */}
         <Text 
