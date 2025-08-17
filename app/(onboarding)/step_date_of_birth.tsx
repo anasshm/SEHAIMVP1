@@ -18,20 +18,36 @@ const currentYear = new Date().getFullYear();
 
 // Data for pickers
 const dayOptions = generateRange(1, 31);
-const monthNames = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
-];
-const yearOptions = generateRange(1950, 2015);
 
-// Default selections
-const defaultDay = '15'; // Changed default day
-const defaultMonth = monthNames[5]; // June (0-indexed)
-const defaultYear = '2000'; // Changed default year
+// Get localized month names from i18n
+const getLocalizedMonthNames = () => [
+  i18n.t('onboarding.dateOfBirth.months.january'),
+  i18n.t('onboarding.dateOfBirth.months.february'),
+  i18n.t('onboarding.dateOfBirth.months.march'),
+  i18n.t('onboarding.dateOfBirth.months.april'),
+  i18n.t('onboarding.dateOfBirth.months.may'),
+  i18n.t('onboarding.dateOfBirth.months.june'),
+  i18n.t('onboarding.dateOfBirth.months.july'),
+  i18n.t('onboarding.dateOfBirth.months.august'),
+  i18n.t('onboarding.dateOfBirth.months.september'),
+  i18n.t('onboarding.dateOfBirth.months.october'),
+  i18n.t('onboarding.dateOfBirth.months.november'),
+  i18n.t('onboarding.dateOfBirth.months.december'),
+];
+
+const yearOptions = generateRange(1950, 2015);
 
 export default function StepDateOfBirthScreen() {
   const router = useRouter();
   const { setDateOfBirth } = useOnboarding();
+
+  // Get localized month names
+  const monthNames = useMemo(() => getLocalizedMonthNames(), []);
+
+  // Default selections
+  const defaultDay = '15'; // Changed default day
+  const defaultMonth = monthNames[5]; // June (0-indexed)
+  const defaultYear = '2000'; // Changed default year
 
   const renderWheelyItem = useCallback((optionText: string) => (
     <Text style={{ fontSize: 18, color: '#1C1C1E' }}>{optionText}</Text>
