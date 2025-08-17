@@ -7,6 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { styled } from 'nativewind';
 import { palette } from '@/constants/Colors'; // Import palette
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18n, { isRTL } from '@/utils/i18n';
 
 // Create styled components with NativeWind
 const StyledView = styled(View);
@@ -20,6 +21,7 @@ export default function RegisterFormScreen() {
   const router = useRouter();
   const { signUp } = useAuth();
   const { setIsOnboardingComplete } = useOnboarding();
+  const isArabic = isRTL();
   
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -50,34 +52,34 @@ export default function RegisterFormScreen() {
 
     // Name validation
     if (!name.trim()) {
-      newErrors.name = 'Name is required';
+      newErrors.name = i18n.t('auth.errors.nameRequired');
       valid = false;
     }
 
     // Email validation
     if (!email) {
-      newErrors.email = 'Email is required';
+      newErrors.email = i18n.t('auth.errors.emailRequired');
       valid = false;
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = 'Email is invalid';
+      newErrors.email = i18n.t('auth.errors.emailInvalid');
       valid = false;
     }
 
     // Password validation
     if (!password) {
-      newErrors.password = 'Password is required';
+      newErrors.password = i18n.t('auth.errors.passwordRequired');
       valid = false;
     } else if (password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+      newErrors.password = i18n.t('auth.errors.passwordMinLength');
       valid = false;
     }
 
     // Confirm password validation
     if (!confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm your password';
+      newErrors.confirmPassword = i18n.t('auth.errors.confirmPasswordRequired');
       valid = false;
     } else if (password !== confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
+      newErrors.confirmPassword = i18n.t('auth.errors.passwordsDoNotMatch');
       valid = false;
     }
 
@@ -150,14 +152,14 @@ export default function RegisterFormScreen() {
           keyboardShouldPersistTaps="handled"
         >
           {/* Header with Cancel button and title */}
-          <StyledView className="flex-row items-center justify-between mb-10">
+          <StyledView className={`flex-row items-center justify-between mb-10 ${isArabic ? 'flex-row-reverse' : ''}`}>
             <StyledTouchableOpacity 
               className="p-2" 
               onPress={() => router.back()}
             >
-              <StyledText style={{ color: palette.primary }} className="text-base">Cancel</StyledText>
+              <StyledText style={{ color: palette.primary, textAlign: isArabic ? 'right' : 'left' }} className="text-base">{i18n.t('auth.cancel')}</StyledText>
             </StyledTouchableOpacity>
-            <StyledText className="text-lg font-semibold">Create Account</StyledText>
+            <StyledText style={{ textAlign: 'center' }} className="text-lg font-semibold">{i18n.t('auth.createAccount')}</StyledText>
             <StyledView className="w-14" />
           </StyledView>
 
@@ -172,80 +174,84 @@ export default function RegisterFormScreen() {
           <StyledView className="mb-4">
             <StyledTextInput
               className="bg-gray-100 text-gray-800 p-4 rounded-md w-full"
-              placeholder="Full Name"
+              placeholder={i18n.t('auth.fullName')}
               placeholderTextColor="#9ca3af"
               value={name}
               onChangeText={setName}
               autoCapitalize="words"
               onBlur={() => setTouched({ ...touched, name: true })}
+              style={{ textAlign: isArabic ? 'right' : 'left', writingDirection: isArabic ? 'rtl' : 'ltr' }}
             />
             {touched.name && errors.name ? (
-              <StyledText className="text-red-500 mt-1">{errors.name}</StyledText>
+              <StyledText style={{ textAlign: isArabic ? 'right' : 'left' }} className="text-red-500 mt-1">{errors.name}</StyledText>
             ) : null}
           </StyledView>
           
           <StyledView className="mb-4">
             <StyledTextInput
               className="bg-gray-100 text-gray-800 p-4 rounded-md w-full"
-              placeholder="Email"
+              placeholder={i18n.t('auth.email')}
               placeholderTextColor="#9ca3af"
               value={email}
               onChangeText={setEmail}
               keyboardType="email-address"
               autoCapitalize="none"
               onBlur={() => setTouched({ ...touched, email: true })}
+              style={{ textAlign: isArabic ? 'right' : 'left', writingDirection: isArabic ? 'rtl' : 'ltr' }}
             />
             {touched.email && errors.email ? (
-              <StyledText className="text-red-500 mt-1">{errors.email}</StyledText>
+              <StyledText style={{ textAlign: isArabic ? 'right' : 'left' }} className="text-red-500 mt-1">{errors.email}</StyledText>
             ) : null}
           </StyledView>
           
           <StyledView className="mb-4">
             <StyledTextInput
               className="bg-gray-100 text-gray-800 p-4 rounded-md w-full"
-              placeholder="Password"
+              placeholder={i18n.t('auth.password')}
               placeholderTextColor="#9ca3af"
               value={password}
               onChangeText={setPassword}
               secureTextEntry
               onBlur={() => setTouched({ ...touched, password: true })}
+              style={{ textAlign: isArabic ? 'right' : 'left', writingDirection: isArabic ? 'rtl' : 'ltr' }}
             />
             {touched.password && errors.password ? (
-              <StyledText className="text-red-500 mt-1">{errors.password}</StyledText>
+              <StyledText style={{ textAlign: isArabic ? 'right' : 'left' }} className="text-red-500 mt-1">{errors.password}</StyledText>
             ) : null}
           </StyledView>
           
           <StyledView className="mb-6">
             <StyledTextInput
               className="bg-gray-100 text-gray-800 p-4 rounded-md w-full"
-              placeholder="Confirm Password"
+              placeholder={i18n.t('auth.confirmPassword')}
               placeholderTextColor="#9ca3af"
               value={confirmPassword}
               onChangeText={setConfirmPassword}
               secureTextEntry
               onBlur={() => setTouched({ ...touched, confirmPassword: true })}
+              style={{ textAlign: isArabic ? 'right' : 'left', writingDirection: isArabic ? 'rtl' : 'ltr' }}
             />
             {touched.confirmPassword && errors.confirmPassword ? (
-              <StyledText className="text-red-500 mt-1">{errors.confirmPassword}</StyledText>
+              <StyledText style={{ textAlign: isArabic ? 'right' : 'left' }} className="text-red-500 mt-1">{errors.confirmPassword}</StyledText>
             ) : null}
           </StyledView>
           
-          <StyledTouchableOpacity 
+                    <StyledTouchableOpacity 
             style={{ backgroundColor: loading ? palette.inactive : palette.primary }}
             className="py-4 rounded-lg items-center mt-6"
             onPress={handleRegister}
             disabled={loading}
           >
             <StyledText className="text-white font-semibold text-lg">
-              {loading ? 'Creating Account...' : 'Create Account'}
+              {loading ? i18n.t('auth.creatingAccount') : i18n.t('auth.createAccount')}
             </StyledText>
           </StyledTouchableOpacity>
 
           {/* Link to Login */}
-          <StyledView className="flex-row justify-center mt-8">
-            <StyledText className="text-gray-600 mr-1">Already have an account?</StyledText>
-            <StyledTouchableOpacity onPress={() => router.push('/(auth)/login')}> 
-              <StyledText style={{ color: palette.primary }} className="font-semibold">Log In</StyledText>
+          <StyledView className={`flex-row justify-center mt-8 ${isArabic ? 'flex-row-reverse' : ''}`}>
+            <StyledText style={{ textAlign: 'center' }} className={`text-gray-600 ${isArabic ? 'ml-1' : 'mr-1'}`}>{i18n.t('auth.alreadyHaveAccount')}</StyledText>
+            <StyledTouchableOpacity onPress={() => router.push('/(auth)/login')}>
+              <StyledText style={{ color: palette.primary, textAlign: 'center' }} className="font-semibold">{i18n.t('auth.logIn')}</StyledText>
             </StyledTouchableOpacity>
           </StyledView>
         </StyledScrollView>
