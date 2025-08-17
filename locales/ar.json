@@ -109,7 +109,18 @@
     "captureYourFood": "اطلق الكاميرا على طعامك في الإطار",
     "pointCameraAtBarcode": "وجّه الكاميرا على الباركود للمسح",
     "readyToScanBarcode": "جاهز لمسح الباركود",
-    "foodAnalysis": "تحليل الطعام"
+    "foodAnalysis": "تحليل الطعام",
+    "progress": {
+      "analyzingFood": "جاري تحليل الطعام...",
+      "separatingIngredients": "جاري فصل المكونات...",
+      "breakingDownMacros": "جاري تحليل العناصر الغذائية...",
+      "finalizingResults": "جاري إنهاء النتائج...",
+      "complete": "اكتمل!"
+    },
+    "showDetails": "إظهار التفاصيل",
+    "showLess": "إظهار أقل",
+    "saveMeal": "حفظ الوجبة",
+    "savingMeal": "جاري حفظ الوجبة..."
   },
   "history": {
     "title": "سجل الوجبات",

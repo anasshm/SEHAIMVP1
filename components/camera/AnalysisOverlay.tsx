@@ -38,32 +38,32 @@ const SCREEN_SPLIT = {
 };
 
 // NUTRITION ICON AND COLOR MAPPING - Matches RecentMealCard.tsx
-const NUTRITION_CONFIG = {
+const getNutritionConfig = () => ({
   calories: {
     icon: 'fire' as const,
     iconLibrary: 'FontAwesome5' as const,
     color: palette.accent, // #1C1A23
-    label: 'Calories',
+    label: i18n.t('dashboard.calories'),
   },
   protein: {
     icon: 'food-drumstick' as const,
     iconLibrary: 'MaterialCommunityIcons' as const,
     color: palette.protein, // #E24D43
-    label: 'Protein',
+    label: i18n.t('dashboard.protein'),
   },
   carbs: {
     icon: 'barley' as const,
     iconLibrary: 'MaterialCommunityIcons' as const,
     color: palette.carbs, // #D1A46F
-    label: 'Carbs',
+    label: i18n.t('dashboard.carbs'),
   },
   fats: {
     icon: 'tint' as const,
     iconLibrary: 'FontAwesome5' as const,
     color: palette.fats, // #F6C45F
-    label: 'Fats',
+    label: i18n.t('dashboard.fats'),
   },
-};
+});
 
 // STEP 4: Linked Layout System - Centralized positioning and sizing management
 // All measurements come from results state and are automatically synchronized
@@ -594,6 +594,9 @@ export function AnalysisOverlay({
   const displayCarbs = showResults && analysisResults?.carbs ? Math.floor(analysisResults.carbs) : 0;
   const displayFat = showResults && analysisResults?.fat ? Math.floor(analysisResults.fat) : 0;
 
+  // Get localized nutrition config
+  const NUTRITION_CONFIG = getNutritionConfig();
+
   return (
     // STEP 5: Replace Modal with full-screen positioned overlay
     <View style={styles.fullScreenOverlay}>
@@ -674,7 +677,7 @@ export function AnalysisOverlay({
                       <ThemedText style={styles.nutritionValue}>
                         {displayCalories}
                       </ThemedText>
-                      <ThemedText style={styles.nutritionLabel}>Calories</ThemedText>
+                      <ThemedText style={styles.nutritionLabel}>{NUTRITION_CONFIG.calories.label}</ThemedText>
                     </View>
                   </View>
                   
@@ -692,7 +695,7 @@ export function AnalysisOverlay({
                         {displayProtein}g
                       </ThemedText>
                       <View style={{ height: 4 }} />
-                      <ThemedText style={styles.nutritionUnitSmall}>Protein</ThemedText>
+                      <ThemedText style={styles.nutritionUnitSmall}>{NUTRITION_CONFIG.protein.label}</ThemedText>
                     </View>
                     
                     {/* Carbs Card */}
@@ -707,7 +710,7 @@ export function AnalysisOverlay({
                         {displayCarbs}g
                       </ThemedText>
                       <View style={{ height: 4 }} />
-                      <ThemedText style={styles.nutritionUnitSmall}>Carbs</ThemedText>
+                      <ThemedText style={styles.nutritionUnitSmall}>{NUTRITION_CONFIG.carbs.label}</ThemedText>
                     </View>
                     
                     {/* Fats Card */}
@@ -722,7 +725,7 @@ export function AnalysisOverlay({
                         {displayFat}g
                       </ThemedText>
                       <View style={{ height: 4 }} />
-                      <ThemedText style={styles.nutritionUnitSmall}>Fats</ThemedText>
+                      <ThemedText style={styles.nutritionUnitSmall}>{NUTRITION_CONFIG.fats.label}</ThemedText>
                     </View>
                   </View>
                 </>
@@ -768,7 +771,7 @@ export function AnalysisOverlay({
                           activeOpacity={0.7}
                         >
                           <ThemedText style={styles.descriptionToggleText}>
-                            Show details
+                            {i18n.t('camera.showDetails')}
                           </ThemedText>
                           <MaterialCommunityIcons 
                             name="chevron-down" 
@@ -791,7 +794,7 @@ export function AnalysisOverlay({
                           activeOpacity={0.7}
                         >
                           <ThemedText style={styles.descriptionToggleText}>
-                            Show less
+                            {i18n.t('camera.showLess')}
                           </ThemedText>
                           <MaterialCommunityIcons 
                             name="chevron-up" 
@@ -820,7 +823,7 @@ export function AnalysisOverlay({
               activeOpacity={0.7}
               disabled={!showResults}
             >
-              <ThemedText style={styles.buttonText}>Discard</ThemedText>
+              <ThemedText style={styles.buttonText}>{i18n.t('camera.discard')}</ThemedText>
             </TouchableOpacity>
             
             <TouchableOpacity 
@@ -830,7 +833,7 @@ export function AnalysisOverlay({
               disabled={!showResults || isSaving}
             >
               <ThemedText style={[styles.buttonText, styles.primaryButtonText]}>
-                {isSaving ? 'Saving meal...' : 'Save meal'}
+                {isSaving ? i18n.t('camera.savingMeal') : i18n.t('camera.saveMeal')}
               </ThemedText>
             </TouchableOpacity>
           </View>

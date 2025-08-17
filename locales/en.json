@@ -109,7 +109,18 @@
     "captureYourFood": "Capture your food in the frame",
     "pointCameraAtBarcode": "Point camera at barcode to scan",
     "readyToScanBarcode": "Ready to Scan Barcode",
-    "foodAnalysis": "Food Analysis"
+    "foodAnalysis": "Food Analysis",
+    "progress": {
+      "analyzingFood": "Analyzing food...",
+      "separatingIngredients": "Separating ingredients...",
+      "breakingDownMacros": "Breaking down macros...",
+      "finalizingResults": "Finalizing results...",
+      "complete": "Complete!"
+    },
+    "showDetails": "Show details",
+    "showLess": "Show less",
+    "saveMeal": "Save meal",
+    "savingMeal": "Saving meal..."
   },
   "history": {
     "title": "Meal History",

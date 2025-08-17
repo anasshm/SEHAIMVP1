@@ -1,10 +1,12 @@
 export interface ProgressStage {
   id: string;
-  name: string;
+  nameKey: string; // i18n translation key
   startProgress: number;
   endProgress: number;
   duration: number; // in milliseconds
 }
+
+import i18n from './i18n';
 
 export interface ProgressManagerCallbacks {
   onProgressUpdate: (progress: number, stage: string) => void;
@@ -16,28 +18,28 @@ export class ProgressManager {
   private stages: ProgressStage[] = [
     {
       id: 'analyzing',
-      name: 'Analyzing food...',
+      nameKey: 'camera.progress.analyzingFood',
       startProgress: 0,
       endProgress: 30,
       duration: 3000, // 3 seconds
     },
     {
       id: 'separating',
-      name: 'Separating ingredients...',
+      nameKey: 'camera.progress.separatingIngredients',
       startProgress: 30,
       endProgress: 60,
       duration: 4000, // 4 seconds
     },
     {
       id: 'breaking_down',
-      name: 'Breaking down macros...',
+      nameKey: 'camera.progress.breakingDownMacros',
       startProgress: 60,
       endProgress: 90,
       duration: 3000, // 3 seconds
     },
     {
       id: 'finalizing',
-      name: 'Finalizing results...',
+      nameKey: 'camera.progress.finalizingResults',
       startProgress: 90,
       endProgress: 99,
       duration: 2000, // 2 seconds
@@ -85,7 +87,7 @@ export class ProgressManager {
     if (!this.isRunning) return;
     
     this.stop();
-    this.callbacks.onProgressUpdate(100, 'Complete!');
+    this.callbacks.onProgressUpdate(100, i18n.t('camera.progress.complete'));
     this.callbacks.onAllComplete();
   }
 
@@ -94,7 +96,7 @@ export class ProgressManager {
     if (!this.isRunning) return;
     
     this.stop();
-    this.callbacks.onProgressUpdate(99, 'Finalizing results...');
+    this.callbacks.onProgressUpdate(99, i18n.t('camera.progress.finalizingResults'));
   }
 
   private runStage(stageIndex: number): void {
@@ -114,7 +116,7 @@ export class ProgressManager {
       const currentProgress = stage.startProgress + (progressRange * stageProgress);
       
       this.currentProgress = currentProgress;
-      this.callbacks.onProgressUpdate(currentProgress, stage.name);
+      this.callbacks.onProgressUpdate(currentProgress, i18n.t(stage.nameKey));
 
       if (stageProgress >= 1) {
         this.callbacks.onStageComplete(stage.id);
