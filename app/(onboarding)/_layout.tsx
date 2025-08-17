@@ -3,6 +3,7 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated'; 
+import { isRTL } from '@/utils/i18n';
 
 // --- Constants ---
 export const ONBOARDING_STEPS = [ // Order matters for navigation and finding index
@@ -80,6 +81,11 @@ function OnboardingHeader() {
     };
   });
 
+  // For RTL support, we'll modify the container instead
+  const rtlContainerStyle = isRTL() ? { 
+    flexDirection: 'row-reverse' as const,
+  } : {};
+
   // Use overall index for back button logic (can't go back from the new first step: gender)
   const canGoBack = router.canGoBack(); // New logic: show if router allows going back
 
@@ -87,13 +93,13 @@ function OnboardingHeader() {
     <View style={styles.headerContainer}>
       {canGoBack ? (
          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-           <Ionicons name="arrow-back" size={24} color="#000" />
+           <Ionicons name={isRTL() ? "arrow-forward" : "arrow-back"} size={24} color="#000" />
          </TouchableOpacity>
       ) : (
         // Placeholder to keep alignment when back button is hidden
         <View style={styles.backButtonPlaceholder} />
       )}
-      <View style={styles.progressBarBackground}>
+      <View style={[styles.progressBarBackground, rtlContainerStyle]}>
         <Animated.View style={[styles.progressBarForeground, animatedBarStyle]} />
       </View>
     </View>
