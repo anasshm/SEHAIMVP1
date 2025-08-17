@@ -3,12 +3,13 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors';
+import i18n from '@/utils/i18n';
 
-// Define gender options
+// Define gender options with translation keys
 const GENDER_OPTIONS = [
-  { id: 'male', text: 'Male' },
-  { id: 'female', text: 'Female' },
-  { id: 'other', text: 'Other' },
+  { id: 'male', translationKey: 'onboarding.gender.options.male' },
+  { id: 'female', translationKey: 'onboarding.gender.options.female' },
+  { id: 'other', translationKey: 'onboarding.gender.options.other' },
 ];
 
 export default function Step5GenderScreen() {
@@ -35,7 +36,9 @@ export default function Step5GenderScreen() {
         onPress={() => setSelectedGender(option.id)}
       >
         {/* No icon needed here based on example */}
-        <Text className={`${isSelected ? 'text-white' : 'text-gray-800'} text-base font-medium`}>{option.text}</Text>
+        <Text className={`${isSelected ? 'text-white' : 'text-gray-800'} text-base font-medium`}>
+          {i18n.t(option.translationKey)}
+        </Text>
       </TouchableOpacity>
     );
   };
@@ -49,10 +52,10 @@ export default function Step5GenderScreen() {
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }} 
       >
         <Text className="text-3xl font-bold mb-2 text-gray-800">
-          Choose your Gender
+          {i18n.t('onboarding.gender.title')}
         </Text>
         <Text className="text-base text-gray-600 mb-8">
-          This will be used to calibrate your custom plan.
+          {i18n.t('onboarding.gender.subtitle')}
         </Text>
 
         <View className="flex-1 justify-center">
@@ -68,7 +71,9 @@ export default function Step5GenderScreen() {
           onPress={goToNextStep}
           disabled={!selectedGender}
         >
-          <Text className={`text-lg font-semibold ${selectedGender ? 'text-white' : 'text-gray-500'}`}>Continue</Text>
+          <Text className={`text-lg font-semibold ${selectedGender ? 'text-white' : 'text-gray-500'}`}>
+            {i18n.t('onboarding.common.continue')}
+          </Text>
         </TouchableOpacity>
       </View>
     </View>

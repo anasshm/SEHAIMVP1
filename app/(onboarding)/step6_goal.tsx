@@ -4,19 +4,20 @@ import { Stack, useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors';
+import i18n from '@/utils/i18n';
 
 // Define the type for an option
 type GoalOption = {
   id: string;
-  label: string;
+  translationKey: string;
   icon: keyof typeof Ionicons.glyphMap;
 };
 
 // Define options for the goal screen with explicit typing
 const GOAL_OPTIONS: GoalOption[] = [
-  { id: 'lose', label: 'Lose weight', icon: 'trending-down-outline' },
-  { id: 'maintain', label: 'Maintain', icon: 'remove-outline' }, // Placeholder icon
-  { id: 'gain', label: 'Gain weight', icon: 'trending-up-outline' },
+  { id: 'lose', translationKey: 'onboarding.goal.options.lose', icon: 'trending-down-outline' },
+  { id: 'maintain', translationKey: 'onboarding.goal.options.maintain', icon: 'remove-outline' }, // Placeholder icon
+  { id: 'gain', translationKey: 'onboarding.goal.options.gain', icon: 'trending-up-outline' },
 ];
 
 export default function Step6GoalScreen() {
@@ -55,7 +56,7 @@ export default function Step6GoalScreen() {
         <Text 
           className={`${isSelected ? 'text-white' : 'text-gray-800'} text-base font-medium`}
         >
-          {option.label}
+          {i18n.t(option.translationKey)}
         </Text>
       </TouchableOpacity>
     );
@@ -71,10 +72,10 @@ export default function Step6GoalScreen() {
       >
         {/* Title and Description stay at the top */}
         <Text className="text-3xl font-bold mb-2 text-gray-800">
-          What is your goal?
+          {i18n.t('onboarding.goal.title')}
         </Text>
         <Text className="text-base text-gray-600 mb-8">
-          This helps us generate a plan for your calorie intake.
+          {i18n.t('onboarding.goal.subtitle')}
         </Text>
 
         {/* Container for options - This view expands and centers the buttons */}
@@ -92,7 +93,9 @@ export default function Step6GoalScreen() {
           onPress={goToNextStep}
           disabled={!selectedGoal}
         >
-          <Text className={`text-lg font-semibold ${selectedGoal ? 'text-white' : 'text-gray-500'}`}>Continue</Text>
+          <Text className={`text-lg font-semibold ${selectedGoal ? 'text-white' : 'text-gray-500'}`}>
+            {i18n.t('onboarding.common.continue')}
+          </Text>
         </TouchableOpacity>
       </View>
     </View>

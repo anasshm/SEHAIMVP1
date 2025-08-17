@@ -107,7 +107,6 @@
     "saveError": "Save Error",
     "failedToSaveImage": "Failed to save the captured image.",
     "analysisComplete": "Analysis complete!",
-    "savingMeal": "Saving meal...",
     "noResultsToSave": "No analysis results to save.",
     "saveFailed": "Save Failed",
     "failedToSaveMeal": "Failed to save the meal. Please try again.",
@@ -198,5 +197,123 @@
     "thu": "THU",
     "fri": "FRI",
     "sat": "SAT"
+  },
+  "onboarding": {
+    "paywall": {
+      "title": "Unlock Full Access",
+      "subtitle": "Enter your access code below to continue.",
+      "accessCodePlaceholder": "Access Code",
+      "continueWithCode": "Continue with Code",
+      "paymentPlaceholder": "Future payment options will be here.",
+      "invalidCode": "Invalid access code. Please try again."
+    },
+    "experience": {
+      "title": "Have you tried other calorie tracking apps?",
+      "options": {
+        "no": "No",
+        "yes": "Yes"
+      }
+    },
+    "gender": {
+      "title": "Choose your Gender",
+      "subtitle": "This will be used to calibrate your custom plan.",
+      "options": {
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
+      }
+    },
+    "goal": {
+      "title": "What is your goal?",
+      "subtitle": "This helps us generate a plan for your calorie intake.",
+      "options": {
+        "lose": "Lose weight",
+        "maintain": "Maintain",
+        "gain": "Gain weight"
+      }
+    },
+    "heightWeight": {
+      "title": "Enter your height and weight",
+      "subtitle": "This helps us calculate your calorie needs.",
+      "height": "Height",
+      "weight": "Weight",
+      "cm": "cm",
+      "kg": "kg",
+      "ft": "ft",
+      "lbs": "lbs",
+      "invalidHeight": "Please enter a valid height.",
+      "invalidWeight": "Please enter a valid weight."
+    },
+    "activityLevel": {
+      "title": "What is your usual weekly activity level?",
+      "subtitle": "This will be used to calculate your daily calorie needs.",
+      "options": {
+        "0-2": {
+          "main": "0-2",
+          "sub": "Workouts now and then"
+        },
+        "3-5": {
+          "main": "3-5", 
+          "sub": "A few workouts per week"
+        },
+        "6+": {
+          "main": "6+",
+          "sub": "Dedicated athlete"
+        }
+      }
+    },
+    "diet": {
+      "title": "What is your diet preference?",
+      "subtitle": "This will help us suggest appropriate foods.",
+      "options": {
+        "classic": "Classic",
+        "pescatarian": "Pescatarian",
+        "vegetarian": "Vegetarian",
+        "vegan": "Vegan"
+      }
+    },
+    "dateOfBirth": {
+      "title": "When were you born?",
+      "subtitle": "This will be used to calibrate your custom plan.",
+      "day": "Day",
+      "month": "Month", 
+      "year": "Year",
+      "months": {
+        "january": "January",
+        "february": "February", 
+        "march": "March",
+        "april": "April",
+        "may": "May",
+        "june": "June",
+        "july": "July",
+        "august": "August",
+        "september": "September",
+        "october": "October",
+        "november": "November",
+        "december": "December"
+      }
+    },
+    "accomplishments": {
+      "title": "What health accomplishments are you most proud of?",
+      "subtitle": "Tell us about your journey so far."
+    },
+    "obstacles": {
+      "title": "What obstacles have you faced in your health journey?",
+      "subtitle": "Understanding your challenges helps us support you better."
+    },
+    "source": {
+      "title": "How did you hear about us?",
+      "subtitle": "We'd love to know how you found us."
+    },
+    "workouts": {
+      "title": "What types of workouts do you enjoy?",
+      "subtitle": "This helps us understand your activity preferences."
+    },
+    "common": {
+      "continue": "Continue",
+      "back": "Back",
+      "skip": "Skip",
+      "done": "Done"
+    }
   }
 } 

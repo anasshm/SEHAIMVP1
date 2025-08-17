@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons'; // Or FontAwesome, etc.
 import { palette } from '@/constants/Colors';
+import i18n from '@/utils/i18n';
 
 export default function Step2ExperienceScreen() {
   const router = useRouter();
@@ -16,7 +17,7 @@ export default function Step2ExperienceScreen() {
     }
   };
 
-  const renderOption = (value: 'yes' | 'no', text: string, iconName: keyof typeof Ionicons.glyphMap) => {
+  const renderOption = (value: 'yes' | 'no', translationKey: string, iconName: keyof typeof Ionicons.glyphMap) => {
     const isSelected = selectedOption === value;
     return (
       <TouchableOpacity
@@ -30,7 +31,9 @@ export default function Step2ExperienceScreen() {
           color={isSelected ? 'white' : '#333'} 
           className="mr-3"
         />
-        <Text className={`${isSelected ? 'text-white' : 'text-gray-800'} text-base font-medium`}>{text}</Text>
+        <Text className={`${isSelected ? 'text-white' : 'text-gray-800'} text-base font-medium`}>
+          {i18n.t(translationKey)}
+        </Text>
       </TouchableOpacity>
     );
   };
@@ -44,12 +47,12 @@ export default function Step2ExperienceScreen() {
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }} // Ensure it can grow, remove justifyContent
       >
         <Text className="text-3xl font-bold mb-8 text-gray-800">
-          Have you tried other calorie tracking apps?
+          {i18n.t('onboarding.experience.title')}
         </Text>
 
         <View className="flex-1 justify-center">
-          {renderOption('no', 'No', 'thumbs-down-outline')}
-          {renderOption('yes', 'Yes', 'thumbs-up-outline')}
+          {renderOption('no', 'onboarding.experience.options.no', 'thumbs-down-outline')}
+          {renderOption('yes', 'onboarding.experience.options.yes', 'thumbs-up-outline')}
         </View>
       </ScrollView>
 
@@ -60,7 +63,9 @@ export default function Step2ExperienceScreen() {
           onPress={goToNextStep}
           disabled={!selectedOption}
         >
-          <Text className={`text-lg font-semibold ${selectedOption ? 'text-white' : 'text-gray-500'}`}>Continue</Text>
+          <Text className={`text-lg font-semibold ${selectedOption ? 'text-white' : 'text-gray-500'}`}>
+            {i18n.t('onboarding.common.continue')}
+          </Text>
         </TouchableOpacity>
       </View>
     </View>

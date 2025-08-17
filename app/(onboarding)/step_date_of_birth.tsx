@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import WheelPicker from 'react-native-wheely';
 import { Stack, useRouter } from 'expo-router';
 import { useOnboarding } from '../OnboardingContext';
+import i18n from '@/utils/i18n';
 
 // Helper to generate a range of numbers
 const generateRange = (start: number, end: number, step: number = 1, prefix: string = '', suffix: string = '') => {
@@ -74,15 +75,19 @@ export default function StepDateOfBirthScreen() {
       <Stack.Screen options={{ headerTitle: () => null, headerLeft: () => null }} />
 
       <View className="px-6 mb-8 items-center">
-        <Text className="text-3xl font-bold mb-2 text-[#1C1C1E] text-center">When were you born?</Text>
-        <Text className="text-base text-[#1C1C1E] text-center">
-          This will be used to calibrate your custom plan.
-        </Text>
+                 <Text className="text-3xl font-bold mb-2 text-[#1C1C1E] text-center">
+           {i18n.t('onboarding.dateOfBirth.title')}
+         </Text>
+          <Text className="text-base text-[#1C1C1E] text-center">
+           {i18n.t('onboarding.dateOfBirth.subtitle')}
+          </Text>
       </View>
 
       <View className="flex-row justify-around w-full mb-10 px-5">
         <View className="items-center w-1/4">
-          <Text className="text-xl font-semibold mb-3 text-[#1C1C1E]">Day</Text>
+                     <Text className="text-xl font-semibold mb-3 text-[#1C1C1E]">
+             {i18n.t('onboarding.dateOfBirth.day')}
+           </Text>
           <WheelPicker
             key="day-picker"
             selectedIndex={selectedDayIndex}
@@ -96,7 +101,9 @@ export default function StepDateOfBirthScreen() {
         </View>
 
         <View className="items-center w-2/5">
-          <Text className="text-xl font-semibold mb-3 text-[#1C1C1E]">Month</Text>
+                     <Text className="text-xl font-semibold mb-3 text-[#1C1C1E]">
+             {i18n.t('onboarding.dateOfBirth.month')}
+           </Text>
           <WheelPicker
             key="month-picker"
             selectedIndex={selectedMonthIndex}
@@ -110,7 +117,9 @@ export default function StepDateOfBirthScreen() {
         </View>
 
         <View className="items-center w-1/3">
-          <Text className="text-xl font-semibold mb-3 text-[#1C1C1E]">Year</Text>
+                     <Text className="text-xl font-semibold mb-3 text-[#1C1C1E]">
+             {i18n.t('onboarding.dateOfBirth.year')}
+           </Text>
           <WheelPicker
             key="year-picker"
             selectedIndex={selectedYearIndex}
@@ -130,7 +139,9 @@ export default function StepDateOfBirthScreen() {
           className="bg-onboarding-primary py-5 px-4 rounded-full items-center"
           onPress={handleContinue}
         >
-          <Text className="text-white text-lg font-semibold">Continue</Text>
+                     <Text className="text-white text-lg font-semibold">
+             {i18n.t('onboarding.common.continue')}
+           </Text>
         </TouchableOpacity>
       </View>
     </View>
