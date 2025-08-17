@@ -38,7 +38,7 @@ export default function Step9ObstaclesScreen() {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       console.log('Obstacle selected:', selectedObstacle);
       setObstacles(selectedObstacle ? [selectedObstacle] : null);
-      router.push('/(onboarding)/paywall');
+      router.push('/(onboarding)/calculating_plan');
     }
   };
 

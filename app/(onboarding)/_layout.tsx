@@ -21,7 +21,9 @@ export const ONBOARDING_STEPS = [ // Order matters for navigation and finding in
   'step_activity_level', 
   'step7_diet', 
   'step8_accomplishments', 
-  'step9_obstacles', 
+  'step9_obstacles',
+  'calculating_plan',  // NEW: Loading page for nutrition calculation
+  'plan_results',      // NEW: Results page showing nutrition plan 
   'paywall',          // Final step after progress is complete
 ];
 // Define specifically the steps that contribute to the progress bar calculation
