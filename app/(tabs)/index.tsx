@@ -8,7 +8,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useColorScheme, InteractionManager } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { palette } from '@/constants/Colors'; // Import palette
-import i18n from '@/utils/i18n'; // Import i18n
+import i18n, { isRTL } from '@/utils/i18n'; // Import i18n
 
 // Import our new NativeWind styled components
 import NutritionSummaryCard from '@/components/NutritionSummaryCard';
@@ -272,11 +272,27 @@ export default function DashboardScreen() {
         {/* Recently logged Section */}
         
         <View style={{ marginBottom: 24 }}>
-          <Text style={{ marginTop: 24, marginBottom: 8, fontSize: 18, fontWeight: '600', color: palette.primary }}>{i18n.t('dashboard.recentlyLogged')}</Text> 
+          <Text style={{ 
+            marginTop: 24, 
+            marginBottom: 8, 
+            fontSize: 18, 
+            fontWeight: '600', 
+            color: palette.primary,
+            textAlign: isRTL() ? 'right' : 'left'
+          }}>{i18n.t('dashboard.recentlyLogged')}</Text> 
           {displayedRecentMeals.length === 0 && !loading && dataLoadedInitially ? (
             <View style={{ backgroundColor: palette.surface, borderRadius: 8, padding: 24, elevation: 2 }}>
-              <Text style={{ color: palette.primary, fontSize: 20, fontWeight: 'bold' }}>{i18n.t('dashboard.noFoodUploaded')}</Text>
-              <Text style={{ color: palette.inactive, fontSize: 16, textAlign: 'center' }}>{i18n.t('dashboard.startTrackingMeals')}</Text>
+              <Text style={{ 
+                color: palette.primary, 
+                fontSize: 20, 
+                fontWeight: 'bold',
+                textAlign: isRTL() ? 'right' : 'left'
+              }}>{i18n.t('dashboard.noFoodUploaded')}</Text>
+              <Text style={{ 
+                color: palette.inactive, 
+                fontSize: 16, 
+                textAlign: 'center' 
+              }}>{i18n.t('dashboard.startTrackingMeals')}</Text>
             </View>
           ) : (
             <FlatList<Meal>
