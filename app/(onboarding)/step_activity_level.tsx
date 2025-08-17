@@ -4,12 +4,13 @@ import { Stack, useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors';
+import i18n from '@/utils/i18n';
 
 // Define activity level options with icons
 const ACTIVITY_LEVEL_OPTIONS = [
-  { id: '0-2', mainText: '0-2', subText: 'Workouts now and then', icon: 'walk-outline' as keyof typeof Ionicons.glyphMap },
-  { id: '3-5', mainText: '3-5', subText: 'A few workouts per week', icon: 'barbell-outline' as keyof typeof Ionicons.glyphMap },
-  { id: '6+', mainText: '6+', subText: 'Dedicated athlete', icon: 'flame-outline' as keyof typeof Ionicons.glyphMap },
+  { id: '0-2', mainKey: 'onboarding.activityLevel.options.0-2.main', subKey: 'onboarding.activityLevel.options.0-2.sub', icon: 'walk-outline' as keyof typeof Ionicons.glyphMap },
+  { id: '3-5', mainKey: 'onboarding.activityLevel.options.3-5.main', subKey: 'onboarding.activityLevel.options.3-5.sub', icon: 'barbell-outline' as keyof typeof Ionicons.glyphMap },
+  { id: '6+', mainKey: 'onboarding.activityLevel.options.6+.main', subKey: 'onboarding.activityLevel.options.6+.sub', icon: 'flame-outline' as keyof typeof Ionicons.glyphMap },
 ];
 
 export default function StepActivityLevelScreen() {
@@ -40,9 +41,13 @@ export default function StepActivityLevelScreen() {
           color={isSelected ? 'white' : '#333'} 
           className="mr-3"
         />
-        <View>
-          <Text className={`${isSelected ? 'text-white' : 'text-gray-800'} text-base font-medium`}>{option.mainText}</Text>
-          <Text className={`${isSelected ? 'text-white' : 'text-gray-600'} text-sm`}>{option.subText}</Text>
+        <View className="flex-1">
+          <Text className={`${isSelected ? 'text-white' : 'text-gray-800'} text-base font-medium`}>
+            {i18n.t(option.mainKey)}
+          </Text>
+          <Text className={`${isSelected ? 'text-white' : 'text-gray-600'} text-sm`}>
+            {i18n.t(option.subKey)}
+          </Text>
         </View>
       </TouchableOpacity>
     );
@@ -57,10 +62,10 @@ export default function StepActivityLevelScreen() {
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }} 
       >
         <Text className="text-3xl font-bold mb-2 text-gray-800">
-          How many workouts do you do per week?
+          {i18n.t('onboarding.activityLevel.title')}
         </Text>
         <Text className="text-base text-gray-600 mb-8">
-          This will be used to calibrate your custom plan.
+          {i18n.t('onboarding.activityLevel.subtitle')}
         </Text>
 
         <View className="flex-1 justify-center">
@@ -76,7 +81,9 @@ export default function StepActivityLevelScreen() {
           onPress={goToNextStep}
           disabled={!selectedActivityLevel}
         >
-          <Text className={`text-lg font-semibold ${selectedActivityLevel ? 'text-white' : 'text-gray-500'}`}>Continue</Text>
+          <Text className={`text-lg font-semibold ${selectedActivityLevel ? 'text-white' : 'text-gray-500'}`}>
+            {i18n.t('onboarding.common.continue')}
+          </Text>
         </TouchableOpacity>
       </View>
     </View>

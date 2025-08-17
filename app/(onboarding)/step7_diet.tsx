@@ -3,20 +3,21 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { palette } from '@/constants/Colors';
+import i18n from '@/utils/i18n';
 
 // Define the type for an option
 type DietOption = {
   id: string;
-  label: string;
+  translationKey: string;
   icon: keyof typeof Ionicons.glyphMap;
 };
 
 // Define options for the diet screen with explicit typing
 const DIET_OPTIONS: DietOption[] = [
-  { id: 'classic', label: 'Classic', icon: 'restaurant-outline' },
-  { id: 'pescatarian', label: 'Pescatarian', icon: 'fish-outline' },
-  { id: 'vegetarian', label: 'Vegetarian', icon: 'leaf-outline' },
-  { id: 'vegan', label: 'Vegan', icon: 'nutrition-outline' }, // Placeholder icon, maybe leaf again?
+  { id: 'classic', translationKey: 'onboarding.diet.options.classic', icon: 'restaurant-outline' },
+  { id: 'pescatarian', translationKey: 'onboarding.diet.options.pescatarian', icon: 'fish-outline' },
+  { id: 'vegetarian', translationKey: 'onboarding.diet.options.vegetarian', icon: 'leaf-outline' },
+  { id: 'vegan', translationKey: 'onboarding.diet.options.vegan', icon: 'nutrition-outline' }, // Placeholder icon, maybe leaf again?
 ];
 
 export default function Step7DietScreen() {
@@ -48,14 +49,13 @@ export default function Step7DietScreen() {
         <Ionicons 
           name={option.icon} 
           size={20} // Target size
-          color={isSelected ? 'white' : '#333'} // Target colors
-          className="mr-3" // Target margin
+          color={isSelected ? 'white' : '#333'} 
+          className="mr-3" 
         />
         <Text 
-          // Target text styling
           className={`${isSelected ? 'text-white' : 'text-gray-800'} text-base font-medium`}
         >
-          {option.label}
+          {i18n.t(option.translationKey)}
         </Text>
       </TouchableOpacity>
     );
@@ -67,11 +67,14 @@ export default function Step7DietScreen() {
       
       <ScrollView 
         className="flex-1 p-6"
-        contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }} // Ensure it can grow, bottom padding for button
+        contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }} 
       >
         {/* Title and Description stay at the top */}
-        <Text className="text-3xl font-bold mb-8 text-gray-800">
-          Do you follow a specific diet?
+        <Text className="text-3xl font-bold mb-2 text-gray-800">
+          {i18n.t('onboarding.diet.title')}
+        </Text>
+        <Text className="text-base text-gray-600 mb-8">
+          {i18n.t('onboarding.diet.subtitle')}
         </Text>
 
         {/* Container for options - This view expands and centers the buttons */}
@@ -89,7 +92,9 @@ export default function Step7DietScreen() {
           onPress={goToNextStep}
           disabled={!selectedDiet}
         >
-          <Text className={`text-lg font-semibold ${selectedDiet ? 'text-white' : 'text-gray-500'}`}>Continue</Text>
+          <Text className={`text-lg font-semibold ${selectedDiet ? 'text-white' : 'text-gray-500'}`}>
+            {i18n.t('onboarding.common.continue')}
+          </Text>
         </TouchableOpacity>
       </View>
     </View>

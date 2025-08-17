@@ -294,12 +294,25 @@
       }
     },
     "accomplishments": {
-      "title": "What health accomplishments are you most proud of?",
-      "subtitle": "Tell us about your journey so far."
+      "title": "What would you like to accomplish?",
+      "subtitle": "Tell us about your goals and aspirations.",
+      "options": {
+        "healthier": "Eat and live healthier",
+        "confident": "Feel more confident and attractive", 
+        "energy": "Boost my energy and mood",
+        "body": "Feel better about my body"
+      }
     },
     "obstacles": {
-      "title": "What obstacles have you faced in your health journey?",
-      "subtitle": "Understanding your challenges helps us support you better."
+      "title": "What's stopping you from reaching your goals?",
+      "subtitle": "Understanding your challenges helps us support you better.",
+      "options": {
+        "consistency": "Lack of consistency",
+        "habits": "Unhealthy eating habits",
+        "support": "Lack of support",
+        "schedule": "Busy schedule",
+        "inspiration": "Lack of meal inspiration"
+      }
     },
     "source": {
       "title": "How did you hear about us?",

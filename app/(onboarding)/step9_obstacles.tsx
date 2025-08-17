@@ -4,21 +4,22 @@ import { Stack, useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors'; // Import palette
+import i18n from '@/utils/i18n';
 
 // Define the type for an option
 type ObstacleOption = {
   id: string;
-  label: string;
+  translationKey: string;
   icon: keyof typeof Ionicons.glyphMap;
 };
 
 // Define options for the obstacles screen with explicit typing
 const OBSTACLE_OPTIONS: ObstacleOption[] = [
-  { id: 'consistency', label: 'Lack of consistency', icon: 'repeat-outline' },
-  { id: 'habits', label: 'Unhealthy eating habits', icon: 'fast-food-outline' },
-  { id: 'support', label: 'Lack of support', icon: 'people-outline' },
-  { id: 'schedule', label: 'Busy schedule', icon: 'calendar-outline' },
-  { id: 'inspiration', label: 'Lack of meal inspiration', icon: 'bulb-outline' },
+  { id: 'consistency', translationKey: 'onboarding.obstacles.options.consistency', icon: 'repeat-outline' },
+  { id: 'habits', translationKey: 'onboarding.obstacles.options.habits', icon: 'fast-food-outline' },
+  { id: 'support', translationKey: 'onboarding.obstacles.options.support', icon: 'people-outline' },
+  { id: 'schedule', translationKey: 'onboarding.obstacles.options.schedule', icon: 'calendar-outline' },
+  { id: 'inspiration', translationKey: 'onboarding.obstacles.options.inspiration', icon: 'bulb-outline' },
 ];
 
 export default function Step9ObstaclesScreen() {
@@ -61,7 +62,7 @@ export default function Step9ObstaclesScreen() {
           style={{ color: isSelected ? 'white' : palette.primary}}
           className={`text-base font-medium`}
         >
-          {option.label}
+          {i18n.t(option.translationKey)}
         </Text>
       </TouchableOpacity>
     );
@@ -77,7 +78,7 @@ export default function Step9ObstaclesScreen() {
       >
         {/* Title and Description stay at the top */}
         <Text className="text-3xl font-bold mb-8 text-gray-800">
-          What's stopping you from reaching your goals?
+          {i18n.t('onboarding.obstacles.title')}
         </Text>
 
         {/* Container for options - This view expands and centers the buttons */}
@@ -95,7 +96,9 @@ export default function Step9ObstaclesScreen() {
           onPress={goToNextStep}
           disabled={!selectedObstacle}
         >
-          <Text className={`text-lg font-semibold ${selectedObstacle ? 'text-white' : 'text-gray-500'}`}>Continue</Text>
+          <Text className={`text-lg font-semibold ${selectedObstacle ? 'text-white' : 'text-gray-500'}`}>
+            {i18n.t('onboarding.common.continue')}
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
