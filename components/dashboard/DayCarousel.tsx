@@ -56,9 +56,10 @@ const DayCarousel: React.FC<DayCarouselProps> = ({ selectedDate, onDateSelect })
   // For LTR (English), show last 6 days and today
   if (isRTL()) {
     // Arabic: Show last 6 days + today for meal history (going backwards in time)
-    for (let i = 6; i >= 0; i--) {
+    // Reverse the order so that today appears on the right in RTL layout
+    for (let i = 0; i < 7; i++) {
       const date = new Date(today);
-      date.setDate(today.getDate() - i);
+      date.setDate(today.getDate() - (6 - i));
       const dayKey = getDayKey(date.getDay());
       
       days.push({
@@ -133,7 +134,8 @@ const DayCarousel: React.FC<DayCarouselProps> = ({ selectedDate, onDateSelect })
   // Find the index of today in the display array
   const todayIndex = displayDays.findIndex(day => isSameDay(day.date, today));
   
-  // Both RTL and LTR now show last 6 days + today, so today is at the last index
+  // For RTL (Arabic): today is at the last index, for LTR (English): today is at the last index
+  // Both show today at the end of their respective arrays
   const initialIndex = todayIndex >= 0 ? todayIndex : (displayDays.length > 0 ? displayDays.length - 1 : 0);
 
   return (
@@ -148,7 +150,6 @@ const DayCarousel: React.FC<DayCarouselProps> = ({ selectedDate, onDateSelect })
         initialScrollIndex={initialIndex} // Scroll to today
         getItemLayout={getItemLayout}
         onScrollToIndexFailed={onScrollToIndexFailed}
-        inverted={isRTL()} // Invert the scroll direction for RTL
       />
     </View>
   );
