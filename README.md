@@ -223,6 +223,64 @@ components/
 └── ui/              # Reusable components
 ```
 
+## Onboarding Flow - Complete Screen Reference
+
+The onboarding flow consists of **12 screens** that collect user data, present the paywall, and complete registration. Most screens are **fully translated** with English/Arabic i18n support and RTL text handling.
+
+### Onboarding Screens (`app/(onboarding)/`)
+
+| Screen | File | Purpose | Translation Status |
+|--------|------|---------|-------------------|
+| **Paywall** | `paywall.tsx` | Access code entry + future payment options | ✅ **Fully translated** |
+| **Experience** | `step2_experience.tsx` | "Have you tried other calorie tracking apps?" (Yes/No) | ✅ **Fully translated** |
+| **Source** | `step3_source.tsx` | "How did you hear about us?" (Discovery method) | 🔄 **Needs translation** |
+| **Workouts** | `step4_workouts.tsx` | "What types of workouts do you enjoy?" (Exercise preferences) | 🔄 **Needs translation** |
+| **Gender** | `step5_gender.tsx` | "Choose your Gender" (Male/Female/Other) | ✅ **Fully translated** |
+| **Goals** | `step6_goal.tsx` | "What is your goal?" (Lose/Maintain/Gain weight) | ✅ **Fully translated** |
+| **Diet** | `step7_diet.tsx` | "Do you follow a specific diet?" (Classic/Pescatarian/Vegetarian/Vegan) | ✅ **Fully translated** |
+| **Accomplishments** | `step8_accomplishments.tsx` | "What would you like to accomplish?" (Health goals) | ✅ **Fully translated** |
+| **Obstacles** | `step9_obstacles.tsx` | "What's stopping you from reaching your goals?" (Challenges) | ✅ **Fully translated** |
+| **Activity Level** | `step_activity_level.tsx` | "How many workouts per week?" (0-2/3-5/6+ with descriptions) | ✅ **Fully translated** |
+| **Date of Birth** | `step_date_of_birth.tsx` | "When were you born?" (Day/Month/Year pickers) | ✅ **Fully translated** |
+| **Height & Weight** | `step_height_weight.tsx` | "Enter your height and weight" (Metric units: cm/kg) | ✅ **Fully translated** |
+
+### Translation Implementation
+
+**Completed Screens (10/12):** All major data collection screens are fully localized
+- ✅ Gender, Goals, Diet, Accomplishments, Obstacles, Activity Level, Date of Birth, Height/Weight, Experience, Paywall
+
+**Remaining Screens (2/12):** Minor information gathering screens  
+- 🔄 Source (`step3_source.tsx`) - Discovery method  
+- 🔄 Workouts (`step4_workouts.tsx`) - Exercise preferences  
+
+### Key Translation Features
+- **Automatic Language Detection**: Based on device language settings
+- **RTL Support**: Proper Arabic text display with right-to-left layout
+- **Fallback System**: English fallback for missing translations  
+- **Consistent Patterns**: All screens follow `i18n.t('onboarding.screen.key')` structure
+- **Continue Buttons**: Universal `i18n.t('onboarding.common.continue')` → "Continue"/"متابعة"
+
+### Onboarding Context (`OnboardingContext.tsx`)
+Manages user data collection state across all screens:
+- Stores responses from each step (gender, goals, height, weight, etc.)
+- Controls flow navigation between screens
+- Sets `isOnboardingComplete: true` after final registration
+- Used by premium features to gate access
+
+### Usage Example
+```typescript
+import i18n from '@/utils/i18n';
+
+// Screen titles
+{i18n.t('onboarding.gender.title')} // "Choose your Gender" / "اختر جنسك"
+
+// Option labels  
+{i18n.t('onboarding.goal.options.lose')} // "Lose weight" / "فقدان الوزن"
+
+// Common buttons
+{i18n.t('onboarding.common.continue')} // "Continue" / "متابعة"
+```
+
 ## Key Implementation Details
 
 ### Authentication Flow
