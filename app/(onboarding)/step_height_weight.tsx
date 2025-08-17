@@ -5,7 +5,7 @@ import { styled } from 'nativewind';
 import { Stack, useRouter } from 'expo-router';
 import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors';
-import i18n from '@/utils/i18n';
+import i18n, { isRTL } from '@/utils/i18n';
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
@@ -87,17 +87,26 @@ export default function StepHeightWeightScreen() {
       <Stack.Screen options={{ headerTitle: () => null, headerLeft: () => null }} />
 
       <StyledView className="px-6 mb-8 items-center">
-        <StyledText className="text-3xl font-bold mb-2 text-gray-800 text-center">
+        <StyledText 
+          className="text-3xl font-bold mb-2 text-gray-800"
+          style={{ textAlign: isRTL() ? 'right' : 'center', writingDirection: isRTL() ? 'rtl' : 'ltr' }}
+        >
           {i18n.t('onboarding.heightWeight.title')}
         </StyledText>
-        <StyledText className="text-base text-gray-600 text-center">
+        <StyledText 
+          className="text-base text-gray-600"
+          style={{ textAlign: isRTL() ? 'right' : 'center', writingDirection: isRTL() ? 'rtl' : 'ltr' }}
+        >
           {i18n.t('onboarding.heightWeight.subtitle')}
         </StyledText>
       </StyledView>
 
       <StyledView className="flex-row justify-around w-full mb-10 px-5">
         <StyledView className="items-center w-2/5">
-          <StyledText className="text-xl font-semibold mb-3 text-gray-700">
+          <StyledText 
+            className="text-xl font-semibold mb-3 text-gray-700"
+            style={{ textAlign: isRTL() ? 'right' : 'center' }}
+          >
             {i18n.t('onboarding.heightWeight.height')}
           </StyledText>
           <WheelPicker
@@ -113,7 +122,10 @@ export default function StepHeightWeightScreen() {
         </StyledView>
 
         <StyledView className="items-center w-2/5">
-          <StyledText className="text-xl font-semibold mb-3 text-gray-700">
+          <StyledText 
+            className="text-xl font-semibold mb-3 text-gray-700"
+            style={{ textAlign: isRTL() ? 'right' : 'center' }}
+          >
             {i18n.t('onboarding.heightWeight.weight')}
           </StyledText>
           <WheelPicker

@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'reac
 import { Stack, useRouter } from 'expo-router';
 import { useAuth } from '@/src/services/AuthContext';
 import { palette } from '@/constants/Colors'; // Import palette
+import i18n, { isRTL } from '@/utils/i18n';
 
 export default function PaywallScreen() {
   const router = useRouter();
@@ -12,19 +13,27 @@ export default function PaywallScreen() {
     if (accessCode.trim().toLowerCase() === 'bihfih123') {
       router.replace('/(auth)/register-form'); 
     } else {
-      Alert.alert('Error', 'Invalid access code. Please try again.');
+      Alert.alert(i18n.t('common.error'), i18n.t('onboarding.paywall.invalidCode'));
     }
   };
 
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ headerShown: false }} />
-      <Text style={styles.title}>Unlock Full Access</Text>
-      <Text style={styles.subtitle}>Enter your access code below to continue.</Text>
+      <Text 
+        style={[styles.title, { textAlign: isRTL() ? 'right' : 'center', writingDirection: isRTL() ? 'rtl' : 'ltr' }]}
+      >
+        {i18n.t('onboarding.paywall.title')}
+      </Text>
+      <Text 
+        style={[styles.subtitle, { textAlign: isRTL() ? 'right' : 'center', writingDirection: isRTL() ? 'rtl' : 'ltr' }]}
+      >
+        {i18n.t('onboarding.paywall.subtitle')}
+      </Text>
       
       <TextInput
-        style={styles.input}
-        placeholder="Access Code"
+        style={[styles.input, { textAlign: isRTL() ? 'right' : 'left' }]}
+        placeholder={i18n.t('onboarding.paywall.accessCodePlaceholder')}
         placeholderTextColor="#999"
         value={accessCode}
         onChangeText={setAccessCode}
@@ -33,11 +42,15 @@ export default function PaywallScreen() {
       />
 
       <TouchableOpacity style={styles.button} onPress={handleAccessCode}>
-        <Text style={styles.buttonText}>Continue with Code</Text>
+        <Text style={styles.buttonText}>{i18n.t('onboarding.paywall.continueWithCode')}</Text>
       </TouchableOpacity>
 
       {/* Placeholder for actual payment options */}
-      <Text style={styles.paymentPlaceholder}>Future payment options will be here.</Text>
+      <Text 
+        style={[styles.paymentPlaceholder, { textAlign: isRTL() ? 'right' : 'center', writingDirection: isRTL() ? 'rtl' : 'ltr' }]}
+      >
+        {i18n.t('onboarding.paywall.paymentPlaceholder')}
+      </Text>
     </View>
   );
 }
@@ -51,36 +64,33 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   title: {
-    fontSize: 26,
+    fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 12,
+    marginBottom: 10,
     color: '#333',
-    textAlign: 'center',
   },
   subtitle: {
     fontSize: 16,
-    color: 'gray',
     marginBottom: 30,
-    textAlign: 'center',
+    color: '#666',
   },
   input: {
-    width: '80%',
-    height: 50,
+    width: '100%',
+    padding: 15,
     borderColor: '#ddd',
     borderWidth: 1,
     borderRadius: 8,
-    paddingHorizontal: 15,
     marginBottom: 20,
     fontSize: 16,
-    color: '#333',
   },
   button: {
-    backgroundColor: palette.primary, // Use palette.primary
+    backgroundColor: palette.primary,
     paddingVertical: 15,
     paddingHorizontal: 30,
-    borderRadius: 8,
+    borderRadius: 25,
+    width: '100%',
     alignItems: 'center',
-    width: '80%',
+    marginBottom: 20,
   },
   buttonText: {
     color: 'white',
@@ -88,9 +98,8 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   paymentPlaceholder: {
-    marginTop: 40,
     fontSize: 14,
-    color: 'gray',
+    color: '#999',
     fontStyle: 'italic',
-  }
+  },
 });

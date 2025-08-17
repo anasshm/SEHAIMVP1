@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors';
-import i18n from '@/utils/i18n';
+import i18n, { isRTL } from '@/utils/i18n';
 
 // Define gender options with translation keys
 const GENDER_OPTIONS = [
@@ -32,11 +32,20 @@ export default function Step5GenderScreen() {
       <TouchableOpacity
         key={option.id}
         className={`items-center p-4 border rounded-lg mb-3 border-gray-200 ${!isSelected ? 'bg-gray-100' : ''}`}
-        style={isSelected ? { backgroundColor: palette.primary, borderColor: palette.primary } : {}}
+        style={[
+          isSelected ? { backgroundColor: palette.primary, borderColor: palette.primary } : {},
+          { flexDirection: isRTL() ? 'row-reverse' : 'row' }
+        ]}
         onPress={() => setSelectedGender(option.id)}
       >
         {/* No icon needed here based on example */}
-        <Text className={`${isSelected ? 'text-white' : 'text-gray-800'} text-base font-medium`}>
+        <Text 
+          className={`${isSelected ? 'text-white' : 'text-gray-800'} text-base font-medium`}
+          style={{ 
+            textAlign: isRTL() ? 'right' : 'left',
+            flex: 1
+          }}
+        >
           {i18n.t(option.translationKey)}
         </Text>
       </TouchableOpacity>
@@ -51,10 +60,16 @@ export default function Step5GenderScreen() {
         className="flex-1 p-6"
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }} 
       >
-        <Text className="text-3xl font-bold mb-2 text-gray-800">
+        <Text 
+          className="text-3xl font-bold mb-2 text-gray-800"
+          style={{ textAlign: isRTL() ? 'right' : 'left', writingDirection: isRTL() ? 'rtl' : 'ltr' }}
+        >
           {i18n.t('onboarding.gender.title')}
         </Text>
-        <Text className="text-base text-gray-600 mb-8">
+        <Text 
+          className="text-base text-gray-600 mb-8"
+          style={{ textAlign: isRTL() ? 'right' : 'left', writingDirection: isRTL() ? 'rtl' : 'ltr' }}
+        >
           {i18n.t('onboarding.gender.subtitle')}
         </Text>
 

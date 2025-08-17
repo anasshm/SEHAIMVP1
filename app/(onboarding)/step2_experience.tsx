@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons'; // Or FontAwesome, etc.
 import { palette } from '@/constants/Colors';
-import i18n from '@/utils/i18n';
+import i18n, { isRTL } from '@/utils/i18n';
 
 export default function Step2ExperienceScreen() {
   const router = useRouter();
@@ -21,17 +21,26 @@ export default function Step2ExperienceScreen() {
     const isSelected = selectedOption === value;
     return (
       <TouchableOpacity
-        className={`flex-row items-center p-4 border rounded-lg mb-4 border-gray-200 ${!isSelected ? 'bg-gray-100' : ''}`}
-        style={isSelected ? { backgroundColor: palette.primary, borderColor: palette.primary } : {}}
+        className={`items-center p-4 border rounded-lg mb-4 border-gray-200 ${!isSelected ? 'bg-gray-100' : ''}`}
+        style={[
+          isSelected ? { backgroundColor: palette.primary, borderColor: palette.primary } : {},
+          { flexDirection: isRTL() ? 'row-reverse' : 'row' }
+        ]}
         onPress={() => setSelectedOption(value)}
       >
         <Ionicons 
           name={iconName} 
           size={20} 
           color={isSelected ? 'white' : '#333'} 
-          className="mr-3"
+          style={{ [isRTL() ? 'marginLeft' : 'marginRight']: 12 }}
         />
-        <Text className={`${isSelected ? 'text-white' : 'text-gray-800'} text-base font-medium`}>
+        <Text 
+          className={`${isSelected ? 'text-white' : 'text-gray-800'} text-base font-medium`}
+          style={{ 
+            textAlign: isRTL() ? 'right' : 'left',
+            flex: 1
+          }}
+        >
           {i18n.t(translationKey)}
         </Text>
       </TouchableOpacity>
@@ -46,7 +55,10 @@ export default function Step2ExperienceScreen() {
         className="flex-1 p-6" // Keep inner padding for content
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }} // Ensure it can grow, remove justifyContent
       >
-        <Text className="text-3xl font-bold mb-8 text-gray-800">
+        <Text 
+          className="text-3xl font-bold mb-8 text-gray-800"
+          style={{ textAlign: isRTL() ? 'right' : 'left', writingDirection: isRTL() ? 'rtl' : 'ltr' }}
+        >
           {i18n.t('onboarding.experience.title')}
         </Text>
 

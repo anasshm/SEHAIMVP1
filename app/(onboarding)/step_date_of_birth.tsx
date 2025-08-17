@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import WheelPicker from 'react-native-wheely';
 import { Stack, useRouter } from 'expo-router';
 import { useOnboarding } from '../OnboardingContext';
-import i18n from '@/utils/i18n';
+import i18n, { isRTL } from '@/utils/i18n';
 
 // Helper to generate a range of numbers
 const generateRange = (start: number, end: number, step: number = 1, prefix: string = '', suffix: string = '') => {
@@ -75,17 +75,26 @@ export default function StepDateOfBirthScreen() {
       <Stack.Screen options={{ headerTitle: () => null, headerLeft: () => null }} />
 
       <View className="px-6 mb-8 items-center">
-                 <Text className="text-3xl font-bold mb-2 text-[#1C1C1E] text-center">
+                 <Text 
+           className="text-3xl font-bold mb-2 text-[#1C1C1E]"
+           style={{ textAlign: isRTL() ? 'right' : 'center', writingDirection: isRTL() ? 'rtl' : 'ltr' }}
+         >
            {i18n.t('onboarding.dateOfBirth.title')}
          </Text>
-          <Text className="text-base text-[#1C1C1E] text-center">
+          <Text 
+            className="text-base text-[#1C1C1E]"
+            style={{ textAlign: isRTL() ? 'right' : 'center', writingDirection: isRTL() ? 'rtl' : 'ltr' }}
+          >
            {i18n.t('onboarding.dateOfBirth.subtitle')}
           </Text>
       </View>
 
       <View className="flex-row justify-around w-full mb-10 px-5">
         <View className="items-center w-1/4">
-                     <Text className="text-xl font-semibold mb-3 text-[#1C1C1E]">
+                     <Text 
+             className="text-xl font-semibold mb-3 text-[#1C1C1E]"
+             style={{ textAlign: isRTL() ? 'right' : 'center' }}
+           >
              {i18n.t('onboarding.dateOfBirth.day')}
            </Text>
           <WheelPicker
@@ -101,7 +110,10 @@ export default function StepDateOfBirthScreen() {
         </View>
 
         <View className="items-center w-2/5">
-                     <Text className="text-xl font-semibold mb-3 text-[#1C1C1E]">
+                     <Text 
+             className="text-xl font-semibold mb-3 text-[#1C1C1E]"
+             style={{ textAlign: isRTL() ? 'right' : 'center' }}
+           >
              {i18n.t('onboarding.dateOfBirth.month')}
            </Text>
           <WheelPicker
@@ -117,7 +129,10 @@ export default function StepDateOfBirthScreen() {
         </View>
 
         <View className="items-center w-1/3">
-                     <Text className="text-xl font-semibold mb-3 text-[#1C1C1E]">
+                     <Text 
+             className="text-xl font-semibold mb-3 text-[#1C1C1E]"
+             style={{ textAlign: isRTL() ? 'right' : 'center' }}
+           >
              {i18n.t('onboarding.dateOfBirth.year')}
            </Text>
           <WheelPicker

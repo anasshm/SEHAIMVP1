@@ -4,7 +4,7 @@ import { Stack, useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors';
-import i18n from '@/utils/i18n';
+import i18n, { isRTL } from '@/utils/i18n';
 
 // Define the type for an option
 type GoalOption = {
@@ -43,18 +43,25 @@ export default function Step6GoalScreen() {
     return (
       <TouchableOpacity
         key={option.id}
-        className={`flex-row items-center p-4 border rounded-lg mb-4 ${!isSelected ? 'bg-white border-gray-300' : ''}`}
-        style={isSelected ? { backgroundColor: palette.primary, borderColor: palette.primary } : {}}
+        className={`items-center p-4 border rounded-lg mb-4 ${!isSelected ? 'bg-white border-gray-300' : ''}`}
+        style={[
+          isSelected ? { backgroundColor: palette.primary, borderColor: palette.primary } : {},
+          { flexDirection: isRTL() ? 'row-reverse' : 'row' }
+        ]}
         onPress={() => handleSelectGoal(option.id)}
       >
         <Ionicons 
           name={option.icon} 
           size={20} 
           color={isSelected ? 'white' : '#333'} 
-          className="mr-3"
+          style={{ [isRTL() ? 'marginLeft' : 'marginRight']: 12 }}
         />
         <Text 
           className={`${isSelected ? 'text-white' : 'text-gray-800'} text-base font-medium`}
+          style={{ 
+            textAlign: isRTL() ? 'right' : 'left',
+            flex: 1
+          }}
         >
           {i18n.t(option.translationKey)}
         </Text>
@@ -71,10 +78,16 @@ export default function Step6GoalScreen() {
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }} // Ensure it can grow, bottom padding for button
       >
         {/* Title and Description stay at the top */}
-        <Text className="text-3xl font-bold mb-2 text-gray-800">
+        <Text 
+          className="text-3xl font-bold mb-2 text-gray-800"
+          style={{ textAlign: isRTL() ? 'right' : 'left', writingDirection: isRTL() ? 'rtl' : 'ltr' }}
+        >
           {i18n.t('onboarding.goal.title')}
         </Text>
-        <Text className="text-base text-gray-600 mb-8">
+        <Text 
+          className="text-base text-gray-600 mb-8"
+          style={{ textAlign: isRTL() ? 'right' : 'left', writingDirection: isRTL() ? 'rtl' : 'ltr' }}
+        >
           {i18n.t('onboarding.goal.subtitle')}
         </Text>
 
