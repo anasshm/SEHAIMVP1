@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native'; 
 import { Stack, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,24 +12,16 @@ import {
 import { ONBOARDING_PAGE_MAP } from './onboardingConfig';
 
 // --- Custom Header Component ---
-function OnboardingHeader() {
+const OnboardingHeader = React.memo(function OnboardingHeader() {
   const router = useRouter();
   const currentPageNumber = useCurrentPageNumber();
   const progressPercentage = useProgressPercentage();
   const goToPreviousPage = useGoToPreviousPage();
   
-  // Convert percentage to 0-1 for animation
-  const progressValue = progressPercentage / 100;
+  // Memoize expensive calculations to prevent unnecessary re-renders
+  const progressValue = useMemo(() => progressPercentage / 100, [progressPercentage]);
   
   const animatedProgress = useSharedValue(0);
-
-  // --- DEBUG LOGS ---
-  console.log('[OnboardingHeader - NEW] Debug:', {
-    currentPageNumber,
-    progressPercentage,
-    progressValue,
-  });
-  // --- END DEBUG LOGS ---
 
   // Animate progress changes
   useEffect(() => {
@@ -69,7 +61,7 @@ function OnboardingHeader() {
       </View>
     </View>
   );
-}
+});
 
 // --- Onboarding Layout Component ---
 export default function OnboardingLayout() {
