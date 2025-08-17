@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import { Stack, useRouter } from 'expo-router';
+import { Stack } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors'; // Import palette
 import i18n, { isRTL } from '@/utils/i18n';
 import * as Haptics from 'expo-haptics';
+import { useGoToNextPage } from './navigationHelper';
 
 // Define the type for an option
 type ObstacleOption = {
@@ -24,7 +25,7 @@ const OBSTACLE_OPTIONS: ObstacleOption[] = [
 ];
 
 export default function Step9ObstaclesScreen() {
-  const router = useRouter();
+  const goToNextPage = useGoToNextPage();
   const { setObstacles, setIsOnboardingComplete } = useOnboarding();
   const [selectedObstacle, setSelectedObstacle] = useState<string | null>(null);
 
@@ -38,7 +39,7 @@ export default function Step9ObstaclesScreen() {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       console.log('Obstacle selected:', selectedObstacle);
       setObstacles(selectedObstacle ? [selectedObstacle] : null);
-      router.push('/(onboarding)/calculating_plan');
+      goToNextPage(); // Navigate to the next page using the new system
     }
   };
 

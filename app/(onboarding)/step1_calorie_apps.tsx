@@ -6,6 +6,7 @@ import { palette } from '@/constants/Colors';
 import i18n, { isRTL } from '@/utils/i18n';
 import * as Haptics from 'expo-haptics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useGoToNextPage } from './navigationHelper';
 
 // Define app experience options with translation keys
 const APP_EXPERIENCE_OPTIONS = [
@@ -14,7 +15,8 @@ const APP_EXPERIENCE_OPTIONS = [
 ];
 
 export default function Step1CalorieAppsScreen() {
-  const router = useRouter();
+  const router = useRouter(); // Keep for debug function
+  const goToNextPage = useGoToNextPage();
   const { setCalorieAppsExperience } = useOnboarding();
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
@@ -34,8 +36,8 @@ export default function Step1CalorieAppsScreen() {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       setCalorieAppsExperience(selectedOption);
       console.log('Calorie apps experience:', selectedOption);
-      // Navigate to the next screen
-      router.push('/(onboarding)/step_date_of_birth'); 
+      // Navigate to the next page using the new system
+      goToNextPage(); 
     }
   };
 

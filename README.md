@@ -365,6 +365,8 @@ npx tsc --noEmit
 - `i18nConfig` — `utils/i18n.ts`: Internationalization configuration with Arabic RTL support
 - `EnglishTranslations` — `locales/en.json`: English text translations
 - `ArabicTranslations` — `locales/ar.json`: Arabic text translations
+- `OnboardingConfig` — `app/(onboarding)/onboardingConfig.ts`: Page-based navigation system (completed)
+- `NavigationHelper` — `app/(onboarding)/navigationHelper.ts`: Auto-navigation utilities (completed)
 
 ## ⚠️ IMPORTANT NOTES
 

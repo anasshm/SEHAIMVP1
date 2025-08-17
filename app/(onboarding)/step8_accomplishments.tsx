@@ -3,11 +3,12 @@
 
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import { Stack, useRouter } from 'expo-router';
+import { Stack } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { palette } from '@/constants/Colors'; // Import palette
 import i18n, { isRTL } from '@/utils/i18n';
 import * as Haptics from 'expo-haptics';
+import { useGoToNextPage } from './navigationHelper';
 
 // Define the type for an option
 type AccomplishmentOption = {
@@ -25,7 +26,7 @@ const ACCOMPLISHMENT_OPTIONS: AccomplishmentOption[] = [
 ];
 
 export default function Step8AccomplishmentsScreen() {
-  const router = useRouter();
+  const goToNextPage = useGoToNextPage();
   const [selectedAccomplishment, setSelectedAccomplishment] = useState<string | null>(null);
 
   const handleSelectAccomplishment = (accomplishmentId: string) => {
@@ -37,7 +38,7 @@ export default function Step8AccomplishmentsScreen() {
     if (selectedAccomplishment) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       console.log('Accomplishment selected:', selectedAccomplishment);
-      router.push('/(onboarding)/step9_obstacles'); // Navigate to Obstacles step
+      goToNextPage(); // Navigate to the next page using the new system
     }
   };
 

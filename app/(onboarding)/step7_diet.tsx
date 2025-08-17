@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import { Stack, useRouter } from 'expo-router';
+import { Stack } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { palette } from '@/constants/Colors';
 import i18n, { isRTL } from '@/utils/i18n';
 import * as Haptics from 'expo-haptics';
+import { useGoToNextPage } from './navigationHelper';
 
 // Define the type for an option
 type DietOption = {
@@ -22,7 +23,7 @@ const DIET_OPTIONS: DietOption[] = [
 ];
 
 export default function Step7DietScreen() {
-  const router = useRouter();
+  const goToNextPage = useGoToNextPage();
   const [selectedDiet, setSelectedDiet] = useState<string | null>(null);
 
   const handleSelectDiet = (dietId: string) => {
@@ -34,7 +35,7 @@ export default function Step7DietScreen() {
     if (selectedDiet) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       console.log('Diet selected:', selectedDiet);
-      router.push('/(onboarding)/step8_accomplishments'); // Navigate to Accomplishments step
+      goToNextPage(); // Navigate to the next page using the new system
     }
   };
 

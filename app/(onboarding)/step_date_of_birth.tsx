@@ -1,10 +1,11 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import WheelPicker from 'react-native-wheely';
-import { Stack, useRouter } from 'expo-router';
+import { Stack } from 'expo-router';
 import { useOnboarding } from '../OnboardingContext';
 import i18n, { isRTL } from '@/utils/i18n';
 import * as Haptics from 'expo-haptics';
+import { useGoToNextPage } from './navigationHelper';
 
 // Helper to generate a range of numbers
 const generateRange = (start: number, end: number, step: number = 1, prefix: string = '', suffix: string = '') => {
@@ -39,7 +40,7 @@ const getLocalizedMonthNames = () => [
 const yearOptions = generateRange(1950, 2015);
 
 export default function StepDateOfBirthScreen() {
-  const router = useRouter();
+  const goToNextPage = useGoToNextPage();
   const { setDateOfBirth } = useOnboarding();
 
   // Get localized month names
@@ -85,7 +86,7 @@ export default function StepDateOfBirthScreen() {
     setDateOfBirth(isoDateString); // Save to context
     console.log('Saved Date of Birth to context:', isoDateString);
 
-    router.push('/(onboarding)/step5_gender'); // Next step after this new screen
+    goToNextPage(); // Navigate to the next page using the new system
   };
 
   return (
