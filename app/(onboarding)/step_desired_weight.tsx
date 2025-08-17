@@ -58,7 +58,13 @@ export default function StepDesiredWeightScreen() {
           </Text>
           
           {/* Ruler Picker */}
-          <View style={{ height: 120, width: '100%', marginHorizontal: 20 }}>
+          <View style={{ 
+            height: 120, 
+            width: '100%', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            paddingHorizontal: 20 
+          }}>
             <RulerPicker
               min={30}
               max={200}
@@ -78,7 +84,6 @@ export default function StepDesiredWeightScreen() {
               indicatorColor={palette.primary}
               indicatorHeight={60}
               decelerationRate="fast"
-              width={320}
               valueTextStyle={{ color: 'transparent', fontSize: 0 }}
               unitTextStyle={{ color: 'transparent', fontSize: 0 }}
             />
