@@ -6,7 +6,7 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { palette } from '@/constants/Colors'; // Import palette
-import i18n from '@/utils/i18n';
+import i18n, { isRTL } from '@/utils/i18n';
 
 // Define the type for an option
 type AccomplishmentOption = {
@@ -44,21 +44,27 @@ export default function Step8AccomplishmentsScreen() {
     return (
       <TouchableOpacity
         key={option.id}
-        style={isSelected 
+        style={[
+          isSelected 
             ? { backgroundColor: palette.primary, borderColor: palette.primary } 
-            : { backgroundColor: 'white', borderColor: '#d1d5db' /* gray-300 from Tailwind's default theme */ }
-        }
-        className={`flex-row items-center p-4 border rounded-lg mb-4`}
+            : { backgroundColor: 'white', borderColor: '#d1d5db' /* gray-300 from Tailwind's default theme */ },
+          { flexDirection: isRTL() ? 'row-reverse' : 'row' }
+        ]}
+        className={`items-center p-4 border rounded-lg mb-4`}
         onPress={() => handleSelectAccomplishment(option.id)}
       >
         <Ionicons 
           name={option.icon} 
           size={20} 
           color={isSelected ? 'white' : palette.primary} 
-          className="mr-3" 
+          style={{ [isRTL() ? 'marginLeft' : 'marginRight']: 12 }}
         />
         <Text 
-          style={{ color: isSelected ? 'white' : palette.primary}}
+          style={{ 
+            color: isSelected ? 'white' : palette.primary,
+            textAlign: isRTL() ? 'right' : 'left',
+            flex: 1
+          }}
           className={`text-base font-medium`}
         >
           {i18n.t(option.translationKey)}
@@ -76,7 +82,10 @@ export default function Step8AccomplishmentsScreen() {
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }} 
       >
         {/* Title and Description stay at the top */}
-        <Text className="text-3xl font-bold mb-8 text-gray-800">
+        <Text 
+          className="text-3xl font-bold mb-8 text-gray-800"
+          style={{ textAlign: isRTL() ? 'right' : 'left', writingDirection: isRTL() ? 'rtl' : 'ltr' }}
+        >
           {i18n.t('onboarding.accomplishments.title')}
         </Text>
 

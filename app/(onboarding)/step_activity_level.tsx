@@ -4,7 +4,7 @@ import { Stack, useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors';
-import i18n from '@/utils/i18n';
+import i18n, { isRTL } from '@/utils/i18n';
 
 // Define activity level options with icons
 const ACTIVITY_LEVEL_OPTIONS = [
@@ -31,21 +31,30 @@ export default function StepActivityLevelScreen() {
     return (
       <TouchableOpacity
         key={option.id}
-        className={`flex-row items-center p-4 border rounded-lg mb-3 border-gray-200 ${!isSelected ? 'bg-gray-100' : ''}`}
-        style={isSelected ? { backgroundColor: palette.primary, borderColor: palette.primary } : {}}
+        className={`items-center p-4 border rounded-lg mb-3 border-gray-200 ${!isSelected ? 'bg-gray-100' : ''}`}
+        style={[
+          isSelected ? { backgroundColor: palette.primary, borderColor: palette.primary } : {},
+          { flexDirection: isRTL() ? 'row-reverse' : 'row' }
+        ]}
         onPress={() => setSelectedActivityLevel(option.id)}
       >
         <Ionicons 
           name={option.icon} 
           size={20} 
           color={isSelected ? 'white' : '#333'} 
-          className="mr-3"
+          style={{ [isRTL() ? 'marginLeft' : 'marginRight']: 12 }}
         />
         <View className="flex-1">
-          <Text className={`${isSelected ? 'text-white' : 'text-gray-800'} text-base font-medium`}>
+          <Text 
+            className={`${isSelected ? 'text-white' : 'text-gray-800'} text-base font-medium`}
+            style={{ textAlign: isRTL() ? 'right' : 'left' }}
+          >
             {i18n.t(option.mainKey)}
           </Text>
-          <Text className={`${isSelected ? 'text-white' : 'text-gray-600'} text-sm`}>
+          <Text 
+            className={`${isSelected ? 'text-white' : 'text-gray-600'} text-sm`}
+            style={{ textAlign: isRTL() ? 'right' : 'left' }}
+          >
             {i18n.t(option.subKey)}
           </Text>
         </View>
@@ -61,10 +70,16 @@ export default function StepActivityLevelScreen() {
         className="flex-1 p-6"
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }} 
       >
-        <Text className="text-3xl font-bold mb-2 text-gray-800">
+        <Text 
+          className="text-3xl font-bold mb-2 text-gray-800"
+          style={{ textAlign: isRTL() ? 'right' : 'left', writingDirection: isRTL() ? 'rtl' : 'ltr' }}
+        >
           {i18n.t('onboarding.activityLevel.title')}
         </Text>
-        <Text className="text-base text-gray-600 mb-8">
+        <Text 
+          className="text-base text-gray-600 mb-8"
+          style={{ textAlign: isRTL() ? 'right' : 'left', writingDirection: isRTL() ? 'rtl' : 'ltr' }}
+        >
           {i18n.t('onboarding.activityLevel.subtitle')}
         </Text>
 
