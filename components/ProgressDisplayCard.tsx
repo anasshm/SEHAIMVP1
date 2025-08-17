@@ -4,7 +4,8 @@ import ProgressRing from '@/components/ui/ProgressRing';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons'; 
 import { palette } from '@/constants/Colors';
 import { CARD_PRESETS } from '@/utils/ringSizes';
-import { neumorphicLayerStyle } from '@/utils/styles'; 
+import { neumorphicLayerStyle } from '@/utils/styles';
+import i18n from '@/utils/i18n'; 
 
 interface ProgressDisplayCardProps {
   currentValue: number;
@@ -35,13 +36,27 @@ const ProgressDisplayCard: React.FC<ProgressDisplayCardProps> = ({
   let displayText: string;
   let statusText: string;
 
+  // Determine the appropriate translation key based on nutrient name
+  const getStatusTranslationKey = (nutrientName: string, isLeft: boolean) => {
+    const nutrientLower = nutrientName.toLowerCase();
+    if (nutrientLower.includes('protein') || nutrientLower.includes('بروتين')) {
+      return isLeft ? 'dashboard.proteinLeft' : 'dashboard.proteinOver';
+    } else if (nutrientLower.includes('carb') || nutrientLower.includes('كربوهيدرات')) {
+      return isLeft ? 'dashboard.carbsLeft' : 'dashboard.carbsOver';
+    } else if (nutrientLower.includes('fat') || nutrientLower.includes('دهون')) {
+      return isLeft ? 'dashboard.fatsLeft' : 'dashboard.fatsOver';
+    }
+    // Fallback to the original behavior
+    return isLeft ? 'dashboard.caloriesLeft' : 'dashboard.caloriesOver';
+  };
+
   if (targetValue > 0) {
     if (currentValue <= targetValue) {
       displayText = `${Math.round(targetValue - currentValue)}g`;
-      statusText = `${nutrientName} left`;
+      statusText = i18n.t(getStatusTranslationKey(nutrientName, true));
     } else { // currentValue > targetValue
       displayText = `${Math.round(currentValue - targetValue)}g`;
-      statusText = `${nutrientName} over`;
+      statusText = i18n.t(getStatusTranslationKey(nutrientName, false));
     }
   } else { // targetValue is 0 or undefined, show current consumed
     displayText = `${Math.round(currentValue)}g`;

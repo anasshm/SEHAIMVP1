@@ -54,7 +54,21 @@
     "protein": "Protein",
     "carbs": "Carbs",
     "fat": "Fat",
-    "addMeal": "Add Meal"
+    "fats": "Fats",
+    "addMeal": "Add Meal",
+    "recentlyLogged": "Recently logged",
+    "noFoodUploaded": "You haven't uploaded any food",
+    "startTrackingMeals": "Start tracking today's meals by taking a quick picture.",
+    "loadMore": "Load More",
+    "caloriesLeft": "Calories left",
+    "caloriesOver": "Calories over",
+    "proteinLeft": "Protein left",
+    "proteinOver": "Protein over",
+    "carbsLeft": "Carbs left",
+    "carbsOver": "Carbs over",
+    "fatsLeft": "Fats left",
+    "fatsOver": "Fats over",
+    "errorFetchingNutritionPlan": "Error fetching nutrition plan:"
   },
   "camera": {
     "title": "Food Analysis",
@@ -74,5 +88,11 @@
     "settings": "Settings",
     "logout": "Logout",
     "account": "Account"
+  },
+  "tabs": {
+    "dashboard": "Dashboard",
+    "camera": "Camera",
+    "history": "History",
+    "profile": "Profile"
   }
 } 

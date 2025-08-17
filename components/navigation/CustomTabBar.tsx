@@ -5,6 +5,7 @@ import { styled } from 'nativewind';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { palette } from '@/constants/Colors';
+import i18n from '@/utils/i18n';
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
@@ -21,10 +22,10 @@ interface RouteConfigItem {
 type RouteName = 'index' | 'camera' | 'history' | 'profile';
 
 const routeConfig: Record<RouteName, RouteConfigItem> = {
-  index: { label: 'Dashboard', icon: 'home', iconOutline: 'home-outline' },
-  camera: { label: 'Camera', icon: 'camera', iconOutline: 'camera-outline' },
-  history: { label: 'History', icon: 'time', iconOutline: 'time-outline' },
-  profile: { label: 'Profile', icon: 'person', iconOutline: 'person-outline' },
+  index: { label: i18n.t('tabs.dashboard'), icon: 'home', iconOutline: 'home-outline' },
+  camera: { label: i18n.t('tabs.camera'), icon: 'camera', iconOutline: 'camera-outline' },
+  history: { label: i18n.t('tabs.history'), icon: 'time', iconOutline: 'time-outline' },
+  profile: { label: i18n.t('tabs.profile'), icon: 'person', iconOutline: 'person-outline' },
 };
 
 export default function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {

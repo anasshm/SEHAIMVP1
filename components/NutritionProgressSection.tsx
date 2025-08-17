@@ -7,6 +7,7 @@ import { palette } from '@/constants/Colors';
 import { NutritionPlan, NutritionTotals } from '@/models/nutrition';
 import { RING_PRESETS } from '@/utils/ringSizes';
 import { neumorphicLayerStyle } from '@/utils/styles';
+import i18n from '@/utils/i18n';
 
 interface NutritionProgressSectionProps {
   nutritionPlan: NutritionPlan;
@@ -29,7 +30,7 @@ const NutritionProgressSection: React.FC<NutritionProgressSectionProps> = ({ nut
   const fatProgress = calculateProgress(currentIntake.fat, targetFatGoal);
 
   const largeCalorieText = Math.round(currentIntake.calories).toString();
-  const smallCalorieText = currentIntake.calories <= targetCalories ? 'Calories left' : 'Calories over';
+  const smallCalorieText = currentIntake.calories <= targetCalories ? i18n.t('dashboard.caloriesLeft') : i18n.t('dashboard.caloriesOver');
 
   return (
     <View className="my-4">
@@ -66,7 +67,7 @@ const NutritionProgressSection: React.FC<NutritionProgressSectionProps> = ({ nut
         <ProgressDisplayCard
           currentValue={currentIntake.protein}
           targetValue={targetProteinGoal}
-          nutrientName="Protein"
+          nutrientName={i18n.t('dashboard.protein')}
           progressPercent={proteinProgress}
           circleColor={palette.protein} 
           iconType="MaterialCommunityIcons"
@@ -76,7 +77,7 @@ const NutritionProgressSection: React.FC<NutritionProgressSectionProps> = ({ nut
         <ProgressDisplayCard
           currentValue={currentIntake.carbs}
           targetValue={targetCarbsGoal}
-          nutrientName="Carbs"
+          nutrientName={i18n.t('dashboard.carbs')}
           progressPercent={carbsProgress}
           circleColor={palette.carbs} 
           iconType="MaterialCommunityIcons"
@@ -86,7 +87,7 @@ const NutritionProgressSection: React.FC<NutritionProgressSectionProps> = ({ nut
         <ProgressDisplayCard
           currentValue={currentIntake.fat}
           targetValue={targetFatGoal}
-          nutrientName="Fats"
+          nutrientName={i18n.t('dashboard.fats')}
           progressPercent={fatProgress}
           circleColor={palette.fats} 
           iconType="FontAwesome5"

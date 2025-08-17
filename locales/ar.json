@@ -54,7 +54,21 @@
     "protein": "بروتين",
     "carbs": "كربوهيدرات",
     "fat": "دهون",
-    "addMeal": "إضافة وجبة"
+    "fats": "دهون",
+    "addMeal": "إضافة وجبة",
+    "recentlyLogged": "المسجل مؤخراً",
+    "noFoodUploaded": "لم ترفع أي طعام",
+    "startTrackingMeals": "ابدأ تتبع وجبات اليوم بأخذ صورة سريعة.",
+    "loadMore": "تحميل المزيد",
+    "caloriesLeft": "سعرات متبقية",
+    "caloriesOver": "سعرات زائدة",
+    "proteinLeft": "بروتين متبقي",
+    "proteinOver": "بروتين زائد",
+    "carbsLeft": "كربوهيدرات متبقية",
+    "carbsOver": "كربوهيدرات زائدة",
+    "fatsLeft": "دهون متبقية",
+    "fatsOver": "دهون زائدة",
+    "errorFetchingNutritionPlan": "خطأ في جلب خطة التغذية:"
   },
   "camera": {
     "title": "تحليل الطعام",
@@ -74,5 +88,11 @@
     "settings": "الإعدادات",
     "logout": "تسجيل الخروج",
     "account": "الحساب"
+  },
+  "tabs": {
+    "dashboard": "الرئيسية",
+    "camera": "الكاميرا",
+    "history": "السجل",
+    "profile": "الملف الشخصي"
   }
 } 
