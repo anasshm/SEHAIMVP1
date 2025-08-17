@@ -52,13 +52,13 @@ const DayCarousel: React.FC<DayCarouselProps> = ({ selectedDate, onDateSelect })
     return dayKeys[dayIndex];
   };
 
-  // For RTL (Arabic), show today and next 6 days
+  // For RTL (Arabic), show previous days for meal history
   // For LTR (English), show last 6 days and today
   if (isRTL()) {
-    // Arabic: Show today + next 6 days (17, 18, 19, 20, 21, 22, 23)
-    for (let i = 0; i < 7; i++) {
+    // Arabic: Show last 6 days + today for meal history (going backwards in time)
+    for (let i = 6; i >= 0; i--) {
       const date = new Date(today);
-      date.setDate(today.getDate() + i);
+      date.setDate(today.getDate() - i);
       const dayKey = getDayKey(date.getDay());
       
       days.push({
@@ -133,13 +133,8 @@ const DayCarousel: React.FC<DayCarouselProps> = ({ selectedDate, onDateSelect })
   // Find the index of today in the display array
   const todayIndex = displayDays.findIndex(day => isSameDay(day.date, today));
   
-  // For RTL (Arabic): today is at index 0, for LTR (English): today is at the last index
-  let initialIndex;
-  if (isRTL()) {
-    initialIndex = 0; // Today is the first item in Arabic
-  } else {
-    initialIndex = todayIndex >= 0 ? todayIndex : (displayDays.length > 0 ? displayDays.length - 1 : 0);
-  }
+  // Both RTL and LTR now show last 6 days + today, so today is at the last index
+  const initialIndex = todayIndex >= 0 ? todayIndex : (displayDays.length > 0 ? displayDays.length - 1 : 0);
 
   return (
     <View style={styles.container}>
