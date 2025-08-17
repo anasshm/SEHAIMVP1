@@ -86,20 +86,24 @@ function OnboardingHeader() {
     flexDirection: 'row-reverse' as const,
   } : {};
 
+  const rtlProgressBarStyle = isRTL() ? { 
+    flexDirection: 'row-reverse' as const,
+  } : {};
+
   // Use overall index for back button logic (can't go back from the new first step: gender)
   const canGoBack = router.canGoBack(); // New logic: show if router allows going back
 
   return (
-    <View style={styles.headerContainer}>
+    <View style={[styles.headerContainer, rtlContainerStyle]}>
       {canGoBack ? (
-         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+         <TouchableOpacity onPress={() => router.back()} style={[styles.backButton, isRTL() && styles.backButtonRTL]}>
            <Ionicons name={isRTL() ? "arrow-forward" : "arrow-back"} size={24} color="#000" />
          </TouchableOpacity>
       ) : (
         // Placeholder to keep alignment when back button is hidden
-        <View style={styles.backButtonPlaceholder} />
+        <View style={[styles.backButtonPlaceholder, isRTL() && styles.backButtonPlaceholderRTL]} />
       )}
-      <View style={[styles.progressBarBackground, rtlContainerStyle]}>
+      <View style={[styles.progressBarBackground, rtlProgressBarStyle]}>
         <Animated.View style={[styles.progressBarForeground, animatedBarStyle]} />
       </View>
     </View>
@@ -138,10 +142,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 15, 
   },
+  backButtonRTL: {
+    marginRight: 0,
+    marginLeft: 15,
+  },
    backButtonPlaceholder: { 
     width: 40,
     height: 40,
     marginRight: 15,
+   },
+   backButtonPlaceholderRTL: {
+    marginRight: 0,
+    marginLeft: 15,
    },
   progressBarBackground: {
     flex: 1, 
