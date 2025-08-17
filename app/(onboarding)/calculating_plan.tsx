@@ -236,19 +236,6 @@ export default function CalculatingPlanScreen() {
             <Text style={{ fontSize: 16, color: '#000', flex: 1 }}>• Fats</Text>
             {renderCheckmark(3)}
           </View>
-          
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
-            <Text style={{ fontSize: 16, color: '#000', flex: 1 }}>• Health Score</Text>
-            <View style={{
-              width: 24,
-              height: 24,
-              borderRadius: 12,
-              backgroundColor: 'transparent',
-              borderWidth: 2,
-              borderColor: '#ccc',
-              marginLeft: 8,
-            }} />
-          </View>
         </View>
       </View>
     </View>
