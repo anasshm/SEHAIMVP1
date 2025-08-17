@@ -7,7 +7,7 @@ import { palette } from '@/constants/Colors';
 import { NutritionPlan, NutritionTotals } from '@/models/nutrition';
 import { RING_PRESETS } from '@/utils/ringSizes';
 import { neumorphicLayerStyle } from '@/utils/styles';
-import i18n from '@/utils/i18n';
+import i18n, { isRTL } from '@/utils/i18n';
 
 interface NutritionProgressSectionProps {
   nutritionPlan: NutritionPlan;
@@ -32,35 +32,69 @@ const NutritionProgressSection: React.FC<NutritionProgressSectionProps> = ({ nut
   const largeCalorieText = Math.round(currentIntake.calories).toString();
   const smallCalorieText = currentIntake.calories <= targetCalories ? i18n.t('dashboard.caloriesLeft') : i18n.t('dashboard.caloriesOver');
 
+  const isArabic = isRTL();
+
   return (
     <View className="my-4">
       <View 
-        style={neumorphicLayerStyle} 
-        className="p-4 mb-4 flex-row items-center justify-between"
+        style={[neumorphicLayerStyle, { flexDirection: 'row' }]} 
+        className="p-4 mb-4 items-center justify-between"
       >
-        <View className="flex-shrink mr-4">
-          <Text style={{ color: palette.primary }} className="text-5xl font-bold">{largeCalorieText}</Text>
-          <Text style={{ color: palette.inactive, fontSize: 15, lineHeight: 17 }} className="mt-1">{smallCalorieText}</Text>
-        </View>
+        {isArabic ? (
+          // RTL: Progress ring on left, text on right
+          <>
+            <AnimatedCircularProgress
+              size={RING_PRESETS.large} 
+              width={8} 
+              fill={calorieProgress}
+              tintColor={palette.accent} 
+              backgroundColor="#F3F4F6" 
+              rotation={0} 
+              arcSweepAngle={360}
+              lineCap="round"
+            >
+              {() => (
+                <MaterialCommunityIcons 
+                  name="fire" 
+                  size={RING_PRESETS.large * 0.4} 
+                  color={palette.accent} 
+                />
+              )}
+            </AnimatedCircularProgress>
 
-        <AnimatedCircularProgress
-          size={RING_PRESETS.large} 
-          width={8} 
-          fill={calorieProgress}
-          tintColor={palette.accent} 
-          backgroundColor="#F3F4F6" 
-          rotation={0} 
-          arcSweepAngle={360}
-          lineCap="round"
-        >
-          {() => (
-            <MaterialCommunityIcons 
-              name="fire" 
-              size={RING_PRESETS.large * 0.4} 
-              color={palette.accent} 
-            />
-          )}
-        </AnimatedCircularProgress>
+            <View className="flex-shrink ml-4" style={{ alignItems: 'flex-end' }}>
+              <Text style={{ color: palette.primary }} className="text-5xl font-bold">{largeCalorieText}</Text>
+              <Text style={{ color: palette.inactive, fontSize: 15, lineHeight: 17 }} className="mt-1">{smallCalorieText}</Text>
+            </View>
+          </>
+        ) : (
+          // LTR: Text on left, progress ring on right
+          <>
+            <View className="flex-shrink mr-4">
+              <Text style={{ color: palette.primary }} className="text-5xl font-bold">{largeCalorieText}</Text>
+              <Text style={{ color: palette.inactive, fontSize: 15, lineHeight: 17 }} className="mt-1">{smallCalorieText}</Text>
+            </View>
+
+            <AnimatedCircularProgress
+              size={RING_PRESETS.large} 
+              width={8} 
+              fill={calorieProgress}
+              tintColor={palette.accent} 
+              backgroundColor="#F3F4F6" 
+              rotation={0} 
+              arcSweepAngle={360}
+              lineCap="round"
+            >
+              {() => (
+                <MaterialCommunityIcons 
+                  name="fire" 
+                  size={RING_PRESETS.large * 0.4} 
+                  color={palette.accent} 
+                />
+              )}
+            </AnimatedCircularProgress>
+          </>
+        )}
       </View>
 
       <View className="flex-row justify-between">
