@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 // import { ThemedText } from '@/components/ThemedText'; // Not used
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
+import i18n from '@/utils/i18n';
 
 interface CameraControlsProps {
   onCapture: () => void;
@@ -34,7 +35,7 @@ export function CameraControls({
           <TouchableOpacity style={styles.button} onPress={onGalleryOpen} disabled={isCapturing}>
             <Ionicons name="images" size={24} color="white" />
           </TouchableOpacity>
-          <Text style={styles.labelText}>Gallery</Text>
+          <Text style={styles.labelText}>{i18n.t('camera.gallery')}</Text>
         </View>
       </View>
 
@@ -55,7 +56,7 @@ export function CameraControls({
               color={isBarcodeScanningActive ? activeColor : "white"} 
             />
           </TouchableOpacity>
-          <Text style={styles.labelText}>Barcode</Text>
+          <Text style={styles.labelText}>{i18n.t('camera.barcode')}</Text>
         </View>
       </View>
     </View>

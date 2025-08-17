@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { Ionicons } from '@expo/vector-icons'; // Import Ionicons
+import i18n from '@/utils/i18n';
 
 interface CameraOverlayProps {
   showGuide?: boolean;
@@ -21,8 +22,8 @@ export function CameraOverlay({
     <View style={[styles.guideContainer, { top: pillOffsetTop }]}>
       <ThemedText style={styles.guideText}>
         {isPillBarcodeMode
-          ? "Point camera at barcode to scan"
-          : "Capture your food in the frame"}
+          ? i18n.t('camera.pointCameraAtBarcode')
+          : i18n.t('camera.captureYourFood')}
       </ThemedText>
     </View>
   );
@@ -34,7 +35,7 @@ export function CameraOverlay({
         {/* Icon removed as per request */}
       </View>
       <ThemedText style={styles.barcodeIndicatorText}>
-        Ready to Scan Barcode
+        {i18n.t('camera.readyToScanBarcode')}
       </ThemedText>
     </View>
   );

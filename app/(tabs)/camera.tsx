@@ -18,6 +18,7 @@ import { ProgressManager } from '@/utils/progressManager';
 import { analyzeFoodImage } from '@/services/aiVisionService';
 import { saveMeal, uploadThumbnail } from '@/services/mealService';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import i18n from '@/utils/i18n';
 
 // Define styles for the camera screen
 const styles = StyleSheet.create({
@@ -274,15 +275,15 @@ export default function CameraScreen() {
           });
         } catch (e) {
           console.error("Error copying captured photo for processing:", e);
-          Alert.alert("Image Processing Error", "Could not prepare captured image. Please try again.");
+          Alert.alert(i18n.t('camera.imageProcessingError'), i18n.t('camera.couldNotPrepareImage'));
           setIsCapturing(false); // Reset capturing state on error
         }
       } else {
-        Alert.alert('Capture Failed', 'Could not capture image. Please try again.');
+        Alert.alert(i18n.t('camera.captureError'), i18n.t('camera.captureFailed'));
       }
     } catch (error) {
       console.error('Error taking picture:', error);
-      Alert.alert('Error', 'An error occurred while taking the picture.');
+      Alert.alert(i18n.t('camera.error'), i18n.t('camera.errorTakingPicture'));
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     } finally {
       setIsCapturing(false);
@@ -296,7 +297,7 @@ export default function CameraScreen() {
       if (!hasGalleryPermission) {
         const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (!galleryStatus.granted) {
-          Alert.alert('Permission required', 'We need access to your photo gallery to select images.');
+          Alert.alert(i18n.t('camera.permissionRequired'), i18n.t('camera.galleryPermissionNeeded'));
           return;
         }
         setHasGalleryPermission(galleryStatus.status === 'granted');
@@ -332,12 +333,12 @@ export default function CameraScreen() {
           });
         } catch (e) {
           console.error("Error copying gallery image for processing:", e);
-          Alert.alert("Image Processing Error", "Could not prepare selected image. Please try again.");
+          Alert.alert(i18n.t('camera.imageProcessingError'), i18n.t('camera.couldNotPrepareSelected'));
         }
       }
     } catch (error) {
       console.error('Error opening gallery:', error);
-      Alert.alert('Error', 'Failed to open gallery. Please try again.');
+      Alert.alert(i18n.t('camera.error'), i18n.t('camera.failedToOpenGallery'));
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     }
   };
@@ -394,16 +395,16 @@ export default function CameraScreen() {
           });
         } catch (e) {
           console.error("Error copying captured photo for processing:", e);
-          Alert.alert("Image Processing Error", "Could not prepare captured image. Please try again.");
+          Alert.alert(i18n.t('camera.imageProcessingError'), i18n.t('camera.couldNotPrepareImage'));
         }
       } else {
-        Alert.alert('Capture Failed', 'Could not capture image. Please try again.');
+        Alert.alert(i18n.t('camera.captureError'), i18n.t('camera.captureFailed'));
       }
       
     } catch (error) {
       console.error('Error taking picture:', error);
       setIsCapturing(false);
-      Alert.alert('Error', 'Failed to take picture. Please try again.');
+      Alert.alert(i18n.t('camera.error'), i18n.t('camera.failedToTakePicture'));
     }
   };
   
@@ -437,7 +438,7 @@ export default function CameraScreen() {
       if (!photo || !photo.uri) {
         setIsAnalyzing(false);
         setIsCapturing(false);
-        Alert.alert('Capture Error', 'Failed to capture image. URI is missing.');
+        Alert.alert(i18n.t('camera.captureError'), i18n.t('camera.failedToCaptureImage'));
         return;
       }
 
@@ -460,7 +461,7 @@ export default function CameraScreen() {
         console.error('Error copying photo:', copyError);
         setIsAnalyzing(false);
         setIsCapturing(false);
-        Alert.alert('Save Error', 'Failed to save the captured image.');
+        Alert.alert(i18n.t('camera.saveError'), i18n.t('camera.failedToSaveImage'));
         return;
       }
 
@@ -527,7 +528,7 @@ export default function CameraScreen() {
       setAnalysisResults(aiResults);
       setShowResults(true);
       setAnalysisProgress(100);
-      setAnalysisStage('Analysis complete!');
+      setAnalysisStage(i18n.t('camera.analysisComplete'));
       setIsAnalyzing(false);
 
       console.log('Analysis complete with results:', aiResults);
@@ -539,8 +540,8 @@ export default function CameraScreen() {
       setShowAnalysisOverlay(false);
       
       Alert.alert(
-        'Analysis Error',
-        'Failed to analyze the image. Please try again.',
+        i18n.t('camera.analysisError'),
+        i18n.t('camera.failedToAnalyze'),
         [{ text: 'OK' }]
       );
     }
@@ -574,7 +575,7 @@ export default function CameraScreen() {
 
   const handleOverlaySave = async () => {
     if (!analysisResults || !capturedImageUri) {
-      Alert.alert('Error', 'No analysis results to save.');
+      Alert.alert(i18n.t('camera.error'), i18n.t('camera.noResultsToSave'));
       return;
     }
     
@@ -582,7 +583,7 @@ export default function CameraScreen() {
       // Show loading state
       setIsSaving(true);
       setIsAnalyzing(true);
-      setAnalysisStage('Saving meal...');
+      setAnalysisStage(i18n.t('camera.savingMeal'));
       
       console.log('Starting meal save process...');
       console.log('Analysis results:', analysisResults);
@@ -633,11 +634,11 @@ export default function CameraScreen() {
       console.error('Error saving meal:', error);
       setIsSaving(false);
       setIsAnalyzing(false);
-      setAnalysisStage('Analysis complete!');
+      setAnalysisStage(i18n.t('camera.analysisComplete'));
       
       Alert.alert(
-        'Save Failed',
-        'Failed to save the meal. Please try again.',
+        i18n.t('camera.saveFailed'),
+        i18n.t('camera.failedToSaveMeal'),
         [{ text: 'OK' }]
       );
       
@@ -648,15 +649,15 @@ export default function CameraScreen() {
   const handleOverlayDiscard = () => {
     // Show confirmation dialog
     Alert.alert(
-      'Discard Analysis',
-      'Are you sure you want to discard this analysis?',
+      i18n.t('camera.discardAnalysis'),
+      i18n.t('camera.discardConfirmation'),
       [
         {
-          text: 'Cancel',
+          text: i18n.t('camera.cancel'),
           style: 'cancel',
         },
         {
-          text: 'Discard',
+          text: i18n.t('camera.discard'),
           style: 'destructive',
           onPress: () => {
             handleOverlayClose();
@@ -694,7 +695,7 @@ export default function CameraScreen() {
     return (
       <ThemedView style={styles.container}>
         <ActivityIndicator size="large" color="#4A90E2" />
-        <ThemedText style={styles.permissionText}>Requesting camera permissions...</ThemedText>
+        <ThemedText style={styles.permissionText}>{i18n.t('camera.requestingPermissions')}</ThemedText>
       </ThemedView>
     );
   }
@@ -704,13 +705,13 @@ export default function CameraScreen() {
     return (
       <ThemedView style={styles.container}>
         <ThemedText style={styles.permissionText}>
-          We need camera permission to take photos of your food.
+          {i18n.t('camera.cameraPermissionNeeded')}
         </ThemedText>
         <TouchableOpacity 
           style={styles.permissionButton}
           onPress={requestPermission}
         >
-          <ThemedText style={styles.permissionButtonText}>Grant Permission</ThemedText>
+          <ThemedText style={styles.permissionButtonText}>{i18n.t('camera.grantPermission')}</ThemedText>
         </TouchableOpacity>
       </ThemedView>
     );

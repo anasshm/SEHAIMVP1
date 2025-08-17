@@ -7,6 +7,7 @@ import { AnalysisProgress } from '@/components/camera/AnalysisProgress';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { palette } from '@/constants/Colors';
 import { TitleSkeleton, NutritionCardSkeleton, DescriptionSkeleton } from '../skeleton';
+import i18n from '@/utils/i18n';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -585,7 +586,7 @@ export function AnalysisOverlay({
 
   // Determine what to display
   const isAnalyzing = !showResults;
-  const displayName = showResults && analysisResults?.name ? analysisResults.name : 'Food Analysis';
+  const displayName = showResults && analysisResults?.name ? analysisResults.name : i18n.t('camera.foodAnalysis');
   
   // Use real data if available, otherwise show dummy data
   const displayCalories = showResults && analysisResults?.calories ? analysisResults.calories : 0;
