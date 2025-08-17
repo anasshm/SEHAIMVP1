@@ -10,7 +10,7 @@ import { useGoToNextPage } from '@/utils/onboarding/navigationHelper';
 
 export default function StepDesiredWeightScreen() {
   const goToNextPage = useGoToNextPage();
-  const { setWeight, onboardingData } = useOnboarding();
+  const { setDesiredWeight, onboardingData } = useOnboarding();
   
   // Get current weight or default to 70kg
   const currentWeight = onboardingData.weight?.value 
@@ -22,7 +22,7 @@ export default function StepDesiredWeightScreen() {
   const goToNextStep = () => {
     if (selectedWeight) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-      setWeight({ value: selectedWeight.toString(), unit: 'kg' });
+      setDesiredWeight({ value: selectedWeight.toString(), unit: 'kg' });
       console.log('Desired weight:', selectedWeight, 'kg');
       
       // Navigate to next page using the new system

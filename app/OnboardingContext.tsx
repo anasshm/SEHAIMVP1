@@ -7,6 +7,7 @@ export interface OnboardingData {
   dateOfBirth: string | null;
   height: { value: string; unit: string } | null;
   weight: { value: string; unit: string } | null;
+  desiredWeight: { value: string; unit: string } | null;
   gender: string | null;
   activityLevel: string | null;
   isOnboardingComplete?: boolean;
@@ -23,6 +24,7 @@ const defaultState: OnboardingData = {
   dateOfBirth: null,
   height: null,
   weight: null,
+  desiredWeight: null,
   gender: null,
   activityLevel: null,
   isOnboardingComplete: false,
@@ -40,6 +42,7 @@ interface OnboardingContextType {
   setDateOfBirth: (date: string | null) => void;
   setHeight: (height: { value: string; unit: string } | null) => void;
   setWeight: (weight: { value: string; unit: string } | null) => void;
+  setDesiredWeight: (desiredWeight: { value: string; unit: string } | null) => void;
   setGender: (gender: string | null) => void;
   setActivityLevel: (activityLevel: string | null) => void;
   setIsOnboardingComplete: (isComplete: boolean) => void;
@@ -60,6 +63,7 @@ const defaultContextValue: OnboardingContextType = {
   setDateOfBirth: () => { console.warn('setDateOfBirth called before provider setup'); },
   setHeight: () => { console.warn('setHeight called before provider setup'); },
   setWeight: () => { console.warn('setWeight called before provider setup'); },
+  setDesiredWeight: () => { console.warn('setDesiredWeight called before provider setup'); },
   setGender: () => { console.warn('setGender called before provider setup'); },
   setActivityLevel: () => { console.warn('setActivityLevel called before provider setup'); },
   setIsOnboardingComplete: () => { console.warn('setIsOnboardingComplete called before provider setup'); },
@@ -135,6 +139,7 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
   const setDateOfBirth = (date: string | null) => updateAndSaveData({ dateOfBirth: date });
   const setHeight = (height: { value: string; unit: string } | null) => updateAndSaveData({ height });
   const setWeight = (weight: { value: string; unit: string } | null) => updateAndSaveData({ weight });
+  const setDesiredWeight = (desiredWeight: { value: string; unit: string } | null) => updateAndSaveData({ desiredWeight });
   const setIsOnboardingComplete = (isComplete: boolean) => updateAndSaveData({ isOnboardingComplete: isComplete });
   const setSource = (source: string | null) => updateAndSaveData({ source });
   const setExperience = (experience: string | null) => updateAndSaveData({ experience });
@@ -167,6 +172,7 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
         setDateOfBirth,
         setHeight,
         setWeight,
+        setDesiredWeight,
         setGender,
         setActivityLevel,
         setIsOnboardingComplete,
