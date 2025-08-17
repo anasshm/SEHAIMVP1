@@ -16,7 +16,7 @@ export default function StepDesiredWeightScreen() {
     ? parseInt(onboardingData.weight.value) 
     : 70;
     
-  const [selectedWeight, setSelectedWeight] = useState(currentWeight);
+  const [selectedWeight, setSelectedWeight] = useState(70); // Always start at 70kg
 
   const goToNextStep = () => {
     if (selectedWeight) {
@@ -70,7 +70,7 @@ export default function StepDesiredWeightScreen() {
               max={200}
               step={1}
               fractionDigits={0}
-              initialValue={selectedWeight}
+              initialValue={70}
               onValueChange={(value) => {
                 Haptics.selectionAsync();
                 setSelectedWeight(parseInt(value));
