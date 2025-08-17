@@ -115,35 +115,81 @@ export const getNutritionRecommendations = async (
   const usersFirstName = userName ? userName.split(' ')[0] : null; // Get first name
   const greeting = usersFirstName ? `Hi ${usersFirstName}, ` : 'Exciting! ';
 
-  const systemPrompt = `You are a helpful AI nutrition assistant. Based on the user data provided, generate a personalized nutrition recommendation.
-Your response must be a JSON object only.
-The JSON object must include the following keys:
-- targetCalories: number (e.g., 2000)
-- targetProteinGrams: number (e.g., 150)
-- targetCarbsGrams: number (e.g., 200)
-- targetFatsGrams: number (e.g., 70)
-- briefRationale: string (A short, 1-2 sentence motivational message FOR THE USER. It should be cheerful and inviting. Start with "${greeting}". Directly address the user (e.g., 'you', 'your'). Specifically mention their [user's goal] and how sticking to the [targetCalories] will help them achieve it. For example: '${greeting}To help you with your goal to [user's goal], aiming for around [targetCalories] calories daily is a great start. This plan is designed just for you to get there!')
-Ensure the output is ONLY the JSON object.`;
+  const systemPrompt = `You are a nutrition engine. Given a user's profile, you must compute calorie and macro targets using evidence-based rules and return ONLY a JSON object with EXACTLY these keys:
+targetCalories, targetProteinGrams, targetCarbsGrams, targetFatsGrams, briefRationale.
+No additional keys. No surrounding text. No code fences.
 
-  // Convert activity level code to descriptive text for AI
-  const getActivityDescription = (activityLevel: string | null) => {
+## Inputs you will receive
+age (years), gender ("male"|"female"), height_cm, weight_kg, sessions_per_week (integer >=0), primary_goal ("maintain"|"lose"|"gain"), dietary_preferences (array), allergies_or_intolerances (array).
+
+## Calculations
+1) Basal Metabolic Rate (BMR), Mifflin–St Jeor:
+   - Male: BMR = 10*weight_kg + 6.25*height_cm − 5*age + 5
+   - Female: BMR = 10*weight_kg + 6.25*height_cm − 5*age − 161
+2) Activity factor mapping from sessions_per_week:
+   0 ⇒ 1.20 (sedentary)
+   1–2 ⇒ 1.375 (lightly active)
+   3–4 ⇒ 1.55 (moderately active)
+   5–6 ⇒ 1.725 (very active)
+   7+  ⇒ 1.90 (athlete)
+   TDEE = BMR * activity_factor
+3) Goal adjustment:
+   - maintain ⇒ 0%
+   - lose ⇒ 10–20% deficit (default 15%); do not imply >1% body weight loss/week.
+   - gain ⇒ 5–15% surplus (default 10%).
+   Set targetCalories = TDEE adjusted and round to nearest 5 kcal.
+4) Macros:
+   - Protein (g/kg):
+       maintain: 1.2–1.6 (default 1.4)
+       lose:     1.6–2.2 (default 1.8)
+       gain:     1.6–2.0 (default 1.6)
+   - Fat (g/kg): baseline 0.8 (allow 0.6–1.0); try to keep ≥20% calories.
+   - Carbs: remaining calories after protein & fat.
+   Energy factors: protein 4 kcal/g, carbs 4 kcal/g, fat 9 kcal/g.
+   Round grams to whole numbers; after rounding, adjust carbs so that calories from macros match targetCalories within ±5 kcal.
+
+## Dietary constraints
+Respect provided diets/allergies. If conflicts exist or assumptions are made (e.g., missing sessions_per_week → assume 0), mention them briefly in \`briefRationale\` (since only that field can carry notes).
+
+## Output format (STRICT)
+Return ONLY a JSON object with EXACTLY:
+- "targetCalories": number
+- "targetProteinGrams": number
+- "targetCarbsGrams": number
+- "targetFatsGrams": number
+- "briefRationale": string (≤2 sentences; plain text; include key assumptions or warnings if any)
+No extra keys. No arrays or objects other than those five fields.`;
+
+  // Convert activity level code to sessions per week for the new prompt format
+  const getSessionsPerWeek = (activityLevel: string | null): number => {
     switch (activityLevel) {
-      case '0-2': return '0-2 workouts per week (sedentary lifestyle)';
-      case '3-5': return '3-5 workouts per week (moderately active)';
-      case '6+': return '6+ workouts per week (very active/athlete)';
-      default: return activityLevel || 'Not specified';
+      case '0-2': return 1; // Use middle of range
+      case '3-5': return 4; // Use middle of range  
+      case '6+': return 7; // Use 7+ for athlete level
+      default: return 0; // Default to sedentary
     }
   };
 
-  const userMessageContent = `User Profile:
-    - Age: ${formattedUser.age || 'Not provided'}
-    - Gender: ${formattedUser.gender}
-    - Height: ${formattedUser.heightCm} cm
-    - Weight: ${formattedUser.weightKg} kg
-    - Activity Level: ${getActivityDescription(formattedUser.activityLevel)}
-    - Primary Goal: ${formattedUser.goal}
-    - Dietary Preferences/Restrictions: ${formattedUser.dietPreferences}
-    - Fitness/Nutrition Experience: ${formattedUser.experienceLevel || 'Not specified'}`;
+  // Extract dietary preferences and allergies from our current data
+  const dietaryPreferences: string[] = [];
+  const allergiesIntolerances: string[] = [];
+  
+  if (onboardingData.diet && onboardingData.diet !== 'classic') {
+    dietaryPreferences.push(onboardingData.diet);
+  }
+  
+  if (onboardingData.obstacles && onboardingData.obstacles.length > 0) {
+    allergiesIntolerances.push(...onboardingData.obstacles);
+  }
+
+  const userMessageContent = `age: ${formattedUser.age}
+gender: "${formattedUser.gender}"
+height_cm: ${formattedUser.heightCm}
+weight_kg: ${formattedUser.weightKg}
+sessions_per_week: ${getSessionsPerWeek(formattedUser.activityLevel)}
+primary_goal: "${formattedUser.goal}"
+dietary_preferences: [${dietaryPreferences.map(d => `"${d}"`).join(', ')}]
+allergies_or_intolerances: [${allergiesIntolerances.map(a => `"${a}"`).join(', ')}]`;
 
   console.log('[NutritionService] Sending prompt to OpenAI:', userMessageContent);
 
