@@ -23,7 +23,7 @@ export default function Step1CalorieAppsScreen() {
     try {
       await AsyncStorage.multiRemove(['@onboardingData', 'onboardingComplete']);
       console.log('🔄 Onboarding data reset! Reloading...');
-      router.replace('/(onboarding)/step_desired_weight');
+      router.replace('/(onboarding)/step_seh_ai_comparison');
     } catch (error) {
       console.error('Failed to reset onboarding data:', error);
     }
