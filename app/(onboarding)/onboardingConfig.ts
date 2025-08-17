@@ -7,24 +7,21 @@
  */
 
 export const ONBOARDING_PAGE_MAP = {
-  1: 'step_lasting_results',
-  2: 'step_seh_ai_comparison',
-  3: 'step_desired_weight',
-  4: 'step1_calorie_apps',
-  5: 'step_date_of_birth',
-  6: 'step_height_weight',
-  7: 'step2_experience',
-  8: 'step3_source',
-  9: 'step4_workouts',
-  10: 'step5_gender',
-  11: 'step6_goal',
-  12: 'step_activity_level',
-  13: 'step7_diet',
-  14: 'step8_accomplishments',
-  15: 'step9_obstacles',
-  16: 'calculating_plan',
-  17: 'plan_results',
-  18: 'paywall', // Always last - navigates to dashboard
+  1: 'step5_gender',                // Gender selection
+  2: 'step4_workouts',              // Workout frequency per week
+  3: 'step1_calorie_apps',          // Have tried other calorie tracking apps
+  4: 'step_lasting_results',        // Long term/lasting results
+  5: 'step_height_weight',          // Height and weight
+  6: 'step_date_of_birth',          // Birthday
+  7: 'step6_goal',                  // What is your goal (losing weight/maintaining...)
+  8: 'step_desired_weight',         // Desired weight (horizontal ruler)
+  9: 'step_seh_ai_comparison',      // Lose twice with Seh AI (comparison page)
+  10: 'step9_obstacles',            // What's stopping you (obstacles)
+  11: 'step7_diet',                 // Diet type (classic, vegan...)
+  12: 'step8_accomplishments',      // What would you like to accomplish
+  13: 'calculating_plan',           // Plan customization/calculation
+  14: 'plan_results',               // Results of calculation
+  15: 'paywall',                    // Paywall - always goes to dashboard
 } as const;
 
 // Automatically calculate total pages
