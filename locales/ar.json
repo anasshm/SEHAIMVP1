@@ -1,0 +1,78 @@
+{
+  "common": {
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "continue": "متابعة",
+    "back": "رجوع",
+    "next": "التالي",
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجح"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "register": "إنشاء حساب",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "loginWithGoogle": "متابعة بجوجل",
+    "loginWithApple": "متابعة بآبل",
+    "createAccount": "إنشاء حساب جديد",
+    "alreadyHaveAccount": "لديك حساب بالفعل؟",
+    "dontHaveAccount": "ليس لديك حساب؟",
+    "signUp": "إنشاء حساب",
+    "cancel": "إلغاء",
+    "loggingIn": "جاري تسجيل الدخول...",
+    "signingIn": "جاري تسجيل الدخول...",
+    "or": "أو",
+    "errors": {
+      "emailRequired": "البريد الإلكتروني مطلوب",
+      "emailInvalid": "البريد الإلكتروني غير صحيح",
+      "passwordRequired": "كلمة المرور مطلوبة",
+      "passwordMinLength": "كلمة المرور يجب أن تكون 6 أحرف على الأقل",
+      "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+      "emailNotConfirmed": "البريد الإلكتروني غير مؤكد. يرجى التحقق من صندوق الوارد للحصول على رابط التأكيد.",
+      "googleSignInFailed": "فشل تسجيل الدخول بجوجل. يرجى المحاولة مرة أخرى.",
+      "googleSignInCancelled": "تم إلغاء تسجيل الدخول",
+      "googlePlayServicesUnavailable": "خدمات جوجل بلاي غير متوفرة. يرجى تحديث خدمات جوجل بلاي والمحاولة مرة أخرى.",
+      "signInInProgress": "تسجيل الدخول قيد التقدم. يرجى الانتظار.",
+      "unexpectedError": "حدث خطأ غير متوقع",
+      "loginFailed": "فشل تسجيل الدخول",
+      "googleSignInFailedTitle": "فشل تسجيل الدخول بجوجل"
+    },
+    "comingSoon": {
+      "title": "قريباً",
+      "appleSignIn": "تسجيل الدخول بآبل سيكون متاحاً في تحديث مستقبلي."
+    }
+  },
+  "dashboard": {
+    "title": "الرئيسية",
+    "todaysMeals": "وجبات اليوم",
+    "nutrition": "التغذية",
+    "calories": "سعرات حرارية",
+    "protein": "بروتين",
+    "carbs": "كربوهيدرات",
+    "fat": "دهون",
+    "addMeal": "إضافة وجبة"
+  },
+  "camera": {
+    "title": "تحليل الطعام",
+    "takePhoto": "التقط صورة",
+    "analyzing": "جاري التحليل...",
+    "retake": "إعادة التقاط",
+    "saveAnalysis": "حفظ التحليل"
+  },
+  "history": {
+    "title": "سجل الوجبات",
+    "noMeals": "لا توجد وجبات",
+    "today": "اليوم",
+    "yesterday": "أمس"
+  },
+  "profile": {
+    "title": "الملف الشخصي",
+    "settings": "الإعدادات",
+    "logout": "تسجيل الخروج",
+    "account": "الحساب"
+  }
+} 

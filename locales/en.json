@@ -1,0 +1,78 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "back": "Back",
+    "next": "Next",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "auth": {
+    "login": "Log In",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "loginWithGoogle": "Continue with Google",
+    "loginWithApple": "Continue with Apple",
+    "createAccount": "Create Account",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "signUp": "Sign Up",
+    "cancel": "Cancel",
+    "loggingIn": "Logging in...",
+    "signingIn": "Signing in...",
+    "or": "OR",
+    "errors": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Email is invalid",
+      "passwordRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 6 characters",
+      "invalidCredentials": "Invalid email or password.",
+      "emailNotConfirmed": "Email not confirmed. Please check your inbox for a confirmation link.",
+      "googleSignInFailed": "Google sign-in failed. Please try again.",
+      "googleSignInCancelled": "Sign-in was cancelled",
+      "googlePlayServicesUnavailable": "Google Play Services not available. Please update Google Play Services and try again.",
+      "signInInProgress": "Sign-in is already in progress. Please wait.",
+      "unexpectedError": "An unexpected error occurred",
+      "loginFailed": "Login Failed",
+      "googleSignInFailedTitle": "Google Sign-In Failed"
+    },
+    "comingSoon": {
+      "title": "Coming Soon",
+      "appleSignIn": "Apple sign-in will be available in a future update."
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "todaysMeals": "Today's Meals",
+    "nutrition": "Nutrition",
+    "calories": "Calories",
+    "protein": "Protein",
+    "carbs": "Carbs",
+    "fat": "Fat",
+    "addMeal": "Add Meal"
+  },
+  "camera": {
+    "title": "Food Analysis",
+    "takePhoto": "Take Photo",
+    "analyzing": "Analyzing...",
+    "retake": "Retake",
+    "saveAnalysis": "Save Analysis"
+  },
+  "history": {
+    "title": "Meal History",
+    "noMeals": "No meals found",
+    "today": "Today",
+    "yesterday": "Yesterday"
+  },
+  "profile": {
+    "title": "Profile",
+    "settings": "Settings",
+    "logout": "Logout",
+    "account": "Account"
+  }
+} 

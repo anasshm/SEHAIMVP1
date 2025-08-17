@@ -1,0 +1,3 @@
+onlyBuiltDependencies:
+  - react-native-elements
+  - unrs-resolver
