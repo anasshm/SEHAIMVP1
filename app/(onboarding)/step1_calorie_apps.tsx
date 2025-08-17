@@ -5,9 +5,10 @@ import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors';
 import i18n, { isRTL } from '@/utils/i18n';
 import * as Haptics from 'expo-haptics';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Define calorie app experience options with translation keys
-const CALORIE_APP_OPTIONS = [
+// Define app experience options with translation keys
+const APP_EXPERIENCE_OPTIONS = [
   { id: 'yes', translationKey: 'onboarding.calorieApps.options.yes' },
   { id: 'no', translationKey: 'onboarding.calorieApps.options.no' },
 ];
@@ -17,17 +18,28 @@ export default function Step1CalorieAppsScreen() {
   const { setCalorieAppsExperience } = useOnboarding();
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
+  // TEMPORARY DEBUG FUNCTION - Remove after testing
+  const resetOnboardingData = async () => {
+    try {
+      await AsyncStorage.multiRemove(['@onboardingData', 'onboardingComplete']);
+      console.log('🔄 Onboarding data reset! Reloading...');
+      router.replace('/(onboarding)/step_desired_weight');
+    } catch (error) {
+      console.error('Failed to reset onboarding data:', error);
+    }
+  };
+
   const goToNextStep = () => {
     if (selectedOption) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       setCalorieAppsExperience(selectedOption);
-      console.log('User calorie apps experience:', selectedOption);
+      console.log('Calorie apps experience:', selectedOption);
       // Navigate to the next screen
       router.push('/(onboarding)/step_date_of_birth'); 
     }
   };
 
-  const renderOption = (option: typeof CALORIE_APP_OPTIONS[0]) => {
+  const renderOption = (option: typeof APP_EXPERIENCE_OPTIONS[0]) => {
     const isSelected = selectedOption === option.id;
     return (
       <TouchableOpacity
@@ -42,7 +54,6 @@ export default function Step1CalorieAppsScreen() {
           setSelectedOption(option.id);
         }}
       >
-        {/* No icon needed here based on example */}
         <Text 
           className={`${isSelected ? 'text-white' : 'text-gray-800'} text-base font-medium`}
           style={{ 
@@ -60,6 +71,22 @@ export default function Step1CalorieAppsScreen() {
     <View className="flex-1 bg-white">
       <Stack.Screen options={{ headerTitle: () => null, headerLeft: () => null }} />
       
+      {/* TEMPORARY DEBUG BUTTON - Remove after testing */}
+      <TouchableOpacity 
+        onPress={resetOnboardingData}
+        style={{ 
+          position: 'absolute', 
+          top: 100, 
+          right: 20, 
+          backgroundColor: 'red', 
+          padding: 10, 
+          borderRadius: 5, 
+          zIndex: 1000 
+        }}
+      >
+        <Text style={{ color: 'white', fontSize: 12 }}>🔄 RESET</Text>
+      </TouchableOpacity>
+
       <ScrollView 
         className="flex-1 p-6"
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }} 
@@ -78,7 +105,7 @@ export default function Step1CalorieAppsScreen() {
         </Text>
 
         <View className="flex-1 justify-center">
-          {CALORIE_APP_OPTIONS.map(renderOption)}
+          {APP_EXPERIENCE_OPTIONS.map(renderOption)}
         </View>
 
       </ScrollView>
@@ -97,6 +124,4 @@ export default function Step1CalorieAppsScreen() {
       </View>
     </View>
   );
-}
-
-// Reusing styles 
+} 

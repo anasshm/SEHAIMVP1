@@ -241,6 +241,10 @@
         "gain": "Gain weight"
       }
     },
+    "desiredWeight": {
+      "title": "What is your desired weight?",
+      "subtitle": "Set your target weight goal"
+    },
     "heightWeight": {
       "title": "Enter your height and weight",
       "subtitle": "This helps us calculate your calorie needs.",
