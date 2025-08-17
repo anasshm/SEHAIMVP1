@@ -7,6 +7,7 @@ import { styled } from 'nativewind';
 import { palette } from '@/constants/Colors';
 import AppLogo from '@/components/ui/AppLogo';
 import i18n, { isRTL } from '@/utils/i18n';
+import { getScreenName } from '@/app/(onboarding)/onboardingConfig';
 
 // Create styled components with NativeWind
 const StyledView = styled(View);
@@ -128,8 +129,11 @@ export default function RegisterScreen() {
 
   const handleRegister = async () => {
     setLoading(true);
-            // Instead of signing up, navigate to the first onboarding step
-        router.push('/(onboarding)/step1_calorie_apps'); // Start with Calorie Apps Experience step
+    // Navigate to page 1 of the new onboarding system
+    const firstPageScreen = getScreenName(1);
+    if (firstPageScreen) {
+      router.push(`/(onboarding)/${firstPageScreen}`);
+    }
     setLoading(false);
   };
 

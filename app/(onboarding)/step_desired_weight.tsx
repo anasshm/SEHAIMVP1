@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import { Stack, useRouter } from 'expo-router';
+import { Stack } from 'expo-router';
 import { RulerPicker } from 'react-native-ruler-picker';
 import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors';
 import i18n, { isRTL } from '@/utils/i18n';
 import * as Haptics from 'expo-haptics';
+import { useGoToNextPage } from './navigationHelper';
 
 export default function StepDesiredWeightScreen() {
-  const router = useRouter();
+  const goToNextPage = useGoToNextPage();
   const { setWeight, onboardingData } = useOnboarding();
   
   // Get current weight or default to 70kg
@@ -24,8 +25,8 @@ export default function StepDesiredWeightScreen() {
       setWeight({ value: selectedWeight.toString(), unit: 'kg' });
       console.log('Desired weight:', selectedWeight, 'kg');
       
-      // Navigate to next screen in the updated flow
-      router.push('/(onboarding)/step1_calorie_apps'); 
+      // Navigate to next page using the new system
+      goToNextPage();
     }
   };
 

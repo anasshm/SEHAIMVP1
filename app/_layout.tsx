@@ -13,6 +13,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { GlossyBackground } from '@/components/ui/GlossyBackground';
 import { View } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
+import { getScreenName } from './(onboarding)/onboardingConfig';
 
 function RootLayoutNav() {
   const { user, isLoading } = useAuth();
@@ -90,8 +91,12 @@ function RootLayoutNav() {
         // User logged in but onboarding NOT complete.
         // Send them to the START of onboarding IF they are not already in the onboarding or paywall group.
         if (!inOnboardingGroup && !inPaywallGroup) { 
-                  console.log('[RootLayout] User logged in, onboarding incomplete. Redirecting to step_lasting_results...');
-        router.replace('/(onboarding)/step_lasting_results'); 
+                  console.log('[RootLayout] User logged in, onboarding incomplete. Redirecting to page 1 of onboarding...');
+        // Use the new navigation system - go to page 1
+        const firstPageScreen = getScreenName(1);
+        if (firstPageScreen) {
+          router.replace(`/(onboarding)/${firstPageScreen}` as any);
+        }
         } else {
            console.log('[RootLayout] User logged in, onboarding incomplete, already in onboarding/paywall group. Staying.');
         }

@@ -1,18 +1,19 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
-import { Stack, useRouter } from 'expo-router';
+import { Stack } from 'expo-router';
 import { palette } from '@/constants/Colors';
 import i18n, { isRTL } from '@/utils/i18n';
 import * as Haptics from 'expo-haptics';
+import { useGoToNextPage } from './navigationHelper';
 
 export default function StepSehAiComparisonScreen() {
-  const router = useRouter();
+  const goToNextPage = useGoToNextPage();
 
   const goToNextStep = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     console.log('Seh AI comparison viewed');
-    // Navigate to the next screen
-    router.push('/(onboarding)/step_desired_weight'); 
+    // Navigate to the next page using the new system
+    goToNextPage();
   };
 
   return (
