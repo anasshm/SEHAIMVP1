@@ -4,6 +4,7 @@ import WheelPicker from 'react-native-wheely';
 import { Stack, useRouter } from 'expo-router';
 import { useOnboarding } from '../OnboardingContext';
 import i18n, { isRTL } from '@/utils/i18n';
+import * as Haptics from 'expo-haptics';
 
 // Helper to generate a range of numbers
 const generateRange = (start: number, end: number, step: number = 1, prefix: string = '', suffix: string = '') => {
@@ -80,6 +81,7 @@ export default function StepDateOfBirthScreen() {
     const formattedDay = parseInt(day) < 10 ? `0${day}` : day;
     const isoDateString = `${year}-${formattedMonth}-${formattedDay}`;
 
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     setDateOfBirth(isoDateString); // Save to context
     console.log('Saved Date of Birth to context:', isoDateString);
 
@@ -117,7 +119,10 @@ export default function StepDateOfBirthScreen() {
             key="day-picker"
             selectedIndex={selectedDayIndex}
             options={dayOptions}
-            onChange={(index) => setSelectedDayIndex(index)}
+            onChange={(index) => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              setSelectedDayIndex(index);
+            }}
             renderItem={renderWheelyItem}
             selectedIndicatorStyle={{ backgroundColor: '#f3f4f6', borderRadius: 8, height: 40 }}
             containerStyle={{ height: 200, width: '100%' }}
@@ -136,7 +141,10 @@ export default function StepDateOfBirthScreen() {
             key="month-picker"
             selectedIndex={selectedMonthIndex}
             options={monthNames}
-            onChange={(index) => setSelectedMonthIndex(index)}
+            onChange={(index) => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              setSelectedMonthIndex(index);
+            }}
             renderItem={renderWheelyItem}
             selectedIndicatorStyle={{ backgroundColor: '#f3f4f6', borderRadius: 8, height: 40 }}
             containerStyle={{ height: 200, width: '100%' }}
@@ -155,7 +163,10 @@ export default function StepDateOfBirthScreen() {
             key="year-picker"
             selectedIndex={selectedYearIndex}
             options={yearOptions}
-            onChange={(index) => setSelectedYearIndex(index)}
+            onChange={(index) => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              setSelectedYearIndex(index);
+            }}
             renderItem={renderWheelyItem}
             selectedIndicatorStyle={{ backgroundColor: '#f3f4f6', borderRadius: 8, height: 40 }}
             containerStyle={{ height: 200, width: '100%' }}
