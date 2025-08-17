@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import { Stack, useRouter } from 'expo-router';
+import { Stack } from 'expo-router';
 import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors';
 import i18n, { isRTL } from '@/utils/i18n';
 import * as Haptics from 'expo-haptics';
+import { useGoToNextPage } from './navigationHelper';
 
 // Define gender options with translation keys
 const GENDER_OPTIONS = [
@@ -13,7 +14,7 @@ const GENDER_OPTIONS = [
 ];
 
 export default function Step5GenderScreen() {
-  const router = useRouter();
+  const goToNextPage = useGoToNextPage();
   const { setGender } = useOnboarding();
   const [selectedGender, setSelectedGender] = useState<string | null>(null);
 
@@ -22,8 +23,8 @@ export default function Step5GenderScreen() {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       setGender(selectedGender);
       console.log('User gender:', selectedGender);
-      // Navigate to the next screen (final signup/login)
-      router.push('/(onboarding)/step6_goal'); 
+      // Navigate to the next page using the new system
+      goToNextPage();
     }
   };
 

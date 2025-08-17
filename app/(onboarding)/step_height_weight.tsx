@@ -2,11 +2,12 @@ import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { View, Text, Switch, TouchableOpacity } from 'react-native';
 import WheelPicker from 'react-native-wheely';
 import { styled } from 'nativewind';
-import { Stack, useRouter } from 'expo-router';
+import { Stack } from 'expo-router';
 import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors';
 import i18n, { isRTL } from '@/utils/i18n';
 import * as Haptics from 'expo-haptics';
+import { useGoToNextPage } from './navigationHelper';
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
@@ -30,7 +31,7 @@ const defaultMetricHeight = '165 cm';
 const defaultMetricWeight = '52 kg';
 
 export default function StepHeightWeightScreen() {
-  const router = useRouter();
+  const goToNextPage = useGoToNextPage();
   const { setHeight, setWeight } = useOnboarding();
 
   // Memoized renderItem function
@@ -81,7 +82,7 @@ export default function StepHeightWeightScreen() {
       console.error('Invalid weight string:', weightString);
     }
     
-    router.push('/(onboarding)/step_date_of_birth'); // Navigate to the new date of birth step
+    goToNextPage(); // Navigate to next page using the new system
   };
 
   return (

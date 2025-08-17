@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import { Stack, useRouter } from 'expo-router';
+import { Stack } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { palette } from '@/constants/Colors';
+import { useGoToNextPage } from './navigationHelper';
 
 // Define workout frequency options
 const WORKOUT_OPTIONS = [
@@ -12,13 +13,13 @@ const WORKOUT_OPTIONS = [
 ];
 
 export default function Step4WorkoutsScreen() {
-  const router = useRouter();
+  const goToNextPage = useGoToNextPage();
   const [selectedWorkouts, setSelectedWorkouts] = useState<string | null>(null);
 
   const handleContinue = () => {
     if (selectedWorkouts) {
       console.log('Workouts per week:', selectedWorkouts);
-      router.push('/(onboarding)/step3_source'); // Navigate to source step
+      goToNextPage(); // Navigate to next page using the new system
     }
   };
 
