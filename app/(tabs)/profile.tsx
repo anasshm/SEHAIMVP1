@@ -170,9 +170,15 @@ export default function ProfileScreen() {
               right={
                 <Text className="text-[15px] text-[#6E7685]">{isArabic ? '←' : '→'}</Text>
               }
-              isLast={true}
             />
           </TouchableOpacity>
+          <FieldRow 
+            label={i18n.t('profile.appVersion')}
+            right={
+              <Text className="text-[15px] text-[#6E7685]">1.0</Text>
+            }
+            isLast={true}
+          />
         </InfoCard>
         
         {user && (
