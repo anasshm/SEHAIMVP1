@@ -128,8 +128,8 @@ export default function RegisterScreen() {
 
   const handleRegister = async () => {
     setLoading(true);
-    // Instead of signing up, navigate to the first onboarding step
-    router.push('/(onboarding)/step_height_weight'); // Corrected: Start with Height & Weight step
+            // Instead of signing up, navigate to the first onboarding step
+        router.push('/(onboarding)/step1_calorie_apps'); // Start with Calorie Apps Experience step
     setLoading(false);
   };
 

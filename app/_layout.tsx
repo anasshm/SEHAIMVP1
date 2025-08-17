@@ -90,8 +90,8 @@ function RootLayoutNav() {
         // User logged in but onboarding NOT complete.
         // Send them to the START of onboarding IF they are not already in the onboarding or paywall group.
         if (!inOnboardingGroup && !inPaywallGroup) { 
-          console.log('[RootLayout] User logged in, onboarding incomplete. Redirecting to step_height_weight...');
-          router.replace('/(onboarding)/step_height_weight'); 
+                  console.log('[RootLayout] User logged in, onboarding incomplete. Redirecting to step1_calorie_apps...');
+        router.replace('/(onboarding)/step1_calorie_apps'); 
         } else {
            console.log('[RootLayout] User logged in, onboarding incomplete, already in onboarding/paywall group. Staying.');
         }

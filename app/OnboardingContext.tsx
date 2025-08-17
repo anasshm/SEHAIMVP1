@@ -12,6 +12,7 @@ export interface OnboardingData {
   isOnboardingComplete?: boolean;
   source: string | null;
   experience: string | null;
+  calorieAppsExperience: string | null;
   goal: string | null;
   diet: string | null;
   accomplishments: string[] | null;
@@ -27,6 +28,7 @@ const defaultState: OnboardingData = {
   isOnboardingComplete: false,
   source: null,
   experience: null,
+  calorieAppsExperience: null,
   goal: null,
   diet: null,
   accomplishments: null,
@@ -43,6 +45,7 @@ interface OnboardingContextType {
   setIsOnboardingComplete: (isComplete: boolean) => void;
   setSource: (source: string | null) => void;
   setExperience: (experience: string | null) => void;
+  setCalorieAppsExperience: (calorieAppsExperience: string | null) => void;
   setGoal: (goal: string | null) => void;
   setDiet: (diet: string | null) => void;
   setAccomplishments: (accomplishments: string[] | null) => void;
@@ -60,6 +63,7 @@ const defaultContextValue: OnboardingContextType = {
   setIsOnboardingComplete: () => { console.warn('setIsOnboardingComplete called before provider setup'); },
   setSource: () => { console.warn('setSource called before provider setup'); },
   setExperience: () => { console.warn('setExperience called before provider setup'); },
+  setCalorieAppsExperience: () => { console.warn('setCalorieAppsExperience called before provider setup'); },
   setGoal: () => { console.warn('setGoal called before provider setup'); },
   setDiet: () => { console.warn('setDiet called before provider setup'); },
   setAccomplishments: () => { console.warn('setAccomplishments called before provider setup'); },
@@ -127,6 +131,7 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
   const setIsOnboardingComplete = (isComplete: boolean) => updateAndSaveData({ isOnboardingComplete: isComplete });
   const setSource = (source: string | null) => updateAndSaveData({ source });
   const setExperience = (experience: string | null) => updateAndSaveData({ experience });
+  const setCalorieAppsExperience = (calorieAppsExperience: string | null) => updateAndSaveData({ calorieAppsExperience });
   const setGoal = (goal: string | null) => updateAndSaveData({ goal });
   const setDiet = (diet: string | null) => updateAndSaveData({ diet });
   const setAccomplishments = (accomplishments: string[] | null) => updateAndSaveData({ accomplishments });
@@ -148,6 +153,7 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
         setIsOnboardingComplete,
         setSource,
         setExperience,
+        setCalorieAppsExperience,
         setGoal,
         setDiet,
         setAccomplishments,

@@ -200,6 +200,14 @@
     "sat": "SAT"
   },
   "onboarding": {
+    "calorieApps": {
+      "title": "Have you tried other calorie tracking apps?",
+      "subtitle": "This will help us understand your experience.",
+      "options": {
+        "yes": "Yes",
+        "no": "No"
+      }
+    },
     "paywall": {
       "title": "Unlock Full Access",
       "subtitle": "Enter your access code below to continue.",

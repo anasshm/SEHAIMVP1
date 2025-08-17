@@ -7,6 +7,7 @@ import { isRTL } from '@/utils/i18n';
 
 // --- Constants ---
 export const ONBOARDING_STEPS = [ // Order matters for navigation and finding index
+  'step1_calorie_apps',
   'step_date_of_birth',
   'step_height_weight',
   'step2_experience',
@@ -22,6 +23,7 @@ export const ONBOARDING_STEPS = [ // Order matters for navigation and finding in
 ];
 // Define specifically the steps that contribute to the progress bar calculation
 export const PROGRESS_BAR_STEPS = [
+  'step1_calorie_apps',
   'step_date_of_birth',
   'step_height_weight',
   'step2_experience',
@@ -34,7 +36,7 @@ export const PROGRESS_BAR_STEPS = [
   'step8_accomplishments',
   'step9_obstacles',
 ];
-const TOTAL_PROGRESS_STEPS = PROGRESS_BAR_STEPS.length; // Now 11 based on the actual steps
+const TOTAL_PROGRESS_STEPS = PROGRESS_BAR_STEPS.length; // Now 12 based on the actual steps
 
 // --- Custom Header Component ---
 function OnboardingHeader() {
