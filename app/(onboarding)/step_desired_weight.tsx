@@ -79,6 +79,8 @@ export default function StepDesiredWeightScreen() {
               indicatorHeight={60}
               decelerationRate="fast"
               width={320}
+              valueTextStyle={{ color: 'transparent', fontSize: 0 }}
+              unitTextStyle={{ color: 'transparent', fontSize: 0 }}
             />
           </View>
         </View>
