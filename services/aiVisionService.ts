@@ -55,9 +55,46 @@ export async function analyzeFoodImage(imageUri: string): Promise<FoodAnalysisRe
       base64Image = `data:image/jpeg;base64,${base64Image}`;
     }
     
-    // Define the detailed NutriLens prompts (same as previous edit)
-    const systemPrompt = `You are “NutriLens,” a certified dietitian using ONLY the supplied image plus your general world knowledge. Your job: Output precise nutrition data in clean JSON.\n\nINTERNAL_SCRATCHPAD (do NOT reveal):\n1. Identify every distinct food item.\n2. Infer primary ingredients of each item.\n3. Estimate portion size for every item (metric units).\n4. Lookup or derive kcal, protein g, carbs g, fat g per portion.\n5. Add totals for the whole plate.\n6. Assign a confidence score (0-100 %) to each item and to the meal total.\n7. Keep your reasoning here—never expose it.\n\nReturn ONLY the JSON below (no text outside the braces):\n\n{\n  "meal_name": "<concise meal label>",\n  "items": [\n    {\n      "name": "<item 1>",\n      "portion": "<metric quantity>",\n      "calories": <number>,\n      "protein": <number>,\n      "carbs": <number>,\n      "fat": <number>,\n      "confidence": <percent>\n    }\n    // …repeat for each visible item\n  ],\n  "total": {\n    "calories": <number>,\n    "protein": <number>,\n    "carbs": <number>,\n    "fat": <number>,\n    "confidence": <percent>\n  },\n  "notes": "Key visual clues (plate size, garnish, cooking method) + major assumptions."\n}`;    
-    const userPromptText = `Analyse the attached meal photo. If uncertain about an item, label it “unknown” with 0 values and ≤40 % confidence.`;
+    // Define the detailed NutriLens prompts - ALL RESPONSES IN ARABIC
+    const systemPrompt = `You are "NutriLens," a certified dietitian using ONLY the supplied image plus your general world knowledge. Your job: Output precise nutrition data in clean JSON.
+
+CRITICAL: ALL text responses (meal_name, item names, notes) must be in Arabic. Use proper Arabic food terminology.
+
+INTERNAL_SCRATCHPAD (do NOT reveal):
+1. Identify every distinct food item.
+2. Infer primary ingredients of each item.
+3. Estimate portion size for every item (metric units).
+4. Lookup or derive kcal, protein g, carbs g, fat g per portion.
+5. Add totals for the whole plate.
+6. Assign a confidence score (0-100 %) to each item and to the meal total.
+7. Keep your reasoning here—never expose it.
+
+Return ONLY the JSON below (no text outside the braces):
+
+{
+  "meal_name": "<Arabic meal name>",
+  "items": [
+    {
+      "name": "<Arabic item name>",
+      "portion": "<metric quantity>",
+      "calories": <number>,
+      "protein": <number>,
+      "carbs": <number>,
+      "fat": <number>,
+      "confidence": <percent>
+    }
+    // …repeat for each visible item
+  ],
+  "total": {
+    "calories": <number>,
+    "protein": <number>,
+    "carbs": <number>,
+    "fat": <number>,
+    "confidence": <percent>
+  },
+  "notes": "Arabic description of key visual clues (plate size, garnish, cooking method) + major assumptions."
+}`;    
+    const userPromptText = `حلل صورة الوجبة المرفقة. اكتب جميع أسماء الطعام والملاحظات باللغة العربية. إذا لم تكن متأكداً من عنصر معين، اكتب "غير معروف" مع قيم 0 وثقة ≤40%.`;
 
     // Make the API call (same as previous edit)
     const res = await fetch(OPENAI_URL, {
@@ -100,13 +137,13 @@ export async function analyzeFoodImage(imageUri: string): Promise<FoodAnalysisRe
       const parsedContent: NutriLensResult = JSON.parse(contentString);
       
       // --- Extraction Step --- 
-      // Extract the necessary fields from the detailed response
-      const name = parsedContent.meal_name || "Unknown Food";
+      // Extract the necessary fields from the detailed response - Arabic defaults
+      const name = parsedContent.meal_name || "طعام غير معروف";
       const calories = parsedContent.total?.calories ?? 0;
       const protein = parsedContent.total?.protein ?? 0;
       const carbs = parsedContent.total?.carbs ?? 0;
       const fat = parsedContent.total?.fat ?? 0;
-      const description = parsedContent.notes || "No analysis notes provided."; // Use notes as description
+      const description = parsedContent.notes || "لم يتم توفير ملاحظات التحليل."; // Use notes as description
 
       // Construct and return the ORIGINAL SIMPLE format
       return {
@@ -121,18 +158,18 @@ export async function analyzeFoodImage(imageUri: string): Promise<FoodAnalysisRe
     } catch (parseError) {
       console.error('Error parsing NutriLens OpenAI response:', parseError, contentString);
       // Throw an error so the calling function can handle it appropriately (e.g., show an alert and navigate back)
-      throw new Error(`Failed to parse OpenAI response. Content: ${contentString}`);
+      throw new Error(`فشل في تحليل استجابة الذكاء الاصطناعي. المحتوى: ${contentString}`);
     }
   } catch (error) {
     console.error('Error in analyzeFoodImage:', error);
-     // Return a default error structure matching the SIMPLE format
+     // Return a default error structure matching the SIMPLE format - in Arabic
      return {
-        name: "Analysis Error",
+        name: "خطأ في التحليل",
         calories: 0,
         protein: 0,
         carbs: 0,
         fat: 0,
-        description: error instanceof Error ? error.message : String(error)
+        description: error instanceof Error ? `خطأ: ${error.message}` : `خطأ: ${String(error)}`
       };
   }
 }
