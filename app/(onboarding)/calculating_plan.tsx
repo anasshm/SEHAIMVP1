@@ -20,7 +20,7 @@ const STAGES = [
 
 export default function CalculatingPlanScreen() {
   const router = useRouter();
-  const { onboardingData } = useOnboarding();
+  const { onboardingData, batchSaveToStorage, setShouldSaveToStorage } = useOnboarding();
   const { user } = useAuth();
   const [progress, setProgress] = useState(0);
   const [currentStage, setCurrentStage] = useState(0);
@@ -82,6 +82,14 @@ export default function CalculatingPlanScreen() {
     calculationStarted.current = true;
 
     try {
+      // First, batch save all onboarding data to storage
+      console.log('[CalculatingPlan] Batch saving onboarding data before AI calculation...');
+      await batchSaveToStorage();
+      console.log('[CalculatingPlan] Onboarding data saved successfully.');
+      
+      // Re-enable normal storage saves for future updates
+      setShouldSaveToStorage(true);
+      
       console.log('[CalculatingPlan] Starting nutrition calculation...');
       const userName = user?.user_metadata?.name;
       const results = await getNutritionRecommendations(onboardingData, userName);

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Alert, Image, Platform } from 'react-native';
 import { useRouter, Link } from 'expo-router';
 import { useAuth } from '@/src/services/AuthContext';
+import { useOnboarding } from '../OnboardingContext';
 import { Ionicons } from '@expo/vector-icons';
 import { styled } from 'nativewind';
 import { palette } from '@/constants/Colors';
@@ -17,6 +18,7 @@ const StyledTouchableOpacity = styled(TouchableOpacity);
 export default function RegisterScreen() {
   const router = useRouter();
   const { signUp, signInWithGoogle, isGoogleLoading } = useAuth();
+  const { setShouldSaveToStorage } = useOnboarding();
   const isArabic = isRTL();
   
   const [name, setName] = useState('');
@@ -129,6 +131,10 @@ export default function RegisterScreen() {
 
   const handleRegister = async () => {
     setLoading(true);
+    // Disable AsyncStorage saves during onboarding for better performance
+    setShouldSaveToStorage(false);
+    console.log('[Register] Disabled AsyncStorage saves for onboarding performance');
+    
     // Navigate to page 1 of the new onboarding system
     const firstPageScreen = getScreenName(1);
     if (firstPageScreen) {

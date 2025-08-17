@@ -51,6 +51,8 @@ interface OnboardingContextType {
   setAccomplishments: (accomplishments: string[] | null) => void;
   setObstacles: (obstacles: string[] | null) => void;
   isLoading: boolean;
+  setShouldSaveToStorage: (shouldSave: boolean) => void;
+  batchSaveToStorage: () => Promise<void>;
 }
 
 const defaultContextValue: OnboardingContextType = {
@@ -69,6 +71,8 @@ const defaultContextValue: OnboardingContextType = {
   setAccomplishments: () => { console.warn('setAccomplishments called before provider setup'); },
   setObstacles: () => { console.warn('setObstacles called before provider setup'); },
   isLoading: true,
+  setShouldSaveToStorage: () => { console.warn('setShouldSaveToStorage called before provider setup'); },
+  batchSaveToStorage: () => Promise.resolve(),
 };
 
 export const OnboardingContext = createContext<OnboardingContextType>(defaultContextValue);
@@ -78,6 +82,7 @@ export const useOnboarding = () => useContext(OnboardingContext);
 export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
   const [onboardingData, setOnboardingData] = useState<OnboardingData>(defaultState);
   const [isLoading, setIsLoading] = useState(true);
+  const [shouldSaveToStorage, setShouldSaveToStorage] = useState(true);
 
   useEffect(() => {
     const loadData = async () => {
@@ -114,7 +119,7 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
       return newData;
     });
 
-    if (finalDataToSave) {
+    if (finalDataToSave && shouldSaveToStorage) {
       try {
         console.log('[OnboardingContext] Attempting to save data to AsyncStorage:', finalDataToSave);
         await AsyncStorage.setItem(ONBOARDING_DATA_KEY, JSON.stringify(finalDataToSave));
@@ -122,6 +127,8 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
       } catch (error) {
         console.error('[OnboardingContext] Failed to save onboarding data to AsyncStorage', error);
       }
+    } else if (!shouldSaveToStorage) {
+      console.log('[OnboardingContext] Skipping AsyncStorage save (memory-only mode)');
     }
   };
 
@@ -138,6 +145,18 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
   const setObstacles = (obstacles: string[] | null) => updateAndSaveData({ obstacles });
   const setGender = (gender: string | null) => updateAndSaveData({ gender });
   const setActivityLevel = (activityLevel: string | null) => updateAndSaveData({ activityLevel });
+
+  // Batch save function - saves current state to AsyncStorage regardless of shouldSaveToStorage flag
+  const batchSaveToStorage = async () => {
+    try {
+      console.log('[OnboardingContext] Batch saving all data to AsyncStorage:', onboardingData);
+      await AsyncStorage.setItem(ONBOARDING_DATA_KEY, JSON.stringify(onboardingData));
+      console.log('[OnboardingContext] Batch save completed successfully.');
+    } catch (error) {
+      console.error('[OnboardingContext] Failed to batch save onboarding data to AsyncStorage', error);
+      throw error; // Re-throw so calculating page can handle the error
+    }
+  };
 
   console.log('[OnboardingContext] Current context value:', { onboardingData, isLoading });
 
@@ -159,6 +178,8 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
         setAccomplishments,
         setObstacles,
         isLoading,
+        setShouldSaveToStorage,
+        batchSaveToStorage,
       }}
     >
       {children}
