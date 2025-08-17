@@ -125,12 +125,22 @@ The JSON object must include the following keys:
 - briefRationale: string (A short, 1-2 sentence motivational message FOR THE USER. It should be cheerful and inviting. Start with "${greeting}". Directly address the user (e.g., 'you', 'your'). Specifically mention their [user's goal] and how sticking to the [targetCalories] will help them achieve it. For example: '${greeting}To help you with your goal to [user's goal], aiming for around [targetCalories] calories daily is a great start. This plan is designed just for you to get there!')
 Ensure the output is ONLY the JSON object.`;
 
+  // Convert activity level code to descriptive text for AI
+  const getActivityDescription = (activityLevel: string | null) => {
+    switch (activityLevel) {
+      case '0-2': return '0-2 workouts per week (sedentary lifestyle)';
+      case '3-5': return '3-5 workouts per week (moderately active)';
+      case '6+': return '6+ workouts per week (very active/athlete)';
+      default: return activityLevel || 'Not specified';
+    }
+  };
+
   const userMessageContent = `User Profile:
     - Age: ${formattedUser.age || 'Not provided'}
     - Gender: ${formattedUser.gender}
     - Height: ${formattedUser.heightCm} cm
     - Weight: ${formattedUser.weightKg} kg
-    - Activity Level: ${formattedUser.activityLevel}
+    - Activity Level: ${getActivityDescription(formattedUser.activityLevel)}
     - Primary Goal: ${formattedUser.goal}
     - Dietary Preferences/Restrictions: ${formattedUser.dietPreferences}
     - Fitness/Nutrition Experience: ${formattedUser.experienceLevel || 'Not specified'}`;
