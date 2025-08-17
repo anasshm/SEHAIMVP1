@@ -29,6 +29,11 @@
     "fullName": "Full Name",
     "logIn": "Log In",
     "creatingAccount": "Creating Account...",
+    "braceYourself": "Brace Yourself",
+    "forWhatsNext": "for What's Next",
+    "getStarted": "Get Started",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithApple": "Continue with Apple",
     "errors": {
       "emailRequired": "Email is required",
       "emailInvalid": "Email is invalid",

@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { styled } from 'nativewind';
 import { palette } from '@/constants/Colors';
 import AppLogo from '@/components/ui/AppLogo';
+import i18n, { isRTL } from '@/utils/i18n';
 
 // Create styled components with NativeWind
 const StyledView = styled(View);
@@ -15,6 +16,7 @@ const StyledTouchableOpacity = styled(TouchableOpacity);
 export default function RegisterScreen() {
   const router = useRouter();
   const { signUp, signInWithGoogle, isGoogleLoading } = useAuth();
+  const isArabic = isRTL();
   
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -140,8 +142,8 @@ export default function RegisterScreen() {
           <StyledView className="mb-6">
             <AppLogo size={64} showBackground={false} />
           </StyledView>
-          <StyledText className="text-3xl font-bold text-center mb-2">Brace Yourself</StyledText>
-          <StyledText className="text-2xl font-bold text-center">for What's Next</StyledText>
+          <StyledText className="text-3xl font-bold text-center mb-2" style={{ textAlign: 'center' }}>{i18n.t('auth.braceYourself')}</StyledText>
+          <StyledText className="text-2xl font-bold text-center" style={{ textAlign: 'center' }}>{i18n.t('auth.forWhatsNext')}</StyledText>
         </StyledView>
         
         {/* Buttons Container */}
@@ -152,32 +154,32 @@ export default function RegisterScreen() {
             style={{ backgroundColor: palette.primary }}
             onPress={handleRegister}
           >
-            <StyledText className="text-white text-lg font-semibold">Get Started</StyledText>
+            <StyledText className="text-white text-lg font-semibold">{i18n.t('auth.getStarted')}</StyledText>
           </StyledTouchableOpacity>
           
           {/* Google login button - updated styling */}
           <StyledTouchableOpacity 
-            className="flex-row bg-white border-2 border-gray-200 py-5 px-4 rounded-full items-center justify-center"
+            className={`flex-row bg-white border-2 border-gray-200 py-5 px-4 rounded-full items-center justify-center ${isArabic ? 'flex-row-reverse' : ''}`}
             onPress={handleGoogleSignIn}
             disabled={isGoogleLoading}
           >
-            <StyledView className="w-5 h-5 mr-2 items-center justify-center">
+            <StyledView className={`w-5 h-5 items-center justify-center ${isArabic ? 'ml-2' : 'mr-2'}`}>
               <Ionicons name="logo-google" size={18} color="#4285F4" />
             </StyledView>
             <StyledText className="text-black text-lg font-semibold">
-              {isGoogleLoading ? 'Signing in...' : 'Continue with Google'}
+              {isGoogleLoading ? i18n.t('auth.signingIn') : i18n.t('auth.continueWithGoogle')}
             </StyledText>
           </StyledTouchableOpacity>
           
           {/* Apple login button - updated styling */}
           <StyledTouchableOpacity 
-            className="flex-row bg-white border-2 border-gray-200 py-5 px-4 rounded-full items-center justify-center"
-            onPress={() => Alert.alert('Coming Soon', 'Apple sign-in will be available in a future update.')}
+            className={`flex-row bg-white border-2 border-gray-200 py-5 px-4 rounded-full items-center justify-center ${isArabic ? 'flex-row-reverse' : ''}`}
+            onPress={() => Alert.alert(i18n.t('auth.comingSoon.title'), i18n.t('auth.comingSoon.appleSignIn'))}
           >
-            <StyledView className="w-5 h-5 mr-2 items-center justify-center">
+            <StyledView className={`w-5 h-5 items-center justify-center ${isArabic ? 'ml-2' : 'mr-2'}`}>
               <Ionicons name="logo-apple" size={18} color="#000000" />
             </StyledView>
-            <StyledText className="text-black text-lg font-semibold">Continue with Apple</StyledText>
+            <StyledText className="text-black text-lg font-semibold">{i18n.t('auth.continueWithApple')}</StyledText>
           </StyledTouchableOpacity>
         </StyledView>
       </StyledView>
@@ -186,7 +188,7 @@ export default function RegisterScreen() {
       <StyledView className="px-6 py-8 bg-white border-t border-gray-200">
         <StyledView className="items-center">
           <StyledTouchableOpacity onPress={() => router.push('/(auth)/login')}> 
-            <StyledText className="text-lg font-semibold" style={{ color: palette.primary }}>Log in</StyledText>
+            <StyledText className="text-lg font-semibold" style={{ color: palette.primary, textAlign: 'center' }}>{i18n.t('auth.logIn')}</StyledText>
           </StyledTouchableOpacity>
         </StyledView>
       </StyledView>

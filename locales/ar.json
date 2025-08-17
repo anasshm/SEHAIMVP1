@@ -29,6 +29,11 @@
     "fullName": "الاسم الكامل",
     "logIn": "تسجيل الدخول",
     "creatingAccount": "جاري إنشاء الحساب...",
+    "braceYourself": "استعد",
+    "forWhatsNext": "لما هو قادم",
+    "getStarted": "ابدأ الآن",
+    "continueWithGoogle": "متابعة بجوجل",
+    "continueWithApple": "متابعة بآبل",
     "errors": {
       "emailRequired": "البريد الإلكتروني مطلوب",
       "emailInvalid": "البريد الإلكتروني غير صحيح",
