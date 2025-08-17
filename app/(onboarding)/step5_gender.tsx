@@ -9,7 +9,6 @@ import i18n, { isRTL } from '@/utils/i18n';
 const GENDER_OPTIONS = [
   { id: 'male', translationKey: 'onboarding.gender.options.male' },
   { id: 'female', translationKey: 'onboarding.gender.options.female' },
-  { id: 'other', translationKey: 'onboarding.gender.options.other' },
 ];
 
 export default function Step5GenderScreen() {

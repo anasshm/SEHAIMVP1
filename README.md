@@ -235,7 +235,7 @@ The onboarding flow consists of **12 screens** that collect user data, present t
 | **Experience** | `step2_experience.tsx` | "Have you tried other calorie tracking apps?" (Yes/No) | ✅ **Fully translated** |
 | **Source** | `step3_source.tsx` | "How did you hear about us?" (Discovery method) | 🔄 **Needs translation** |
 | **Workouts** | `step4_workouts.tsx` | "What types of workouts do you enjoy?" (Exercise preferences) | 🔄 **Needs translation** |
-| **Gender** | `step5_gender.tsx` | "Choose your Gender" (Male/Female/Other) | ✅ **Fully translated** |
+| **Gender** | `step5_gender.tsx` | "Choose your Gender" (Male/Female) | ✅ **Fully translated** |
 | **Goals** | `step6_goal.tsx` | "What is your goal?" (Lose/Maintain/Gain weight) | ✅ **Fully translated** |
 | **Diet** | `step7_diet.tsx` | "Do you follow a specific diet?" (Classic/Pescatarian/Vegetarian/Vegan) | ✅ **Fully translated** |
 | **Accomplishments** | `step8_accomplishments.tsx` | "What would you like to accomplish?" (Health goals) | ✅ **Fully translated** |
