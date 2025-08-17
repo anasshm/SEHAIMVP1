@@ -5,7 +5,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { palette } from '@/constants/Colors';
 import i18n, { isRTL } from '@/utils/i18n';
 import * as Haptics from 'expo-haptics';
-import { useGoToNextPage } from './navigationHelper';
+import { useGoToNextPage } from '@/utils/onboarding/navigationHelper';
 
 // Define the type for an option
 type DietOption = {

@@ -6,7 +6,7 @@ import { palette } from '@/constants/Colors';
 import i18n, { isRTL } from '@/utils/i18n';
 import * as Haptics from 'expo-haptics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useGoToNextPage } from './navigationHelper';
+import { useGoToNextPage } from '@/utils/onboarding/navigationHelper';
 
 // Define app experience options with translation keys
 const APP_EXPERIENCE_OPTIONS = [

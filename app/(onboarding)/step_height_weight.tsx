@@ -7,7 +7,7 @@ import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors';
 import i18n, { isRTL } from '@/utils/i18n';
 import * as Haptics from 'expo-haptics';
-import { useGoToNextPage } from './navigationHelper';
+import { useGoToNextPage } from '@/utils/onboarding/navigationHelper';
 
 const StyledView = styled(View);
 const StyledText = styled(Text);

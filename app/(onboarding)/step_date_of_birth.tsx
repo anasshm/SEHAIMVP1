@@ -5,7 +5,7 @@ import { Stack } from 'expo-router';
 import { useOnboarding } from '../OnboardingContext';
 import i18n, { isRTL } from '@/utils/i18n';
 import * as Haptics from 'expo-haptics';
-import { useGoToNextPage } from './navigationHelper';
+import { useGoToNextPage } from '@/utils/onboarding/navigationHelper';
 
 // Helper to generate a range of numbers
 const generateRange = (start: number, end: number, step: number = 1, prefix: string = '', suffix: string = '') => {

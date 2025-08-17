@@ -13,7 +13,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { GlossyBackground } from '@/components/ui/GlossyBackground';
 import { View } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
-import { getScreenName } from './(onboarding)/onboardingConfig';
+import { getScreenName } from '@/utils/onboarding/onboardingConfig';
 
 function RootLayoutNav() {
   const { user, isLoading } = useAuth();

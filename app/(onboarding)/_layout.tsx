@@ -8,8 +8,8 @@ import {
   useCurrentPageNumber, 
   useGoToPreviousPage,
   useProgressPercentage 
-} from './navigationHelper';
-import { ONBOARDING_PAGE_MAP } from './onboardingConfig';
+} from '@/utils/onboarding/navigationHelper';
+import { ONBOARDING_PAGE_MAP } from '@/utils/onboarding/onboardingConfig';
 
 // --- Custom Header Component ---
 const OnboardingHeader = React.memo(function OnboardingHeader() {

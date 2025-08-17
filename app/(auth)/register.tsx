@@ -7,7 +7,7 @@ import { styled } from 'nativewind';
 import { palette } from '@/constants/Colors';
 import AppLogo from '@/components/ui/AppLogo';
 import i18n, { isRTL } from '@/utils/i18n';
-import { getScreenName } from '@/app/(onboarding)/onboardingConfig';
+import { getScreenName } from '@/utils/onboarding/onboardingConfig';
 
 // Create styled components with NativeWind
 const StyledView = styled(View);

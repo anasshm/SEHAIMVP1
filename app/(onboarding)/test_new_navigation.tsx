@@ -7,8 +7,8 @@ import {
   useProgressPercentage, 
   usePageInfo,
   useGoToPage 
-} from './navigationHelper';
-import { ONBOARDING_PAGE_MAP, TOTAL_ONBOARDING_PAGES } from './onboardingConfig';
+} from '@/utils/onboarding/navigationHelper';
+import { ONBOARDING_PAGE_MAP, TOTAL_ONBOARDING_PAGES } from '@/utils/onboarding/onboardingConfig';
 
 export default function TestNewNavigationScreen() {
   const router = useRouter();

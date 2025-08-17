@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Stack } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { palette } from '@/constants/Colors';
-import { useGoToNextPage } from './navigationHelper';
+import { useGoToNextPage } from '@/utils/onboarding/navigationHelper';
 import i18n, { isRTL } from '@/utils/i18n';
 
 // Define workout frequency options with translation keys
