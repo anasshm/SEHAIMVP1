@@ -368,6 +368,13 @@
       "loading": "Loading...",
       "errorLoading": "Error loading your nutrition plan. Please try again.",
       "goBack": "Go Back"
+    },
+    "saveProgress": {
+      "title": "Save your progress",
+      "signInWithApple": "Sign in with Apple",
+      "signInWithEmail": "Sign in with email",
+      "wouldYouLikeToSignInLater": "Would you like to sign in later?",
+      "skip": "Skip"
     }
   }
 } 

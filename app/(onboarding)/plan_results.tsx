@@ -8,6 +8,7 @@ import { NutritionRecommendation } from '@/src/services/NutritionService';
 import * as Haptics from 'expo-haptics';
 import i18n, { isRTL } from '@/utils/i18n';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { useGoToNextPage } from '@/utils/onboarding/navigationHelper';
 
 const NUTRITION_PLAN_STORAGE_KEY = '@nutritionPlan';
 
@@ -16,6 +17,7 @@ export default function PlanResultsScreen() {
   const { setIsOnboardingComplete } = useOnboarding();
   const [nutritionPlan, setNutritionPlan] = useState<NutritionRecommendation | null>(null);
   const [loading, setLoading] = useState(true);
+  const goToNextPage = useGoToNextPage();
 
   useEffect(() => {
     loadNutritionPlan();
@@ -39,14 +41,11 @@ export default function PlanResultsScreen() {
     try {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       
-      // Mark onboarding as complete
-      setIsOnboardingComplete(true);
-      
-      // Navigate to the next onboarding step (you mentioned it should continue to next onboarding page)
-      // For now, I'll navigate to paywall as that seems to be the next step
-      router.push('/(paywall)');
+      // Don't mark onboarding as complete yet - let the user decide on save_progress page
+      // Navigate to the next onboarding step (save_progress page)
+      goToNextPage();
     } catch (error) {
-      console.error('[PlanResults] Error completing onboarding:', error);
+      console.error('[PlanResults] Error navigating to next page:', error);
     }
   };
 

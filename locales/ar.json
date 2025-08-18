@@ -368,6 +368,13 @@
       "loading": "جاري التحميل...",
       "errorLoading": "خطأ في تحميل خطة التغذية. يرجى المحاولة مرة أخرى.",
       "goBack": "العودة"
+    },
+    "saveProgress": {
+      "title": "احفظ تقدمك",
+      "signInWithApple": "تسجيل الدخول بآبل",
+      "signInWithEmail": "تسجيل الدخول بالبريد الإلكتروني",
+      "wouldYouLikeToSignInLater": "هل تريد تسجيل الدخول لاحقاً؟",
+      "skip": "تخطي"
     }
   },
   "months": {

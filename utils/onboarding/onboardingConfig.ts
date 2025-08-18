@@ -21,7 +21,8 @@ export const ONBOARDING_PAGE_MAP = {
   12: 'step8_accomplishments',      // What would you like to accomplish
   13: 'calculating_plan',           // Plan customization/calculation
   14: 'plan_results',               // Results of calculation
-  15: 'paywall',                    // Paywall - always goes to dashboard
+  15: 'save_progress',              // Save your progress
+  16: 'paywall',                    // Paywall - always goes to dashboard
 } as const;
 
 // Automatically calculate total pages
