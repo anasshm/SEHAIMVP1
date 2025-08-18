@@ -138,7 +138,12 @@ export default function CalculatingPlanScreen() {
       
       // Check if we should trigger checkmark animations
       STAGES.forEach((stage, index) => {
-        if (currentProgress > stage.endProgress && !completedChecks[index]) {
+        // For the last stage (Fats), trigger at >= 95%, for others trigger when > endProgress
+        const shouldTrigger = (index === STAGES.length - 1) 
+          ? currentProgress >= stage.endProgress 
+          : currentProgress > stage.endProgress;
+          
+        if (shouldTrigger && !completedChecks[index]) {
           // Trigger haptic feedback
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
           
