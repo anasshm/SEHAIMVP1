@@ -32,6 +32,8 @@ export default function CalculatingPlanScreen() {
   
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const calculationStarted = useRef(false);
+  const hapticTriggered = useRef<boolean[]>([false, false, false, false]);
+  const animationStarted = useRef<boolean[]>([false, false, false, false]);
   
   // Animation values
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -144,8 +146,11 @@ export default function CalculatingPlanScreen() {
           : currentProgress > stage.endProgress;
           
         if (shouldTrigger && !completedChecks[index]) {
-          // Trigger haptic feedback
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+          // Trigger haptic feedback only once per checkmark
+          if (!hapticTriggered.current[index]) {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+            hapticTriggered.current[index] = true;
+          }
           
           // Update completed state
           setCompletedChecks(prev => {
@@ -154,13 +159,16 @@ export default function CalculatingPlanScreen() {
             return newChecks;
           });
           
-          // Animate the checkmark
-          Animated.spring(checkAnimations[index], {
-            toValue: 1,
-            friction: 4,
-            tension: 40,
-            useNativeDriver: true,
-          }).start();
+          // Animate the checkmark only once
+          if (!animationStarted.current[index]) {
+            animationStarted.current[index] = true;
+            Animated.spring(checkAnimations[index], {
+              toValue: 1,
+              friction: 4,
+              tension: 40,
+              useNativeDriver: true,
+            }).start();
+          }
         }
       });
       
