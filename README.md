@@ -225,33 +225,55 @@ components/
 
 ## Onboarding Flow - Complete Screen Reference
 
-The onboarding flow consists of **12 screens** that collect user data, present the paywall, and complete registration. Most screens are **fully translated** with English/Arabic i18n support and RTL text handling.
+The onboarding flow consists of **15 screens** that collect user data, generate nutrition plan, present paywall, and complete registration. All screens use a centralized navigation system with automatic progress calculation.
 
-### Onboarding Screens (`app/(onboarding)/`)
+### Current Onboarding Flow (`app/(onboarding)/`)
 
-| Screen | File | Purpose | Translation Status |
-|--------|------|---------|-------------------|
-| **Paywall** | `paywall.tsx` | Access code entry + future payment options | ✅ **Fully translated** |
-| **Experience** | `step2_experience.tsx` | "Have you tried other calorie tracking apps?" (Yes/No) | ✅ **Fully translated** |
-| **Source** | `step3_source.tsx` | "How did you hear about us?" (Discovery method) | 🔄 **Needs translation** |
-| **Workouts** | `step4_workouts.tsx` | "What types of workouts do you enjoy?" (Exercise preferences) | 🔄 **Needs translation** |
-| **Gender** | `step5_gender.tsx` | "Choose your Gender" (Male/Female) | ✅ **Fully translated** |
-| **Goals** | `step6_goal.tsx` | "What is your goal?" (Lose/Maintain/Gain weight) | ✅ **Fully translated** |
-| **Diet** | `step7_diet.tsx` | "Do you follow a specific diet?" (Classic/Pescatarian/Vegetarian/Vegan) | ✅ **Fully translated** |
-| **Accomplishments** | `step8_accomplishments.tsx` | "What would you like to accomplish?" (Health goals) | ✅ **Fully translated** |
-| **Obstacles** | `step9_obstacles.tsx` | "What's stopping you from reaching your goals?" (Challenges) | ✅ **Fully translated** |
-| **Activity Level** | `step_activity_level.tsx` | "How many workouts per week?" (0-2/3-5/6+ with descriptions) | ✅ **Fully translated** |
-| **Date of Birth** | `step_date_of_birth.tsx` | "When were you born?" (Day/Month/Year pickers) | ✅ **Fully translated** |
-| **Height & Weight** | `step_height_weight.tsx` | "Enter your height and weight" (Metric units: cm/kg) | ✅ **Fully translated** |
+**Order controlled by:** `utils/onboarding/onboardingConfig.ts`
 
-### Translation Implementation
+| Step | Screen | File | Purpose |
+|------|--------|------|---------|
+| 1 | **Gender** | `step5_gender.tsx` | Choose your gender (Male/Female) |
+| 2 | **Workouts** | `step4_workouts.tsx` | Workout frequency per week (0-2/3-5/6+ sessions) |
+| 3 | **Apps Experience** | `step1_calorie_apps.tsx` | Have tried other calorie tracking apps? |
+| 4 | **Lasting Results** | `step_lasting_results.tsx` | Seeking long-term/lasting results |
+| 5 | **Height & Weight** | `step_height_weight.tsx` | Enter current height and weight |
+| 6 | **Date of Birth** | `step_date_of_birth.tsx` | Birthday for age calculation |
+| 7 | **Goal** | `step6_goal.tsx` | Weight goal (lose/maintain/gain) |
+| 8 | **Desired Weight** | `step_desired_weight.tsx` | Target weight (separate from current weight) |
+| 9 | **SEH AI Comparison** | `step_seh_ai_comparison.tsx` | Lose twice as fast with SEH AI |
+| 10 | **Obstacles** | `step9_obstacles.tsx` | What's stopping you from goals? |
+| 11 | **Diet Type** | `step7_diet.tsx` | Diet preference (classic/vegan/etc.) |
+| 12 | **Accomplishments** | `step8_accomplishments.tsx` | What would you like to accomplish? |
+| 13 | **Calculating Plan** | `calculating_plan.tsx` | AI nutrition calculation with progress animation |
+| 14 | **Plan Results** | `plan_results.tsx` | Display calculated nutrition plan |
+| 15 | **Paywall** | `paywall.tsx` | Access code entry + payment options |
 
-**Completed Screens (10/12):** All major data collection screens are fully localized
-- ✅ Gender, Goals, Diet, Accomplishments, Obstacles, Activity Level, Date of Birth, Height/Weight, Experience, Paywall
+### Navigation System
 
-**Remaining Screens (2/12):** Minor information gathering screens  
-- 🔄 Source (`step3_source.tsx`) - Discovery method  
-- 🔄 Workouts (`step4_workouts.tsx`) - Exercise preferences  
+**Centralized Configuration:**
+- Page order defined in `utils/onboarding/onboardingConfig.ts`
+- To reorder pages: simply change the number assignments
+- Progress bar automatically calculates: 15 pages = 6.67% per step
+
+**Navigation Pattern:**
+```typescript
+import { useGoToNextPage } from '@/utils/onboarding/navigationHelper';
+
+const goToNextPage = useGoToNextPage();
+// Use: goToNextPage() instead of hardcoded router.push()
+```
+
+### Performance Optimizations
+
+**AsyncStorage Batching:**
+- Data saves disabled during onboarding (memory-only mode)
+- All data batch-saved on calculating_plan page before AI call
+- Prevents I/O delays during page transitions
+
+**Component Optimization:**
+- OnboardingHeader uses React.memo to prevent excessive re-renders
+- Progress animation runs independently of data collection  
 
 ### Key Translation Features
 - **Automatic Language Detection**: Based on device language settings
@@ -263,9 +285,32 @@ The onboarding flow consists of **12 screens** that collect user data, present t
 ### Onboarding Context (`OnboardingContext.tsx`)
 Manages user data collection state across all screens:
 - Stores responses from each step (gender, goals, height, weight, etc.)
+- **Important:** Separates `weight` (current) from `desiredWeight` (goal)
 - Controls flow navigation between screens
 - Sets `isOnboardingComplete: true` after final registration
 - Used by premium features to gate access
+
+### Nutrition Calculation System
+
+**AI-Powered Calculations** (`src/services/NutritionService.ts`):
+- Uses **Mifflin-St Jeor BMR equation** for accurate base metabolic rate
+- Activity factor mapping: 0 sessions = 1.2x, 1-2 = 1.375x, 3-4 = 1.55x, etc.
+- Goal-based adjustments: 15% deficit for weight loss, 10% surplus for weight gain
+- Evidence-based macro distribution with proper protein targets
+
+**Key Data Points:**
+- Uses current weight for BMR calculations (not desired weight)
+- Activity level properly collected from step4_workouts and saved to context
+- Age calculated from date of birth for accurate BMR
+- Motivational message template: "You're at {weight} kg and aiming to lose weight; this plan moves you forward at a steady, sustainable pace. You can absolutely do this"
+
+### Removed Files (Backup Available)
+The following old onboarding files have been moved to `backup/old-onboarding/`:
+- `step2_experience.tsx` - Not in current flow
+- `step3_source.tsx` - Not in current flow  
+- `step_activity_level.tsx` - Replaced by step4_workouts (now properly saves activity level)
+- `test_new_navigation.tsx` - Test file no longer needed
+- `_layout_old.tsx` - Old layout implementation
 
 ### Usage Example
 ```typescript
