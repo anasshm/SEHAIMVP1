@@ -340,6 +340,20 @@
       "back": "رجوع",
       "skip": "تخطي",
       "done": "تم"
+    },
+    "calculatingPlan": {
+      "mainHeading": "نحن نجهز\nكل شيء من أجلك",
+      "dailyRecommendationHeading": "التوصيات اليومية لـ",
+      "dailyRecommendationCalories": "• السعرات الحرارية",
+      "dailyRecommendationCarbs": "• الكربوهيدرات",
+      "dailyRecommendationProtein": "• البروتين",
+      "dailyRecommendationFats": "• الدهون",
+      "stages": {
+        "customizing": "تخصيص خطة صحية...",
+        "applyingFormula": "تطبيق معادلة BMR...",
+        "estimatingAge": "تقدير عمرك الأيضي...",
+        "finalizing": "إنهاء النتائج..."
+      }
     }
   },
   "months": {

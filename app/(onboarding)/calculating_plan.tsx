@@ -7,15 +7,16 @@ import { getNutritionRecommendations } from '@/src/services/NutritionService';
 import { NutritionRecommendation } from '@/src/services/NutritionService';
 import { useAuth } from '@/src/services/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18n, { isRTL } from '@/utils/i18n';
 
 const NUTRITION_PLAN_STORAGE_KEY = '@nutritionPlan';
 
 // Progress stages configuration
 const STAGES = [
-  { text: 'Customizing health plan...', startProgress: 0, endProgress: 25 },
-  { text: 'Applying BMR formula...', startProgress: 25, endProgress: 50 },
-  { text: 'Estimating your metabolic age...', startProgress: 50, endProgress: 75 },
-  { text: 'Finalizing results...', startProgress: 75, endProgress: 95 },
+  { textKey: 'onboarding.calculatingPlan.stages.customizing', startProgress: 0, endProgress: 25 },
+  { textKey: 'onboarding.calculatingPlan.stages.applyingFormula', startProgress: 25, endProgress: 50 },
+  { textKey: 'onboarding.calculatingPlan.stages.estimatingAge', startProgress: 50, endProgress: 75 },
+  { textKey: 'onboarding.calculatingPlan.stages.finalizing', startProgress: 75, endProgress: 95 },
 ];
 
 export default function CalculatingPlanScreen() {
@@ -174,9 +175,10 @@ export default function CalculatingPlanScreen() {
           fontWeight: 'bold', 
           textAlign: 'center', 
           marginBottom: 60,
-          color: '#000'
+          color: '#000',
+          writingDirection: isRTL() ? 'rtl' : 'ltr'
         }}>
-          We're setting{'\n'}everything up for you
+          {i18n.t('onboarding.calculatingPlan.mainHeading')}
         </Text>
         
         {/* Progress bar */}
@@ -201,9 +203,10 @@ export default function CalculatingPlanScreen() {
           fontSize: 16, 
           color: '#666', 
           marginBottom: 60,
-          textAlign: 'center'
+          textAlign: 'center',
+          writingDirection: isRTL() ? 'rtl' : 'ltr'
         }}>
-          {STAGES[currentStage]?.text || 'Finalizing results...'}
+          {i18n.t(STAGES[currentStage]?.textKey || 'onboarding.calculatingPlan.stages.finalizing')}
         </Text>
         
         {/* Daily recommendation checklist */}
@@ -212,28 +215,30 @@ export default function CalculatingPlanScreen() {
             fontSize: 18, 
             fontWeight: 'bold', 
             marginBottom: 20,
-            color: '#000'
+            color: '#000',
+            textAlign: isRTL() ? 'right' : 'left',
+            writingDirection: isRTL() ? 'rtl' : 'ltr'
           }}>
-            Daily recommendation for
+            {i18n.t('onboarding.calculatingPlan.dailyRecommendationHeading')}
           </Text>
           
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
-            <Text style={{ fontSize: 16, color: '#000', flex: 1 }}>• Calories</Text>
+          <View style={{ flexDirection: isRTL() ? 'row-reverse' : 'row', alignItems: 'center', marginBottom: 12 }}>
+            <Text style={{ fontSize: 16, color: '#000', flex: 1, textAlign: isRTL() ? 'right' : 'left', writingDirection: isRTL() ? 'rtl' : 'ltr' }}>{i18n.t('onboarding.calculatingPlan.dailyRecommendationCalories')}</Text>
             {renderCheckmark(0)}
           </View>
           
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
-            <Text style={{ fontSize: 16, color: '#000', flex: 1 }}>• Carbs</Text>
+          <View style={{ flexDirection: isRTL() ? 'row-reverse' : 'row', alignItems: 'center', marginBottom: 12 }}>
+            <Text style={{ fontSize: 16, color: '#000', flex: 1, textAlign: isRTL() ? 'right' : 'left', writingDirection: isRTL() ? 'rtl' : 'ltr' }}>{i18n.t('onboarding.calculatingPlan.dailyRecommendationCarbs')}</Text>
             {renderCheckmark(1)}
           </View>
           
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
-            <Text style={{ fontSize: 16, color: '#000', flex: 1 }}>• Protein</Text>
+          <View style={{ flexDirection: isRTL() ? 'row-reverse' : 'row', alignItems: 'center', marginBottom: 12 }}>
+            <Text style={{ fontSize: 16, color: '#000', flex: 1, textAlign: isRTL() ? 'right' : 'left', writingDirection: isRTL() ? 'rtl' : 'ltr' }}>{i18n.t('onboarding.calculatingPlan.dailyRecommendationProtein')}</Text>
             {renderCheckmark(2)}
           </View>
           
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
-            <Text style={{ fontSize: 16, color: '#000', flex: 1 }}>• Fats</Text>
+          <View style={{ flexDirection: isRTL() ? 'row-reverse' : 'row', alignItems: 'center', marginBottom: 12 }}>
+            <Text style={{ fontSize: 16, color: '#000', flex: 1, textAlign: isRTL() ? 'right' : 'left', writingDirection: isRTL() ? 'rtl' : 'ltr' }}>{i18n.t('onboarding.calculatingPlan.dailyRecommendationFats')}</Text>
             {renderCheckmark(3)}
           </View>
         </View>

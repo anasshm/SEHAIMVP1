@@ -340,6 +340,20 @@
       "back": "Back",
       "skip": "Skip",
       "done": "Done"
+    },
+    "calculatingPlan": {
+      "mainHeading": "We're setting\neverything up for you",
+      "dailyRecommendationHeading": "Daily recommendation for",
+      "dailyRecommendationCalories": "• Calories",
+      "dailyRecommendationCarbs": "• Carbs",
+      "dailyRecommendationProtein": "• Protein",
+      "dailyRecommendationFats": "• Fats",
+      "stages": {
+        "customizing": "Customizing health plan...",
+        "applyingFormula": "Applying BMR formula...",
+        "estimatingAge": "Estimating your metabolic age...",
+        "finalizing": "Finalizing results..."
+      }
     }
   }
 } 
