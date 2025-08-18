@@ -30,7 +30,7 @@ const NutritionProgressSection: React.FC<NutritionProgressSectionProps> = ({ nut
   const fatProgress = calculateProgress(currentIntake.fat, targetFatGoal);
 
   const largeCalorieText = Math.round(currentIntake.calories).toString();
-  const smallCalorieText = currentIntake.calories <= targetCalories ? i18n.t('dashboard.caloriesLeft') : i18n.t('dashboard.caloriesOver');
+  const smallCalorieText = currentIntake.calories <= targetCalories ? i18n.t('dashboard.caloriesConsumed') : i18n.t('dashboard.caloriesOver');
 
   const isArabic = isRTL();
 
