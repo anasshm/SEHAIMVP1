@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Animated } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors';
@@ -30,9 +30,28 @@ export default function CalculatingPlanScreen() {
   
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const calculationStarted = useRef(false);
+  
+  // Animation values
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const scaleAnim = useRef(new Animated.Value(0.8)).current;
 
   // Start progress animation and nutrition calculation
   useEffect(() => {
+    // Fade in animation on mount
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+      Animated.spring(scaleAnim, {
+        toValue: 1,
+        friction: 8,
+        tension: 40,
+        useNativeDriver: true,
+      }),
+    ]).start();
+
     startProgressAnimation();
     startNutritionCalculation();
 
@@ -55,9 +74,49 @@ export default function CalculatingPlanScreen() {
 
   const startProgressAnimation = () => {
     let currentProgress = 0;
+    let timeElapsed = 0;
+    
+    // More natural progress curve - fast start, slow middle, fast end
+    const progressSteps = [
+      { time: 0, progress: 0 },
+      { time: 0.5, progress: 8 },
+      { time: 1.0, progress: 15 },
+      { time: 1.5, progress: 21 },
+      { time: 2.0, progress: 26 },
+      { time: 2.5, progress: 32 },
+      { time: 3.0, progress: 37 },
+      { time: 3.5, progress: 43 },
+      { time: 4.0, progress: 48 },
+      { time: 4.5, progress: 52 },
+      { time: 5.0, progress: 58 },
+      { time: 5.5, progress: 64 },
+      { time: 6.0, progress: 69 },
+      { time: 6.5, progress: 75 },
+      { time: 7.0, progress: 81 },
+      { time: 7.5, progress: 86 },
+      { time: 8.0, progress: 90 },
+      { time: 8.5, progress: 93 },
+      { time: 9.0, progress: 95 },
+    ];
     
     intervalRef.current = setInterval(() => {
-      currentProgress += 10; // 10% per second as requested
+      timeElapsed += 0.1; // Update every 100ms for smoother animation
+      
+      // Find the appropriate progress for current time
+      let targetProgress = 0;
+      for (let i = 0; i < progressSteps.length - 1; i++) {
+        if (timeElapsed >= progressSteps[i].time && timeElapsed < progressSteps[i + 1].time) {
+          // Interpolate between steps for smooth animation
+          const stepProgress = (timeElapsed - progressSteps[i].time) / (progressSteps[i + 1].time - progressSteps[i].time);
+          targetProgress = progressSteps[i].progress + 
+            (progressSteps[i + 1].progress - progressSteps[i].progress) * stepProgress;
+          break;
+        }
+      }
+      
+      // Add tiny random variations for more natural feel
+      const variation = (Math.random() - 0.5) * 0.5;
+      currentProgress = Math.min(95, Math.max(0, targetProgress + variation));
       
       setProgress(currentProgress);
       
@@ -70,12 +129,13 @@ export default function CalculatingPlanScreen() {
       }
       
       // Stop at 95% and wait for nutrition results
-      if (currentProgress >= 95) {
+      if (currentProgress >= 95 || timeElapsed >= 9) {
+        setProgress(95); // Ensure we end at exactly 95
         if (intervalRef.current) {
           clearInterval(intervalRef.current);
         }
       }
-    }, 1000); // 1 second intervals
+    }, 100); // 100ms intervals for smoother updates
   };
 
   const startNutritionCalculation = async () => {
@@ -135,12 +195,13 @@ export default function CalculatingPlanScreen() {
           width: 24,
           height: 24,
           borderRadius: 12,
-          backgroundColor: isCompleted ? '#000' : 'transparent',
+          backgroundColor: isCompleted ? palette.primary || '#000' : 'transparent',
           borderWidth: 2,
-          borderColor: '#000',
+          borderColor: palette.primary || '#000',
           justifyContent: 'center',
           alignItems: 'center',
-          marginLeft: 8,
+          marginLeft: isRTL() ? 0 : 8,
+          marginRight: isRTL() ? 8 : 0,
         }}
       >
         {isCompleted && (
@@ -151,7 +212,7 @@ export default function CalculatingPlanScreen() {
   };
 
   return (
-    <View style={{ flex: 1, backgroundColor: 'white', paddingHorizontal: 20 }}>
+    <View style={{ flex: 1, backgroundColor: '#FAFAFA', paddingHorizontal: 20 }}>
       <Stack.Screen 
         options={{ 
           headerShown: false,
@@ -159,24 +220,33 @@ export default function CalculatingPlanScreen() {
       />
       
       {/* Progress percentage */}
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Animated.View style={{ 
+        flex: 1, 
+        justifyContent: 'center', 
+        alignItems: 'center',
+        opacity: fadeAnim,
+        transform: [{ scale: scaleAnim }]
+      }}>
         <Text style={{ 
-          fontSize: 72, 
-          fontWeight: 'bold', 
-          color: '#000', 
-          marginBottom: 40 
+          fontSize: 80, 
+          fontWeight: '900', 
+          color: palette.primary || '#000', 
+          marginBottom: 40,
+          letterSpacing: -2
         }}>
           {Math.round(progress)}%
         </Text>
         
         {/* Main heading */}
         <Text style={{ 
-          fontSize: 24, 
-          fontWeight: 'bold', 
+          fontSize: 22, 
+          fontWeight: '600', 
           textAlign: 'center', 
-          marginBottom: 60,
-          color: '#000',
-          writingDirection: isRTL() ? 'rtl' : 'ltr'
+          marginBottom: 50,
+          color: '#333',
+          writingDirection: isRTL() ? 'rtl' : 'ltr',
+          lineHeight: 32,
+          paddingHorizontal: 30
         }}>
           {i18n.t('onboarding.calculatingPlan.mainHeading')}
         </Text>
@@ -184,17 +254,22 @@ export default function CalculatingPlanScreen() {
         {/* Progress bar */}
         <View style={{ 
           width: '100%', 
-          height: 8, 
+          height: 12, 
           backgroundColor: '#E5E5E5', 
-          borderRadius: 4, 
+          borderRadius: 6, 
           marginBottom: 40,
-          overflow: 'hidden'
+          overflow: 'hidden',
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 1 },
+          shadowOpacity: 0.05,
+          shadowRadius: 2,
+          elevation: 2,
         }}>
           <View style={{ 
             width: `${progress}%`, 
             height: '100%', 
-            backgroundColor: '#000',
-            borderRadius: 4,
+            backgroundColor: palette.primary || '#000',
+            borderRadius: 6,
           }} />
         </View>
         
@@ -204,45 +279,56 @@ export default function CalculatingPlanScreen() {
           color: '#666', 
           marginBottom: 60,
           textAlign: 'center',
-          writingDirection: isRTL() ? 'rtl' : 'ltr'
+          writingDirection: isRTL() ? 'rtl' : 'ltr',
+          fontWeight: '500'
         }}>
           {i18n.t(STAGES[currentStage]?.textKey || 'onboarding.calculatingPlan.stages.finalizing')}
         </Text>
         
-        {/* Daily recommendation checklist */}
-        <View style={{ width: '100%' }}>
+        {/* Daily recommendation checklist - Card Style */}
+        <View style={{ 
+          width: '100%',
+          backgroundColor: 'white',
+          borderRadius: 16,
+          padding: 24,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.08,
+          shadowRadius: 12,
+          elevation: 5,
+        }}>
           <Text style={{ 
             fontSize: 18, 
-            fontWeight: 'bold', 
-            marginBottom: 20,
-            color: '#000',
+            fontWeight: '700', 
+            marginBottom: 24,
+            color: '#333',
             textAlign: isRTL() ? 'right' : 'left',
             writingDirection: isRTL() ? 'rtl' : 'ltr'
           }}>
             {i18n.t('onboarding.calculatingPlan.dailyRecommendationHeading')}
           </Text>
           
-          <View style={{ flexDirection: isRTL() ? 'row-reverse' : 'row', alignItems: 'center', marginBottom: 12 }}>
-            <Text style={{ fontSize: 16, color: '#000', flex: 1, textAlign: isRTL() ? 'right' : 'left', writingDirection: isRTL() ? 'rtl' : 'ltr' }}>{i18n.t('onboarding.calculatingPlan.dailyRecommendationCalories')}</Text>
+          <View style={{ flexDirection: isRTL() ? 'row-reverse' : 'row', alignItems: 'center', marginBottom: 16 }}>
+            <Text style={{ fontSize: 16, color: '#555', flex: 1, textAlign: isRTL() ? 'right' : 'left', writingDirection: isRTL() ? 'rtl' : 'ltr', fontWeight: '500' }}>{i18n.t('onboarding.calculatingPlan.dailyRecommendationCalories')}</Text>
             {renderCheckmark(0)}
           </View>
           
-          <View style={{ flexDirection: isRTL() ? 'row-reverse' : 'row', alignItems: 'center', marginBottom: 12 }}>
-            <Text style={{ fontSize: 16, color: '#000', flex: 1, textAlign: isRTL() ? 'right' : 'left', writingDirection: isRTL() ? 'rtl' : 'ltr' }}>{i18n.t('onboarding.calculatingPlan.dailyRecommendationCarbs')}</Text>
+          <View style={{ flexDirection: isRTL() ? 'row-reverse' : 'row', alignItems: 'center', marginBottom: 16 }}>
+            <Text style={{ fontSize: 16, color: '#555', flex: 1, textAlign: isRTL() ? 'right' : 'left', writingDirection: isRTL() ? 'rtl' : 'ltr', fontWeight: '500' }}>{i18n.t('onboarding.calculatingPlan.dailyRecommendationCarbs')}</Text>
             {renderCheckmark(1)}
           </View>
           
-          <View style={{ flexDirection: isRTL() ? 'row-reverse' : 'row', alignItems: 'center', marginBottom: 12 }}>
-            <Text style={{ fontSize: 16, color: '#000', flex: 1, textAlign: isRTL() ? 'right' : 'left', writingDirection: isRTL() ? 'rtl' : 'ltr' }}>{i18n.t('onboarding.calculatingPlan.dailyRecommendationProtein')}</Text>
+          <View style={{ flexDirection: isRTL() ? 'row-reverse' : 'row', alignItems: 'center', marginBottom: 16 }}>
+            <Text style={{ fontSize: 16, color: '#555', flex: 1, textAlign: isRTL() ? 'right' : 'left', writingDirection: isRTL() ? 'rtl' : 'ltr', fontWeight: '500' }}>{i18n.t('onboarding.calculatingPlan.dailyRecommendationProtein')}</Text>
             {renderCheckmark(2)}
           </View>
           
-          <View style={{ flexDirection: isRTL() ? 'row-reverse' : 'row', alignItems: 'center', marginBottom: 12 }}>
-            <Text style={{ fontSize: 16, color: '#000', flex: 1, textAlign: isRTL() ? 'right' : 'left', writingDirection: isRTL() ? 'rtl' : 'ltr' }}>{i18n.t('onboarding.calculatingPlan.dailyRecommendationFats')}</Text>
+          <View style={{ flexDirection: isRTL() ? 'row-reverse' : 'row', alignItems: 'center' }}>
+            <Text style={{ fontSize: 16, color: '#555', flex: 1, textAlign: isRTL() ? 'right' : 'left', writingDirection: isRTL() ? 'rtl' : 'ltr', fontWeight: '500' }}>{i18n.t('onboarding.calculatingPlan.dailyRecommendationFats')}</Text>
             {renderCheckmark(3)}
           </View>
         </View>
-      </View>
+      </Animated.View>
     </View>
   );
 } 
