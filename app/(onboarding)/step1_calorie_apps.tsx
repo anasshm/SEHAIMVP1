@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import { Stack, useRouter } from 'expo-router';
-import { useOnboarding } from '../OnboardingContext';
+import { Stack } from 'expo-router';
 import { palette } from '@/constants/Colors';
 import i18n, { isRTL } from '@/utils/i18n';
 import * as Haptics from 'expo-haptics';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useOnboarding } from '../OnboardingContext';
 import { useGoToNextPage } from '@/utils/onboarding/navigationHelper';
 
 // Define app experience options with translation keys
@@ -15,21 +14,9 @@ const APP_EXPERIENCE_OPTIONS = [
 ];
 
 export default function Step1CalorieAppsScreen() {
-  const router = useRouter(); // Keep for debug function
   const goToNextPage = useGoToNextPage();
   const { setCalorieAppsExperience } = useOnboarding();
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
-
-  // TEMPORARY DEBUG FUNCTION - Remove after testing
-  const resetOnboardingData = async () => {
-    try {
-      await AsyncStorage.multiRemove(['@onboardingData', 'onboardingComplete']);
-      console.log('🔄 Onboarding data reset! Reloading...');
-      router.replace('/(onboarding)/step_lasting_results');
-    } catch (error) {
-      console.error('Failed to reset onboarding data:', error);
-    }
-  };
 
   const goToNextStep = () => {
     if (selectedOption) {
@@ -73,22 +60,6 @@ export default function Step1CalorieAppsScreen() {
     <View className="flex-1 bg-white">
       <Stack.Screen options={{ headerTitle: () => null, headerLeft: () => null }} />
       
-      {/* TEMPORARY DEBUG BUTTON - Remove after testing */}
-      <TouchableOpacity 
-        onPress={resetOnboardingData}
-        style={{ 
-          position: 'absolute', 
-          top: 100, 
-          right: 20, 
-          backgroundColor: 'red', 
-          padding: 10, 
-          borderRadius: 5, 
-          zIndex: 1000 
-        }}
-      >
-        <Text style={{ color: 'white', fontSize: 12 }}>🔄 RESET</Text>
-      </TouchableOpacity>
-
       <ScrollView 
         className="flex-1 p-6"
         contentContainerStyle={{ flexGrow: 1, paddingBottom: 120 }} 
