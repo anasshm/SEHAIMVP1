@@ -6,6 +6,7 @@ import { palette } from '@/constants/Colors';
 import { useGoToNextPage } from '@/utils/onboarding/navigationHelper';
 import { useOnboarding } from '../OnboardingContext';
 import i18n, { isRTL } from '@/utils/i18n';
+import * as Haptics from 'expo-haptics';
 
 // Define workout frequency options with translation keys
 const WORKOUT_OPTIONS = [
@@ -21,6 +22,7 @@ export default function Step4WorkoutsScreen() {
 
   const handleContinue = () => {
     if (selectedWorkouts) {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       console.log('Workouts per week:', selectedWorkouts);
       setActivityLevel(selectedWorkouts); // Save to OnboardingContext
       goToNextPage(); // Navigate to next page using the new system
@@ -37,7 +39,10 @@ export default function Step4WorkoutsScreen() {
           isSelected ? { backgroundColor: palette.primary, borderColor: palette.primary } : {},
           { flexDirection: isRTL() ? 'row-reverse' : 'row' }
         ]}
-        onPress={() => setSelectedWorkouts(option.id)}
+        onPress={() => {
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          setSelectedWorkouts(option.id);
+        }}
       >
         <Ionicons 
           name={option.icon as keyof typeof Ionicons.glyphMap} 
