@@ -354,6 +354,20 @@
         "estimatingAge": "Estimating your metabolic age...",
         "finalizing": "Finalizing results..."
       }
+    },
+    "planResults": {
+      "congratulations": "Congratulations",
+      "customPlanReady": "your custom plan is ready!",
+      "dailyRecommendation": "Daily recommendation",
+      "canEditAnytime": "You can edit this anytime",
+      "calories": "Calories",
+      "carbs": "Carbs",
+      "protein": "Protein",
+      "fats": "Fats",
+      "letsGetStarted": "Let's get started!",
+      "loading": "Loading...",
+      "errorLoading": "Error loading your nutrition plan. Please try again.",
+      "goBack": "Go Back"
     }
   }
 } 

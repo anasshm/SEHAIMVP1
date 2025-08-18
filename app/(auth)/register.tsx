@@ -9,6 +9,7 @@ import { palette } from '@/constants/Colors';
 import AppLogo from '@/components/ui/AppLogo';
 import i18n, { isRTL } from '@/utils/i18n';
 import { getScreenName } from '@/utils/onboarding/onboardingConfig';
+import * as Haptics from 'expo-haptics';
 
 // Create styled components with NativeWind
 const StyledView = styled(View);
@@ -86,6 +87,9 @@ export default function RegisterScreen() {
   };
 
   const handleGoogleSignIn = async () => {
+    // Add haptic feedback when user presses the button
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    
     try {
       console.log('Attempting Google sign in from register screen');
       const { error } = await signInWithGoogle();
@@ -130,6 +134,9 @@ export default function RegisterScreen() {
   };
 
   const handleRegister = async () => {
+    // Add haptic feedback when user presses the button
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    
     setLoading(true);
     // Disable AsyncStorage saves during onboarding for better performance
     setShouldSaveToStorage(false);
@@ -141,6 +148,13 @@ export default function RegisterScreen() {
       router.push(`/(onboarding)/${firstPageScreen}`);
     }
     setLoading(false);
+  };
+
+  const handleAppleSignIn = () => {
+    // Add haptic feedback when user presses the button
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    
+    Alert.alert(i18n.t('auth.comingSoon.title'), i18n.t('auth.comingSoon.appleSignIn'));
   };
 
   return (
@@ -184,7 +198,7 @@ export default function RegisterScreen() {
           {/* Apple login button - updated styling */}
           <StyledTouchableOpacity 
             className={`flex-row bg-white border-2 border-gray-200 py-5 px-4 rounded-full items-center justify-center ${isArabic ? 'flex-row-reverse' : ''}`}
-            onPress={() => Alert.alert(i18n.t('auth.comingSoon.title'), i18n.t('auth.comingSoon.appleSignIn'))}
+            onPress={handleAppleSignIn}
           >
             <StyledView className={`w-5 h-5 items-center justify-center ${isArabic ? 'ml-2' : 'mr-2'}`}>
               <Ionicons name="logo-apple" size={18} color="#000000" />
@@ -197,7 +211,10 @@ export default function RegisterScreen() {
       {/* Login link at bottom - matches onboarding bottom layout */}
       <StyledView className="px-6 py-8 bg-white border-t border-gray-200">
         <StyledView className="items-center">
-          <StyledTouchableOpacity onPress={() => router.push('/(auth)/login')}> 
+          <StyledTouchableOpacity onPress={() => {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            router.push('/(auth)/login');
+          }}> 
             <StyledText className="text-lg font-semibold" style={{ color: palette.primary, textAlign: 'center' }}>{i18n.t('auth.logIn')}</StyledText>
           </StyledTouchableOpacity>
         </StyledView>

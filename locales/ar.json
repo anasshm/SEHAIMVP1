@@ -29,7 +29,7 @@
     "fullName": "الاسم الكامل",
     "logIn": "تسجيل الدخول",
     "creatingAccount": "جاري إنشاء الحساب...",
-    "braceYourself": "غذاؤك الصحي",
+    "braceYourself": "جسمك الصحي",
     "forWhatsNext": "يبدأ هنا",
     "getStarted": "ابدأ الآن",
     "continueWithGoogle": "متابعة بجوجل",
@@ -354,6 +354,20 @@
         "estimatingAge": "تقدير عمرك الأيضي...",
         "finalizing": "إنهاء النتائج..."
       }
+    },
+    "planResults": {
+      "congratulations": "تهانينا",
+      "customPlanReady": "خطتك المخصصة جاهزة!",
+      "dailyRecommendation": "التوصية اليومية",
+      "canEditAnytime": "يمكنك تعديل هذا في أي وقت",
+      "calories": "السعرات الحرارية",
+      "carbs": "الكربوهيدرات",
+      "protein": "البروتين",
+      "fats": "الدهون",
+      "letsGetStarted": "لنبدأ!",
+      "loading": "جاري التحميل...",
+      "errorLoading": "خطأ في تحميل خطة التغذية. يرجى المحاولة مرة أخرى.",
+      "goBack": "العودة"
     }
   },
   "months": {

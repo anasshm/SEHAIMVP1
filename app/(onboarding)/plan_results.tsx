@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, I18nManager } from 'react-native';
 import { Stack, useRouter } from 'expo-router';
 import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NutritionRecommendation } from '@/src/services/NutritionService';
 import * as Haptics from 'expo-haptics';
+import i18n, { isRTL } from '@/utils/i18n';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 const NUTRITION_PLAN_STORAGE_KEY = '@nutritionPlan';
 
@@ -82,7 +84,7 @@ export default function PlanResultsScreen() {
   if (loading) {
     return (
       <View style={{ flex: 1, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Loading...</Text>
+        <Text style={{ textAlign: 'center' }}>{i18n.t('onboarding.planResults.loading')}</Text>
       </View>
     );
   }
@@ -91,7 +93,7 @@ export default function PlanResultsScreen() {
     return (
       <View style={{ flex: 1, backgroundColor: 'white', justifyContent: 'center', alignItems: 'center', padding: 20 }}>
         <Text style={{ fontSize: 18, textAlign: 'center', marginBottom: 20 }}>
-          Error loading your nutrition plan. Please try again.
+          {i18n.t('onboarding.planResults.errorLoading')}
         </Text>
         <TouchableOpacity 
           onPress={() => router.back()}
@@ -103,7 +105,7 @@ export default function PlanResultsScreen() {
           }}
         >
           <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>
-            Go Back
+            {i18n.t('onboarding.planResults.goBack')}
           </Text>
         </TouchableOpacity>
       </View>
@@ -118,9 +120,10 @@ export default function PlanResultsScreen() {
           headerTitle: '',
           headerLeft: () => (
             <TouchableOpacity onPress={() => router.back()}>
-              <Text style={{ fontSize: 24 }}>←</Text>
+              <Text style={{ fontSize: 24 }}>{isRTL() ? '→' : '←'}</Text>
             </TouchableOpacity>
           ),
+          headerRight: () => <LanguageSwitcher />,
         }} 
       />
       
@@ -148,37 +151,21 @@ export default function PlanResultsScreen() {
             color: '#000',
             lineHeight: 34,
           }}>
-            Congratulations{'\n'}your custom plan is ready!
+            {i18n.t('onboarding.planResults.congratulations')}{'\n'}{i18n.t('onboarding.planResults.customPlanReady')}
           </Text>
         </View>
 
         {/* Daily recommendation section */}
         <View style={{ marginBottom: 40 }}>
-          <Text style={{
-            fontSize: 18,
-            fontWeight: 'bold',
-            marginBottom: 5,
-            color: '#000',
-          }}>
-            Daily recommendation
-          </Text>
-          <Text style={{
-            fontSize: 14,
-            color: '#999',
-            marginBottom: 30,
-          }}>
-            You can edit this anytime
-          </Text>
-
           {/* Nutrition circles in 2x2 grid */}
-          <View style={{ flexDirection: 'row', marginBottom: 20 }}>
-            {renderNutritionCircle('Calories', nutritionPlan.targetCalories, '', '#000')}
-            {renderNutritionCircle('Carbs', nutritionPlan.targetCarbsGrams, 'g', '#FF9500')}
+          <View style={{ flexDirection: isRTL() ? 'row-reverse' : 'row', marginBottom: 20 }}>
+            {renderNutritionCircle(i18n.t('onboarding.planResults.calories'), nutritionPlan.targetCalories, '', '#000')}
+            {renderNutritionCircle(i18n.t('onboarding.planResults.carbs'), nutritionPlan.targetCarbsGrams, 'g', '#FF9500')}
           </View>
           
-          <View style={{ flexDirection: 'row' }}>
-            {renderNutritionCircle('Protein', nutritionPlan.targetProteinGrams, 'g', '#FF3B30')}
-            {renderNutritionCircle('Fats', nutritionPlan.targetFatsGrams, 'g', '#007AFF')}
+          <View style={{ flexDirection: isRTL() ? 'row-reverse' : 'row' }}>
+            {renderNutritionCircle(i18n.t('onboarding.planResults.protein'), nutritionPlan.targetProteinGrams, 'g', '#FF3B30')}
+            {renderNutritionCircle(i18n.t('onboarding.planResults.fats'), nutritionPlan.targetFatsGrams, 'g', '#007AFF')}
           </View>
         </View>
 
@@ -194,7 +181,8 @@ export default function PlanResultsScreen() {
               fontSize: 16,
               color: '#333',
               lineHeight: 22,
-              textAlign: 'center',
+              textAlign: isRTL() ? 'right' : 'left',
+              writingDirection: isRTL() ? 'rtl' : 'ltr',
             }}>
               {nutritionPlan.briefRationale}
             </Text>
@@ -218,7 +206,7 @@ export default function PlanResultsScreen() {
             fontSize: 18,
             fontWeight: 'bold',
           }}>
-            Let's get started!
+            {i18n.t('onboarding.planResults.letsGetStarted')}
           </Text>
         </TouchableOpacity>
       </View>

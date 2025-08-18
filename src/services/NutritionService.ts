@@ -3,6 +3,7 @@ import OpenAI from 'openai';
 // Adjust the import path if it's different
 import { OnboardingData } from '../../app/OnboardingContext'; // Adjusted path
 import { differenceInYears, parseISO } from 'date-fns'; // Added for age calculation
+import i18n, { isRTL } from '../../utils/i18n';
 
 const apiKey = process.env.EXPO_PUBLIC_OPENAI_API_KEY;
 
@@ -115,6 +116,16 @@ export const getNutritionRecommendations = async (
   const usersFirstName = userName ? userName.split(' ')[0] : null; // Get first name
   const greeting = usersFirstName ? `Hi ${usersFirstName}, ` : 'Exciting! ';
 
+  // Check current language for the briefRationale template
+  const isArabic = i18n.locale === 'ar';
+  const briefRationaleTemplate = isArabic 
+    ? 'Template: "وزنك الآن {{weight_kg}} كيلوغرام وتهدف إلى {{goal_text}}؛ هذه الخطة ستدفعك للأمام بوتيرة ثابتة ومستدامة. يمكن تحقيق هذا الهدف!"'
+    : 'Template: "You\'re at {{weight_kg}} kg and aiming to {{goal_text}}; this plan moves you forward at a steady, sustainable pace. You can absolutely do this"';
+
+  const languageInstruction = isArabic 
+    ? '\n\nIMPORTANT: Write the briefRationale in Arabic language only.'
+    : '';
+
   const systemPrompt = `You are a nutrition engine. Given a user's profile, you must compute calorie and macro targets using evidence-based rules and return ONLY a JSON object with EXACTLY these keys:
 targetCalories, targetProteinGrams, targetCarbsGrams, targetFatsGrams, briefRationale.
 No additional keys. No surrounding text. No code fences.
@@ -157,9 +168,16 @@ Return ONLY a JSON object with EXACTLY:
 - "targetProteinGrams": number
 - "targetCarbsGrams": number
 - "targetFatsGrams": number
-- "briefRationale": string (When writing briefRationale, use this exact template. Only mention the user's current weight and their goal to lose weight—no calories, macros, or extra numbers.
+- "briefRationale": string (When writing briefRationale, use this exact template. Only mention the user's current weight and their goal—no calories, macros, or extra numbers.
 
-Template: "You're at {{weight_kg}} kg and aiming to lose weight; this plan moves you forward at a steady, sustainable pace. You can absolutely do this")
+${briefRationaleTemplate}
+
+Replace {{weight_kg}} with the actual weight value.
+Replace {{goal_text}} with:
+- For "lose": ${isArabic ? '"فقدان الوزن"' : '"lose weight"'}
+- For "maintain": ${isArabic ? '"الحفاظ على وزنك"' : '"maintain your weight"'}
+- For "gain": ${isArabic ? '"زيادة الوزن"' : '"gain weight"'}${languageInstruction})
+
 No extra keys. No arrays or objects other than those five fields.`;
 
   // Convert activity level code to sessions per week for the new prompt format
