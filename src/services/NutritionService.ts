@@ -157,7 +157,9 @@ Return ONLY a JSON object with EXACTLY:
 - "targetProteinGrams": number
 - "targetCarbsGrams": number
 - "targetFatsGrams": number
-- "briefRationale": string (Use this exact template: "You're at {{weight_kg}} kg and aiming to lose weight; this plan moves you forward at a steady, sustainable pace. You can absolutely do this")
+- "briefRationale": string (When writing briefRationale, use this exact template. Only mention the user's current weight and their goal to lose weight—no calories, macros, or extra numbers.
+
+Template: "You're at {{weight_kg}} kg and aiming to lose weight; this plan moves you forward at a steady, sustainable pace. You can absolutely do this")
 No extra keys. No arrays or objects other than those five fields.`;
 
   // Convert activity level code to sessions per week for the new prompt format
