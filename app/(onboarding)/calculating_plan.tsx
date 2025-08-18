@@ -8,6 +8,7 @@ import { NutritionRecommendation } from '@/src/services/NutritionService';
 import { useAuth } from '@/src/services/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import i18n, { isRTL } from '@/utils/i18n';
+import * as Haptics from 'expo-haptics';
 
 const NUTRITION_PLAN_STORAGE_KEY = '@nutritionPlan';
 
@@ -27,6 +28,7 @@ export default function CalculatingPlanScreen() {
   const [currentStage, setCurrentStage] = useState(0);
   const [isCalculating, setIsCalculating] = useState(true);
   const [nutritionResults, setNutritionResults] = useState<NutritionRecommendation | null>(null);
+  const [completedChecks, setCompletedChecks] = useState<boolean[]>([false, false, false, false]);
   
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const calculationStarted = useRef(false);
@@ -34,6 +36,12 @@ export default function CalculatingPlanScreen() {
   // Animation values
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.8)).current;
+  const checkAnimations = useRef([
+    new Animated.Value(0),
+    new Animated.Value(0),
+    new Animated.Value(0),
+    new Animated.Value(0),
+  ]).current;
 
   // Start progress animation and nutrition calculation
   useEffect(() => {
@@ -128,6 +136,29 @@ export default function CalculatingPlanScreen() {
         setCurrentStage(newStage);
       }
       
+      // Check if we should trigger checkmark animations
+      STAGES.forEach((stage, index) => {
+        if (currentProgress > stage.endProgress && !completedChecks[index]) {
+          // Trigger haptic feedback
+          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+          
+          // Update completed state
+          setCompletedChecks(prev => {
+            const newChecks = [...prev];
+            newChecks[index] = true;
+            return newChecks;
+          });
+          
+          // Animate the checkmark
+          Animated.spring(checkAnimations[index], {
+            toValue: 1,
+            friction: 4,
+            tension: 40,
+            useNativeDriver: true,
+          }).start();
+        }
+      });
+      
       // Stop at 95% and wait for nutrition results
       if (currentProgress >= 95 || timeElapsed >= 9) {
         setProgress(95); // Ensure we end at exactly 95
@@ -188,24 +219,48 @@ export default function CalculatingPlanScreen() {
   };
 
   const renderCheckmark = (stageIndex: number) => {
-    const isCompleted = progress > STAGES[stageIndex].endProgress;
+    const isCompleted = completedChecks[stageIndex];
+    const animatedScale = checkAnimations[stageIndex];
+    
     return (
       <View 
         style={{
           width: 24,
           height: 24,
           borderRadius: 12,
-          backgroundColor: isCompleted ? palette.primary || '#000' : 'transparent',
+          backgroundColor: 'transparent',
           borderWidth: 2,
           borderColor: palette.primary || '#000',
           justifyContent: 'center',
           alignItems: 'center',
           marginLeft: isRTL() ? 0 : 8,
           marginRight: isRTL() ? 8 : 0,
+          overflow: 'hidden',
         }}
       >
         {isCompleted && (
-          <Text style={{ color: 'white', fontSize: 16, fontWeight: 'bold' }}>✓</Text>
+          <Animated.View
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              backgroundColor: palette.primary || '#000',
+              borderRadius: 12,
+              transform: [{ scale: animatedScale }],
+            }}
+          />
+        )}
+        {isCompleted && (
+          <Animated.Text 
+            style={{ 
+              color: 'white', 
+              fontSize: 16, 
+              fontWeight: 'bold',
+              transform: [{ scale: animatedScale }],
+            }}
+          >
+            ✓
+          </Animated.Text>
         )}
       </View>
     );
