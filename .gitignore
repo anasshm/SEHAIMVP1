@@ -69,3 +69,6 @@ coverage/
 *.tgz
 build/
 lib-cov/
+
+# Backup folders
+backup/

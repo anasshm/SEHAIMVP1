@@ -4,6 +4,7 @@ import { Stack } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { palette } from '@/constants/Colors';
 import { useGoToNextPage } from '@/utils/onboarding/navigationHelper';
+import { useOnboarding } from '../OnboardingContext';
 import i18n, { isRTL } from '@/utils/i18n';
 
 // Define workout frequency options with translation keys
@@ -15,11 +16,13 @@ const WORKOUT_OPTIONS = [
 
 export default function Step4WorkoutsScreen() {
   const goToNextPage = useGoToNextPage();
+  const { setActivityLevel } = useOnboarding();
   const [selectedWorkouts, setSelectedWorkouts] = useState<string | null>(null);
 
   const handleContinue = () => {
     if (selectedWorkouts) {
       console.log('Workouts per week:', selectedWorkouts);
+      setActivityLevel(selectedWorkouts); // Save to OnboardingContext
       goToNextPage(); // Navigate to next page using the new system
     }
   };
