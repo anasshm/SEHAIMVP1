@@ -24,8 +24,8 @@ export default function SaveProgressScreen() {
 
   const handleEmailSignIn = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    // Navigate to the regular registration flow
-    router.push('/(auth)/register');
+    // Navigate to the registration form
+    router.push('/(auth)/register-form');
   };
 
   const handleSkip = () => {
