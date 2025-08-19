@@ -68,8 +68,8 @@
     "fats": "Fats",
     "addMeal": "Add Meal",
     "recentlyLogged": "Recently logged",
-    "noFoodUploaded": "You haven't uploaded any food",
-    "startTrackingMeals": "Start tracking today's meals by taking a quick picture.",
+    "noFoodUploaded": "Ready to start tracking?",
+    "startTrackingMeals": "Tap the + button below to add your first meal",
     "loadMore": "Load More",
     "caloriesLeft": "Calories left",
     "caloriesConsumed": "Calories consumed",
@@ -80,9 +80,7 @@
     "carbsOver": "Carbs over",
     "fatsLeft": "Fats left",
     "fatsOver": "Fats over",
-    "errorFetchingNutritionPlan": "Error fetching nutrition plan:",
-    "readyToStart": "Ready to start tracking?",
-    "tapPlusButtonBelow": "Tap the + button below to add your first meal"
+    "errorFetchingNutritionPlan": "Error fetching nutrition plan:"
   },
   "camera": {
     "title": "Food Analysis",

@@ -68,8 +68,8 @@
     "fats": "دهون",
     "addMeal": "إضافة وجبة",
     "recentlyLogged": "وجباتك الأخيرة",
-    "noFoodUploaded": "لم ترفع أي طعام",
-    "startTrackingMeals": "ابدأ تتبع وجبات اليوم بأخذ صورة سريعة.",
+    "noFoodUploaded": "مستعد لبدء التتبع؟",
+    "startTrackingMeals": "اضغط على زر + أدناه لإضافة وجبتك الأولى",
     "loadMore": "تحميل المزيد",
     "caloriesLeft": "سعرة متبقية",
     "caloriesConsumed": "سعرات مستهلكة",
@@ -80,9 +80,7 @@
     "carbsOver": "نشى زائد",
     "fatsLeft": "دهون متبقية",
     "fatsOver": "دهون زائدة",
-    "errorFetchingNutritionPlan": "خطأ في جلب خطة التغذية:",
-    "readyToStart": "جاهز لبدء التتبع؟",
-    "tapPlusButtonBelow": "اضغط على زر + أدناه لإضافة وجبتك الأولى"
+    "errorFetchingNutritionPlan": "خطأ في جلب خطة التغذية:"
   },
   "camera": {
     "title": "تحليل الطعام",
