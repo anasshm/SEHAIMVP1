@@ -17,7 +17,8 @@ export default function EmptyMealState({ onAddMeal }: EmptyMealStateProps) {
       borderRadius: 16, 
       padding: 24, 
       elevation: 2,
-      alignItems: 'center'
+      alignItems: 'center',
+      position: 'relative'
     }}>
       {/* Main Title */}
       <Text style={{ 
@@ -35,23 +36,23 @@ export default function EmptyMealState({ onAddMeal }: EmptyMealStateProps) {
         color: palette.inactive, 
         fontSize: 16, 
         textAlign: 'center',
-        marginBottom: 20
+        marginBottom: 40
       }}>
         {i18n.t('dashboard.tapPlusButtonBelow')}
       </Text>
 
-      {/* Curved arrow positioned at bottom right pointing to + button */}
+      {/* Arrow positioned at bottom right corner pointing to + button */}
       <View style={{
-        alignItems: 'flex-end',
-        marginBottom: -10,
-        paddingRight: 20
+        position: 'absolute',
+        bottom: 16,
+        right: 16
       }}>
         <Ionicons 
-          name="arrow-redo-outline" 
-          size={50} 
+          name="arrow-down-outline" 
+          size={32} 
           color={palette.accent}
           style={{
-            transform: [{ rotate: '110deg' }]
+            transform: [{ rotate: '45deg' }]
           }}
         />
       </View>
