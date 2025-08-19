@@ -15,7 +15,7 @@ import NutritionSummaryCard from '@/components/NutritionSummaryCard';
 import RecentMealCard from '@/components/RecentMealCard';
 import NutritionProgressSection from '@/components/NutritionProgressSection';
 import DayCarousel from '@/components/dashboard/DayCarousel';
-import LanguageSwitcher from '@/components/LanguageSwitcher';
+
 
 // Imports for AI Nutrition Plan
 import { useOnboarding } from '../OnboardingContext'; 
@@ -244,8 +244,7 @@ export default function DashboardScreen() {
           />
         }
       >
-        {/* Language Switcher - Temporary for testing */}
-        <LanguageSwitcher />
+
         
         {/* Day Carousel */}
         <DayCarousel selectedDate={selectedDate} onDateSelect={handleDateSelect} />

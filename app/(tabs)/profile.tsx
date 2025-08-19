@@ -6,6 +6,7 @@ import { useAuth } from '@/src/services/AuthContext';
 import { useOnboarding } from '../OnboardingContext';
 import { InfoCard } from '@/components/ui/InfoCard';
 import { FieldRow } from '@/components/ui/FieldRow';
+import LanguageSelector from '@/components/LanguageSelector';
 import i18n, { isRTL } from '@/utils/i18n';
 
 export default function ProfileScreen() {
@@ -152,6 +153,11 @@ export default function ProfileScreen() {
                   thumbColor="#FFF"
                 />
               }
+            />
+            <FieldRow 
+              label={i18n.t('profile.language')}
+              right={<LanguageSelector />}
+              isLast={true}
             />
         </InfoCard>
         

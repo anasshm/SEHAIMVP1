@@ -29,8 +29,19 @@ const NutritionProgressSection: React.FC<NutritionProgressSectionProps> = ({ nut
   const carbsProgress = calculateProgress(currentIntake.carbs, targetCarbsGoal);
   const fatProgress = calculateProgress(currentIntake.fat, targetFatGoal);
 
-  const largeCalorieText = Math.round(currentIntake.calories).toString();
-  const smallCalorieText = currentIntake.calories <= targetCalories ? i18n.t('dashboard.caloriesConsumed') : i18n.t('dashboard.caloriesOver');
+  // Updated logic to show "calories left" instead of "calories consumed"
+  let largeCalorieText: string;
+  let smallCalorieText: string;
+
+  if (currentIntake.calories <= targetCalories) {
+    // Show remaining calories
+    largeCalorieText = Math.round(targetCalories - currentIntake.calories).toString();
+    smallCalorieText = i18n.t('dashboard.caloriesLeft');
+  } else {
+    // Show calories over target
+    largeCalorieText = Math.round(currentIntake.calories - targetCalories).toString();
+    smallCalorieText = i18n.t('dashboard.caloriesOver');
+  }
 
   const isArabic = isRTL();
 

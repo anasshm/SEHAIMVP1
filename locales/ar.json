@@ -173,6 +173,8 @@
     "notSet": "غير محدد",
     "appSettings": "إعدادات التطبيق",
     "notifications": "الإشعارات",
+    "language": "اللغة",
+    "languageDescription": "أعد تشغيل التطبيق للحصول على دعم كامل للكتابة من اليمين لليسار",
     "legal": "قانوني",
     "privacyPolicy": "سياسة الخصوصية",
     "termsAndConditions": "الشروط والأحكام",

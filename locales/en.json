@@ -173,6 +173,8 @@
     "notSet": "Not set",
     "appSettings": "App settings",
     "notifications": "Notifications",
+    "language": "Language",
+    "languageDescription": "Restart app for full RTL support",
     "legal": "Legal",
     "privacyPolicy": "Privacy Policy",
     "termsAndConditions": "Terms and Conditions",
