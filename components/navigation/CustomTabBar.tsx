@@ -23,7 +23,7 @@ type RouteName = 'index' | 'camera' | 'history' | 'profile';
 
 const routeConfig: Record<RouteName, RouteConfigItem> = {
   index: { label: i18n.t('tabs.dashboard'), icon: 'home', iconOutline: 'home-outline' },
-  camera: { label: i18n.t('tabs.camera'), icon: 'camera', iconOutline: 'camera-outline' },
+  camera: { label: i18n.t('tabs.camera'), icon: 'add', iconOutline: 'add-outline' },
   history: { label: i18n.t('tabs.history'), icon: 'time', iconOutline: 'time-outline' },
   profile: { label: i18n.t('tabs.profile'), icon: 'person', iconOutline: 'person-outline' },
 };
