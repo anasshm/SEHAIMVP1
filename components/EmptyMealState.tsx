@@ -40,34 +40,16 @@ export default function EmptyMealState({ onAddMeal }: EmptyMealStateProps) {
         {i18n.t('dashboard.tapPlusButtonBelow')}
       </Text>
 
-      {/* Arrow pointing down */}
+      {/* Arrow pointing down to the real + button */}
       <View style={{
         alignItems: 'center',
         marginBottom: 8
       }}>
         <Ionicons 
           name="arrow-down" 
-          size={32} 
+          size={40} 
           color={palette.accent}
-          style={{
-            transform: [{ rotate: '0deg' }]
-          }}
         />
-        <View style={{
-          marginTop: 4,
-          backgroundColor: palette.accent,
-          paddingHorizontal: 12,
-          paddingVertical: 6,
-          borderRadius: 20
-        }}>
-          <Text style={{
-            color: 'white',
-            fontSize: 14,
-            fontWeight: '600'
-          }}>
-            {i18n.t('dashboard.addFirstMeal')}
-          </Text>
-        </View>
       </View>
     </View>
   );
