@@ -41,7 +41,7 @@ const ProgressDisplayCard: React.FC<ProgressDisplayCardProps> = ({
     const nutrientLower = nutrientName.toLowerCase();
     if (nutrientLower.includes('protein') || nutrientLower.includes('بروتين')) {
       return isLeft ? 'dashboard.proteinLeft' : 'dashboard.proteinOver';
-    } else if (nutrientLower.includes('carb') || nutrientLower.includes('نشويات')) {
+    } else if (nutrientLower.includes('carb') || nutrientLower.includes('نشى')) {
       return isLeft ? 'dashboard.carbsLeft' : 'dashboard.carbsOver';
     } else if (nutrientLower.includes('fat') || nutrientLower.includes('دهون')) {
       return isLeft ? 'dashboard.fatsLeft' : 'dashboard.fatsOver';
