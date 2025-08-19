@@ -40,18 +40,18 @@ export default function EmptyMealState({ onAddMeal }: EmptyMealStateProps) {
         {i18n.t('dashboard.tapPlusButtonBelow')}
       </Text>
 
-      {/* Curved arrow pointing to the + button location (bottom right) */}
+      {/* Arrow positioned at bottom left pointing towards + button */}
       <View style={{
-        alignItems: 'flex-end',
+        alignItems: 'flex-start',
         marginBottom: 8,
-        paddingRight: 30
+        paddingLeft: 20
       }}>
         <Ionicons 
           name="arrow-redo-outline" 
           size={40} 
           color={palette.accent}
           style={{
-            transform: [{ rotate: '90deg' }]
+            transform: [{ rotate: '45deg' }]
           }}
         />
       </View>
