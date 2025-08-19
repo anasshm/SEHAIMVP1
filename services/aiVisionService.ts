@@ -60,6 +60,8 @@ export async function analyzeFoodImage(imageUri: string): Promise<FoodAnalysisRe
 
 CRITICAL: ALL text responses (meal_name, item names, notes) must be in Arabic. Use proper Arabic food terminology.
 
+IMPORTANT: ALL numeric nutrition values (calories, protein, carbs, fat) must be WHOLE NUMBERS ONLY - no decimals. Round to the nearest integer.
+
 INTERNAL_SCRATCHPAD (do NOT reveal):
 1. Identify every distinct food item.
 2. Infer primary ingredients of each item.
@@ -68,6 +70,7 @@ INTERNAL_SCRATCHPAD (do NOT reveal):
 5. Add totals for the whole plate.
 6. Assign a confidence score (0-100 %) to each item and to the meal total.
 7. Keep your reasoning here—never expose it.
+8. ROUND ALL NUTRITION VALUES TO WHOLE NUMBERS.
 
 Return ONLY the JSON below (no text outside the braces):
 
@@ -77,19 +80,19 @@ Return ONLY the JSON below (no text outside the braces):
     {
       "name": "<Arabic item name>",
       "portion": "<metric quantity>",
-      "calories": <number>,
-      "protein": <number>,
-      "carbs": <number>,
-      "fat": <number>,
+      "calories": <whole number>,
+      "protein": <whole number>,
+      "carbs": <whole number>,
+      "fat": <whole number>,
       "confidence": <percent>
     }
     // …repeat for each visible item
   ],
   "total": {
-    "calories": <number>,
-    "protein": <number>,
-    "carbs": <number>,
-    "fat": <number>,
+    "calories": <whole number>,
+    "protein": <whole number>,
+    "carbs": <whole number>,
+    "fat": <whole number>,
     "confidence": <percent>
   },
   "notes": "Arabic description of key visual clues (plate size, garnish, cooking method) + major assumptions."
@@ -148,10 +151,10 @@ Return ONLY the JSON below (no text outside the braces):
       // Construct and return the ORIGINAL SIMPLE format
       return {
         name: name,
-        calories: Number(calories) || 0, // Ensure numbers
-        protein: Number(protein) || 0,
-        carbs: Number(carbs) || 0,
-        fat: Number(fat) || 0,
+        calories: Math.round(Number(calories)) || 0, // Ensure whole numbers
+        protein: Math.round(Number(protein)) || 0,
+        carbs: Math.round(Number(carbs)) || 0,
+        fat: Math.round(Number(fat)) || 0,
         description: description
       };
 
