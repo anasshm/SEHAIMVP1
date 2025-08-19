@@ -80,7 +80,10 @@
     "carbsOver": "نشى زائد",
     "fatsLeft": "دهون متبقية",
     "fatsOver": "دهون زائدة",
-    "errorFetchingNutritionPlan": "خطأ في جلب خطة التغذية:"
+    "errorFetchingNutritionPlan": "خطأ في جلب خطة التغذية:",
+    "readyToStart": "جاهز لبدء التتبع؟",
+    "tapPlusButtonBelow": "اضغط على زر + أدناه لإضافة وجبتك الأولى",
+    "addFirstMeal": "إضافة وجبة"
   },
   "camera": {
     "title": "تحليل الطعام",

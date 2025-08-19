@@ -1,11 +1,12 @@
-import React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, Text, TouchableOpacity, Animated } from 'react-native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { styled } from 'nativewind';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { palette } from '@/constants/Colors';
 import i18n from '@/utils/i18n';
+import { useMealCount } from '@/hooks/useMealCount';
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
@@ -29,6 +30,33 @@ const routeConfig: Record<RouteName, RouteConfigItem> = {
 };
 
 export default function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
+  const { hasMeals, isLoading } = useMealCount();
+  const pulseAnim = useRef(new Animated.Value(1)).current;
+
+  // Pulse animation for + button when no meals
+  useEffect(() => {
+    if (!isLoading && !hasMeals) {
+      const pulse = Animated.loop(
+        Animated.sequence([
+          Animated.timing(pulseAnim, {
+            toValue: 1.1,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+          Animated.timing(pulseAnim, {
+            toValue: 1,
+            duration: 1000,
+            useNativeDriver: true,
+          }),
+        ])
+      );
+      pulse.start();
+      return () => pulse.stop();
+    } else {
+      pulseAnim.setValue(1);
+    }
+  }, [hasMeals, isLoading, pulseAnim]);
+
   // Hide the tab bar completely if the camera screen is active
   if (state.routes[state.index].name === 'camera') {
     return null;
@@ -87,10 +115,16 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
                 onLongPress={onLongPress}
                 className="flex-1 items-center justify-center"
               >
-                {/* Increase container size, icon size, and negative margin */}
-                <StyledView className="w-16 h-16 rounded-full items-center justify-center -mt-8 shadow-lg" style={{ backgroundColor: palette.accent }}>
+                {/* Animated container with pulse effect when no meals */}
+                <Animated.View 
+                  className="w-16 h-16 rounded-full items-center justify-center -mt-8 shadow-lg" 
+                  style={{ 
+                    backgroundColor: palette.accent,
+                    transform: [{ scale: pulseAnim }]
+                  }}
+                >
                   {iconName && <Ionicons name={iconName} size={40} color="white" />} 
-                </StyledView>
+                </Animated.View>
                 {/* Camera button usually doesn't have a label below */}
               </StyledTouchableOpacity>
             );

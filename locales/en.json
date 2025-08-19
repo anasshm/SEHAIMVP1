@@ -80,7 +80,10 @@
     "carbsOver": "Carbs over",
     "fatsLeft": "Fats left",
     "fatsOver": "Fats over",
-    "errorFetchingNutritionPlan": "Error fetching nutrition plan:"
+    "errorFetchingNutritionPlan": "Error fetching nutrition plan:",
+    "readyToStart": "Ready to start tracking?",
+    "tapPlusButtonBelow": "Tap the + button below to add your first meal",
+    "addFirstMeal": "Add Meal"
   },
   "camera": {
     "title": "Food Analysis",

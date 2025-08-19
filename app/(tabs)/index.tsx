@@ -15,6 +15,7 @@ import NutritionSummaryCard from '@/components/NutritionSummaryCard';
 import RecentMealCard from '@/components/RecentMealCard';
 import NutritionProgressSection from '@/components/NutritionProgressSection';
 import DayCarousel from '@/components/dashboard/DayCarousel';
+import EmptyMealState from '@/components/EmptyMealState';
 
 
 // Imports for AI Nutrition Plan
@@ -280,19 +281,7 @@ export default function DashboardScreen() {
             textAlign: isRTL() ? 'right' : 'left'
           }}>{i18n.t('dashboard.recentlyLogged')}</Text> 
           {displayedRecentMeals.length === 0 && !loading && dataLoadedInitially ? (
-            <View style={{ backgroundColor: palette.surface, borderRadius: 8, padding: 24, elevation: 2 }}>
-              <Text style={{ 
-                color: palette.primary, 
-                fontSize: 20, 
-                fontWeight: 'bold',
-                textAlign: isRTL() ? 'right' : 'left'
-              }}>{i18n.t('dashboard.noFoodUploaded')}</Text>
-              <Text style={{ 
-                color: palette.inactive, 
-                fontSize: 16, 
-                textAlign: 'center' 
-              }}>{i18n.t('dashboard.startTrackingMeals')}</Text>
-            </View>
+            <EmptyMealState onAddMeal={() => router.push('/camera')} />
           ) : (
             <FlatList<Meal>
               data={displayedRecentMeals} 
