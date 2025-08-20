@@ -25,9 +25,17 @@ function RootLayoutNav() {
     const checkOnboardingStatus = async () => {
       if (user) { 
         try {
-          const onboardingStatus = await AsyncStorage.getItem('onboardingComplete');
-          console.log('[RootLayout] Checked onboarding status:', onboardingStatus);
-          setIsOnboardingComplete(onboardingStatus === 'true');
+          // Use the same key as OnboardingContext
+          const onboardingData = await AsyncStorage.getItem('@onboardingData');
+          console.log('[RootLayout] Checked onboarding data:', onboardingData);
+          
+          if (onboardingData) {
+            const parsedData = JSON.parse(onboardingData);
+            setIsOnboardingComplete(parsedData.isOnboardingComplete === true);
+          } else {
+            // No data found, onboarding not complete
+            setIsOnboardingComplete(false);
+          }
         } catch (e) {
           console.error("[RootLayout] Failed to fetch onboarding status", e);
           setIsOnboardingComplete(false); 
