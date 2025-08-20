@@ -290,14 +290,7 @@ export default function LoginScreen() {
             <StyledText className="text-black text-lg font-semibold">{i18n.t('auth.loginWithApple')}</StyledText>
           </StyledTouchableOpacity>
           
-          <StyledView className={`flex-row justify-center ${isArabic ? 'flex-row-reverse' : ''}`}>
-            <StyledText className="text-sm text-gray-600" style={{ textAlign: 'center' }}>{i18n.t('auth.dontHaveAccount')} </StyledText>
-            <Link href="/(auth)/register-form" asChild>
-              <StyledTouchableOpacity>
-                <StyledText className="text-sm font-bold" style={{ color: palette.primary, textAlign: 'center' }}>{i18n.t('auth.signUp')}</StyledText>
-              </StyledTouchableOpacity>
-            </Link>
-          </StyledView>
+
         </StyledScrollView>
       </StyledKeyboardAvoidingView>
     </StyledView>

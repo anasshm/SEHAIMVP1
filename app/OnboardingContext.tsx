@@ -119,20 +119,28 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
     setOnboardingData(prevData => {
       const newData = { ...prevData, ...partialData };
       finalDataToSave = newData;
-      console.log('[OnboardingContext] Updating state with partial data:', partialData, 'New state:', newData);
+      if (__DEV__) {
+        console.log('[OnboardingContext] Updating state with partial data:', partialData, 'New state:', newData);
+      }
       return newData;
     });
 
     if (finalDataToSave && shouldSaveToStorage) {
       try {
-        console.log('[OnboardingContext] Attempting to save data to AsyncStorage:', finalDataToSave);
+        if (__DEV__) {
+          console.log('[OnboardingContext] Attempting to save data to AsyncStorage:', finalDataToSave);
+        }
         await AsyncStorage.setItem(ONBOARDING_DATA_KEY, JSON.stringify(finalDataToSave));
-        console.log('[OnboardingContext] Data saved successfully to AsyncStorage.');
+        if (__DEV__) {
+          console.log('[OnboardingContext] Data saved successfully to AsyncStorage.');
+        }
       } catch (error) {
         console.error('[OnboardingContext] Failed to save onboarding data to AsyncStorage', error);
       }
     } else if (!shouldSaveToStorage) {
-      console.log('[OnboardingContext] Skipping AsyncStorage save (memory-only mode)');
+      if (__DEV__) {
+        console.log('[OnboardingContext] Skipping AsyncStorage save (memory-only mode)');
+      }
     }
   };
 
@@ -163,7 +171,7 @@ export const OnboardingProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  console.log('[OnboardingContext] Current context value:', { onboardingData, isLoading });
+  // Removed heavy logging that was causing performance issues
 
   return (
     <OnboardingContext.Provider

@@ -26,7 +26,9 @@ function RootLayoutNav() {
       if (user) { 
         try {
           const onboardingStatus = await AsyncStorage.getItem('onboardingComplete');
-          console.log('[RootLayout] Checked onboarding status:', onboardingStatus);
+          if (__DEV__) {
+            console.log('[RootLayout] Checked onboarding status:', onboardingStatus);
+          }
           setIsOnboardingComplete(onboardingStatus === 'true');
         } catch (e) {
           console.error("[RootLayout] Failed to fetch onboarding status", e);
@@ -42,7 +44,9 @@ function RootLayoutNav() {
 
   useEffect(() => {
     if (isLoading) {
-      console.log('[RootLayout] Auth is loading, skipping navigation.');
+      if (__DEV__) {
+        console.log('[RootLayout] Auth is loading, skipping navigation.');
+      }
       return; 
     }
 
@@ -54,18 +58,20 @@ function RootLayoutNav() {
     const isMealDetailScreen = segments[0] === 'meal'; 
     const currentRoute = segments.join('/'); 
 
-    console.log('[RootLayout] Navigation check:', { 
-      user: user ? user.id : 'None', 
-      isLoading, 
-      isOnboardingComplete, 
-      inAuthGroup, 
-      inAppGroup, 
-      inOnboardingGroup,
-      inPaywallGroup,
-      isResultsScreen,
-      isMealDetailScreen,
-      currentRoute 
-    });
+    if (__DEV__) {
+      console.log('[RootLayout] Navigation check:', { 
+        user: user ? user.id : 'None', 
+        isLoading, 
+        isOnboardingComplete, 
+        inAuthGroup, 
+        inAppGroup, 
+        inOnboardingGroup,
+        inPaywallGroup,
+        isResultsScreen,
+        isMealDetailScreen,
+        currentRoute 
+      });
+    }
 
     // --- RE-ENABLE REDIRECTS ---
     
@@ -74,16 +80,22 @@ function RootLayoutNav() {
       // Allow them to be in onboarding OR auth.
       // If they are anywhere else, redirect to register.
       if (!inAuthGroup && !inOnboardingGroup) { 
-        console.log('[RootLayout] Redirecting unauthenticated user to register...');
+        if (__DEV__) {
+          console.log('[RootLayout] Redirecting unauthenticated user to register...');
+        }
         router.replace('/(auth)/register');
       } else {
-        console.log('[RootLayout] User not logged in, staying in auth or onboarding group.');
+        if (__DEV__) {
+          console.log('[RootLayout] User not logged in, staying in auth or onboarding group.');
+        }
       }
     } else {
       // User IS signed in.
       if (isOnboardingComplete === null) {
         // Still waiting for onboarding status from AsyncStorage
-        console.log('[RootLayout] Waiting for onboarding status check...');
+        if (__DEV__) {
+          console.log('[RootLayout] Waiting for onboarding status check...');
+        }
         // return; // Return might cause issues if commented out, just don't replace
       } 
       
@@ -91,20 +103,26 @@ function RootLayoutNav() {
         // User logged in but onboarding NOT complete.
         // Send them to the START of onboarding IF they are not already in the onboarding or paywall group.
         if (!inOnboardingGroup && !inPaywallGroup) { 
-                  console.log('[RootLayout] User logged in, onboarding incomplete. Redirecting to page 1 of onboarding...');
+          if (__DEV__) {
+            console.log('[RootLayout] User logged in, onboarding incomplete. Redirecting to page 1 of onboarding...');
+          }
         // Use the new navigation system - go to page 1
         const firstPageScreen = getScreenName(1);
         if (firstPageScreen) {
           router.replace(`/(onboarding)/${firstPageScreen}` as any);
         }
         } else {
-           console.log('[RootLayout] User logged in, onboarding incomplete, already in onboarding/paywall group. Staying.');
+          if (__DEV__) {
+            console.log('[RootLayout] User logged in, onboarding incomplete, already in onboarding/paywall group. Staying.');
+          }
         }
       } else if (isOnboardingComplete === true) {
         // User logged in AND onboarding IS complete, go to main app.
         // Do not redirect if user is already in the app group, on the results screen, OR on the meal detail screen
         if (!inAppGroup && !isResultsScreen && !isMealDetailScreen) { 
-          console.log('[RootLayout] Redirecting to main app (tabs)...');
+          if (__DEV__) {
+            console.log('[RootLayout] Redirecting to main app (tabs)...');
+          }
           router.replace('/(tabs)'); // Go to the main app
         }
       }
@@ -115,11 +133,15 @@ function RootLayoutNav() {
   }, [user, isLoading, isOnboardingComplete, segments, router]);
 
   if (isLoading || isOnboardingComplete === null && user) {
-     console.log('[RootLayout] Loading auth or onboarding status, returning null.');
+     if (__DEV__) {
+       console.log('[RootLayout] Loading auth or onboarding status, returning null.');
+     }
      return null; 
   }
 
-  console.log('[RootLayout] Render Stacks');
+  if (__DEV__) {
+    console.log('[RootLayout] Render Stacks');
+  }
   return (
     // <AnimatePresence exitBeforeEnter>
       <Stack
@@ -135,7 +157,7 @@ function RootLayoutNav() {
       <Stack.Screen name="(tabs)" options={{ gestureEnabled: false }} />
       <Stack.Screen name="(onboarding)" options={{ headerShown: false }} /> 
       <Stack.Screen name="(paywall)" options={{ headerShown: false }} /> 
-      <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
+
       {/* Define the meal detail screen here */}
       <Stack.Screen 
         name="meal/[mealId]" 
