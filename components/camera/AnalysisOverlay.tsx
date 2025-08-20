@@ -823,7 +823,7 @@ export function AnalysisOverlay({
               activeOpacity={0.7}
               disabled={!showResults}
             >
-              <ThemedText style={styles.buttonText}>{i18n.t('camera.discard')}</ThemedText>
+              <ThemedText style={styles.buttonText}>{i18n.t('camera.cancel')}</ThemedText>
             </TouchableOpacity>
             
             <TouchableOpacity 

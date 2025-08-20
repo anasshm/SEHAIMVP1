@@ -6,7 +6,7 @@ import { useOnboarding } from '../OnboardingContext';
 import { Ionicons } from '@expo/vector-icons';
 import { styled } from 'nativewind';
 import { palette } from '@/constants/Colors';
-import AppLogo from '@/components/ui/AppLogo';
+
 import i18n, { isRTL } from '@/utils/i18n';
 import { getScreenName } from '@/utils/onboarding/onboardingConfig';
 import * as Haptics from 'expo-haptics';
@@ -161,10 +161,15 @@ export default function RegisterScreen() {
     <StyledView className="flex-1 bg-white">
       {/* Main content area */}
       <StyledView className="flex-1 px-6 py-10 justify-center">
-        {/* Logo and Title */}
+        {/* Dashboard Preview and Title */}
         <StyledView className="items-center mb-8">
+          {/* Dashboard Preview Image */}
           <StyledView className="mb-6">
-            <AppLogo size={64} showBackground={false} />
+            <Image 
+              source={require('@/assets/images/dashboard-preview.png')} 
+              style={{ width: 422, height: 528 }} 
+              resizeMode="contain"
+            />
           </StyledView>
           <StyledText className="text-3xl font-bold text-center mb-2" style={{ textAlign: 'center' }}>{i18n.t('auth.braceYourself')}</StyledText>
           <StyledText className="text-2xl font-bold text-center" style={{ textAlign: 'center' }}>{i18n.t('auth.forWhatsNext')}</StyledText>
@@ -181,30 +186,7 @@ export default function RegisterScreen() {
             <StyledText className="text-white text-lg font-semibold">{i18n.t('auth.getStarted')}</StyledText>
           </StyledTouchableOpacity>
           
-          {/* Google login button - updated styling */}
-          <StyledTouchableOpacity 
-            className={`flex-row bg-white border-2 border-gray-200 py-5 px-4 rounded-full items-center justify-center ${isArabic ? 'flex-row-reverse' : ''}`}
-            onPress={handleGoogleSignIn}
-            disabled={isGoogleLoading}
-          >
-            <StyledView className={`w-5 h-5 items-center justify-center ${isArabic ? 'ml-2' : 'mr-2'}`}>
-              <Ionicons name="logo-google" size={18} color="#4285F4" />
-            </StyledView>
-            <StyledText className="text-black text-lg font-semibold">
-              {isGoogleLoading ? i18n.t('auth.signingIn') : i18n.t('auth.continueWithGoogle')}
-            </StyledText>
-          </StyledTouchableOpacity>
-          
-          {/* Apple login button - updated styling */}
-          <StyledTouchableOpacity 
-            className={`flex-row bg-white border-2 border-gray-200 py-5 px-4 rounded-full items-center justify-center ${isArabic ? 'flex-row-reverse' : ''}`}
-            onPress={handleAppleSignIn}
-          >
-            <StyledView className={`w-5 h-5 items-center justify-center ${isArabic ? 'ml-2' : 'mr-2'}`}>
-              <Ionicons name="logo-apple" size={18} color="#000000" />
-            </StyledView>
-            <StyledText className="text-black text-lg font-semibold">{i18n.t('auth.continueWithApple')}</StyledText>
-          </StyledTouchableOpacity>
+
         </StyledView>
       </StyledView>
 
