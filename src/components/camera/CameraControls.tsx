@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 // import { ThemedText } from '@/components/ThemedText'; // Not used
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Colors } from '@/constants/Colors';
-import i18n from '@/utils/i18n';
+import i18n, { isRTL } from '@/utils/i18n';
 
 interface CameraControlsProps {
   onCapture: () => void;
@@ -26,17 +26,37 @@ export function CameraControls({
   const colorScheme = useColorScheme();
   const iconColor = Colors[colorScheme ?? 'light'].text; 
   const activeColor = Colors.light.tint;
+  const isArabic = isRTL();
 
+  // Define gallery button component
+  const galleryButton = (
+    <View style={styles.controlButtonContainer}>
+      <TouchableOpacity style={styles.button} onPress={onGalleryOpen} disabled={isCapturing}>
+        <Ionicons name="images" size={24} color="white" />
+      </TouchableOpacity>
+      <Text style={styles.labelText}>{i18n.t('camera.gallery')}</Text>
+    </View>
+  );
+
+  // Define barcode button component
+  const barcodeButton = (
+    <View style={styles.controlButtonContainer}>
+      <TouchableOpacity style={styles.button} onPress={onToggleBarcodeScan} disabled={isCapturing}>
+        <Ionicons 
+          name="barcode-outline" 
+          size={28} 
+          color={isBarcodeScanningActive ? activeColor : "white"} 
+        />
+      </TouchableOpacity>
+      <Text style={styles.labelText}>{i18n.t('camera.barcode')}</Text>
+    </View>
+  );
 
   return (
     <View style={[styles.container, { bottom: insets.bottom }]}>
       <View style={styles.leftControls}> 
-        <View style={styles.controlButtonContainer}>
-          <TouchableOpacity style={styles.button} onPress={onGalleryOpen} disabled={isCapturing}>
-            <Ionicons name="images" size={24} color="white" />
-          </TouchableOpacity>
-          <Text style={styles.labelText}>{i18n.t('camera.gallery')}</Text>
-        </View>
+        {/* In Arabic: barcode on left, in English: gallery on left */}
+        {isArabic ? barcodeButton : galleryButton}
       </View>
 
       <TouchableOpacity 
@@ -48,16 +68,8 @@ export function CameraControls({
       </TouchableOpacity>
 
       <View style={styles.rightControls}>
-        <View style={styles.controlButtonContainer}>
-          <TouchableOpacity style={styles.button} onPress={onToggleBarcodeScan} disabled={isCapturing}>
-            <Ionicons 
-              name="barcode-outline" 
-              size={28} 
-              color={isBarcodeScanningActive ? activeColor : "white"} 
-            />
-          </TouchableOpacity>
-          <Text style={styles.labelText}>{i18n.t('camera.barcode')}</Text>
-        </View>
+        {/* In Arabic: gallery on right, in English: barcode on right */}
+        {isArabic ? galleryButton : barcodeButton}
       </View>
     </View>
   );
