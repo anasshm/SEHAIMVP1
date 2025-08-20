@@ -72,7 +72,7 @@ module.exports = {
       supabaseUrl: "https://zytvlzdocsiqnyhjhcbs.supabase.co",
       supabaseAnon: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5dHZsemRvY3NpcW55aGpoY2JzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU3OTc5NzUsImV4cCI6MjA2MTM3Mzk3NX0.QqNoGgZEZhwmFj6CegGI2nf__FiKeWhVcLyPDItP_XE",
       eas: {
-        projectId: "your-project-id"
+        projectId: "c0ad657c-554c-4db7-aef5-474b946a6959"
       }
     }
   }
