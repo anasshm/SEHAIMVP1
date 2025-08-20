@@ -5,15 +5,29 @@ import { useAuth } from '@/src/services/AuthContext';
 import { palette } from '@/constants/Colors'; // Import palette
 import i18n, { isRTL } from '@/utils/i18n';
 import * as Haptics from 'expo-haptics';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function PaywallScreen() {
   const router = useRouter();
   const [accessCode, setAccessCode] = useState('');
 
-  const handleAccessCode = () => {
+  const handleAccessCode = async () => {
     if (accessCode.trim().toLowerCase() === 'bihfih123') {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      router.replace('/(auth)/register-form'); 
+      
+      // Mark user as paid by setting onboarding complete
+      try {
+        await AsyncStorage.setItem('@onboardingData', JSON.stringify({
+          isOnboardingComplete: true,
+          isPaidUser: true // Add this for future clarity
+        }));
+        
+        // Go directly to main app
+        router.replace('/(tabs)');
+      } catch (error) {
+        console.error('[Paywall] Failed to save payment status:', error);
+        Alert.alert(i18n.t('common.error'), 'Failed to save payment status');
+      }
     } else {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       Alert.alert(i18n.t('common.error'), i18n.t('onboarding.paywall.invalidCode'));
