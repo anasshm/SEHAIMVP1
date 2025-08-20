@@ -2,9 +2,25 @@
 
 A React Native/Expo app for tracking food nutrition using AI-powered image analysis.
 
+## App Flow & Access Control
+
+### User Journey:
+1. **New User Sign Up**: Register → Onboarding → Paywall → Main App
+2. **Existing Paid User Sign In**: Login → Main App
+3. **Existing Unpaid User Sign In**: Login → Paywall → Main App
+
+### Payment Simulation:
+- **Paywall Access Code**: `bihfih123`
+- Entering the correct code marks user as "paid" and grants access to the main app
+- Future implementation will integrate actual payment processing
+
 ## Recent Updates
 
 ### December 2024
+- **Payment Flow Fixed**: Properly implemented paywall and access control
+  - Paywall now correctly marks users as paid and redirects to main app
+  - Fixed onboarding completion tracking to work with payment status
+  - Added clear user journey documentation for different scenarios
 - **EAS Cloud Build Success**: Fixed pnpm dependency installation failures in EAS Build
   - Updated EAS CLI version requirement to `">= 16.12.0"`
   - Specified exact Node.js (20.18.0) and pnpm (10.10.0) versions in eas.json
