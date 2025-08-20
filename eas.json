@@ -7,21 +7,13 @@
       "developmentClient": true,
       "distribution": "internal",
       "ios": {
-        "simulator": false,
-        "bundleIdentifier": "com.foodnsap.app"
+        "simulator": false
       }
     },
     "preview": {
-      "distribution": "internal",
-      "ios": {
-        "bundleIdentifier": "com.foodnsap.app"
-      }
+      "distribution": "internal"
     },
-    "production": {
-      "ios": {
-        "bundleIdentifier": "com.foodnsap.app"
-      }
-    }
+    "production": {}
   },
   "submit": {
     "production": {}
