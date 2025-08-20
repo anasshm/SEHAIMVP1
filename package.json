@@ -117,6 +117,5 @@
         "react-native-gesture-handler"
       ]
     }
-  },
-  "packageManager": "pnpm@10.14.0"
+  }
 }
