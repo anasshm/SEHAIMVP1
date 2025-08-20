@@ -167,7 +167,6 @@ export default function CameraScreen() {
   const [isBarcodeScannerActive, setIsBarcodeScannerActive] = useState(false); // User toggles this
   
   // UI states
-  const [showGuide, setShowGuide] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false); // Added for consistency
   
   // Use the camera permissions hook
@@ -228,10 +227,10 @@ export default function CameraScreen() {
     // setIsBarcodeScannerActive(false); // Controlled by toggle button now
   };
   
-  // Toggle camera guide visibility
-  const toggleGuide = () => {
-    setShowGuide(prev => !prev);
+  // Navigate back to dashboard
+  const navigateToDashboard = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    router.push('/(tabs)/index');
   };
 
   // Toggle barcode scanner active state
@@ -735,7 +734,7 @@ export default function CameraScreen() {
               onBarcodeScanned={isBarcodeScannerActive ? handleBarcodeScanned : undefined}
             >
               <CameraOverlay
-                showGuide={showGuide}
+                showGuide={true}
                 isPillBarcodeMode={isBarcodeScannerActive}
                 isBarcodeModeActive={isBarcodeScannerActive}
                 pillOffsetTop={actualPillTop}
@@ -747,8 +746,8 @@ export default function CameraScreen() {
               <Ionicons name={getFlashIconName()} size={topButtonIconSize} color="white" />
             </TouchableOpacity>
 
-            <TouchableOpacity style={[styles.guideToggleButton, { top: actualButtonTop }]} onPress={toggleGuide} disabled={isCapturing}>
-              <Ionicons name={showGuide ? "eye-outline" : "eye-off-outline"} size={topButtonIconSize} color="white" />
+            <TouchableOpacity style={[styles.guideToggleButton, { top: actualButtonTop }]} onPress={navigateToDashboard} disabled={isCapturing}>
+              <Ionicons name="close" size={topButtonIconSize} color="white" />
             </TouchableOpacity>
           </View>
           
