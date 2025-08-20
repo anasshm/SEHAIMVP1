@@ -215,9 +215,6 @@ importers:
       react-native-wheel-picker-expo:
         specifier: ^0.5.4
         version: 0.5.4(expo-haptics@14.1.4(expo@53.0.20(@babel/core@7.28.3)(@expo/metro-runtime@5.0.4(react-native@0.79.2(@babel/core@7.28.3)(@types/react@19.0.14)(react@19.0.0)))(react-native-webview@13.13.5(react-native@0.79.2(@babel/core@7.28.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native@0.79.2(@babel/core@7.28.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)))(expo-linear-gradient@14.1.5(expo@53.0.20(@babel/core@7.28.3)(@expo/metro-runtime@5.0.4(react-native@0.79.2(@babel/core@7.28.3)(@types/react@19.0.14)(react@19.0.0)))(react-native-webview@13.13.5(react-native@0.79.2(@babel/core@7.28.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native@0.79.2(@babel/core@7.28.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native@0.79.2(@babel/core@7.28.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native@0.79.2(@babel/core@7.28.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
-      react-native-wheely:
-        specifier: github:ruijadom/react-native-wheely
-        version: https://codeload.github.com/ruijadom/react-native-wheely/tar.gz/35fd2cdcfdfd3c2dbe417fdb183f33f00b4bc492
       url:
         specifier: ^0.11.4
         version: 0.11.4
@@ -4233,10 +4230,6 @@ packages:
       expo-linear-gradient: '>=11'
       react: '*'
       react-native: '*'
-
-  react-native-wheely@https://codeload.github.com/ruijadom/react-native-wheely/tar.gz/35fd2cdcfdfd3c2dbe417fdb183f33f00b4bc492:
-    resolution: {tarball: https://codeload.github.com/ruijadom/react-native-wheely/tar.gz/35fd2cdcfdfd3c2dbe417fdb183f33f00b4bc492}
-    version: 0.6.0
 
   react-native@0.79.2:
     resolution: {integrity: sha512-AnGzb56JvU5YCL7cAwg10+ewDquzvmgrMddiBM0GAWLwQM/6DJfGd2ZKrMuKKehHerpDDZgG+EY64gk3x3dEkw==}
@@ -9909,8 +9902,6 @@ snapshots:
       expo-linear-gradient: 14.1.5(expo@53.0.20(@babel/core@7.28.3)(@expo/metro-runtime@5.0.4(react-native@0.79.2(@babel/core@7.28.3)(@types/react@19.0.14)(react@19.0.0)))(react-native-webview@13.13.5(react-native@0.79.2(@babel/core@7.28.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native@0.79.2(@babel/core@7.28.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native@0.79.2(@babel/core@7.28.3)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
       react: 19.0.0
       react-native: 0.79.2(@babel/core@7.28.3)(@types/react@19.0.14)(react@19.0.0)
-
-  react-native-wheely@https://codeload.github.com/ruijadom/react-native-wheely/tar.gz/35fd2cdcfdfd3c2dbe417fdb183f33f00b4bc492: {}
 
   react-native@0.79.2(@babel/core@7.28.3)(@types/react@19.0.14)(react@19.0.0):
     dependencies:
