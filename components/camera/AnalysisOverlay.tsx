@@ -841,7 +841,8 @@ export function AnalysisOverlay({
         {showResults && (
           <View style={[
             linkedStyles.buttonContainer, 
-            !showResults && styles.hiddenButtons
+            !showResults && styles.hiddenButtons,
+            isArabic && { flexDirection: 'row-reverse' }
           ]}>
             <TouchableOpacity 
               style={linkedStyles.button}
