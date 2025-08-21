@@ -59,8 +59,7 @@ module.exports = {
       [
         "expo-media-library",
         {
-          "photosPermission": "Allow Seh AI to access your photos to save captured food images.",
-          "savePhotosPermission": "Allow Seh AI to save photos to your photo library.",
+          "photosPermission": "Allow Seh AI to access your photos to select food images for analysis.",
           "isAccessMediaLocationEnabled": true
         }
       ],

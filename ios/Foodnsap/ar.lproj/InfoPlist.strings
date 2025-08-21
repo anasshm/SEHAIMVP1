@@ -4,8 +4,7 @@
 "NSCameraUsageDescription" = "السماح لـ Seh AI بالوصول إلى كاميرتك لالتقاط صور الطعام لتحليل القيم الغذائية.";
 
 /* Photo library permissions */
-"NSPhotoLibraryUsageDescription" = "السماح لـ Seh AI بالوصول إلى صورك لحفظ صور الطعام الملتقطة.";
-"NSPhotoLibraryAddUsageDescription" = "السماح لـ Seh AI بحفظ الصور في مكتبة الصور.";
+"NSPhotoLibraryUsageDescription" = "السماح لـ Seh AI بالوصول إلى صورك لاختيار صور الطعام للتحليل.";
 
 /* Bundle display name */
 "CFBundleDisplayName" = "سه أي";
