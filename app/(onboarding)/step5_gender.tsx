@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import { Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors';
 import i18n, { isRTL } from '@/utils/i18n';
 import * as Haptics from 'expo-haptics';
 import { useGoToNextPage } from '@/utils/onboarding/navigationHelper';
+import Constants from 'expo-constants';
 
 // Define gender options with translation keys
 const GENDER_OPTIONS = [
@@ -77,6 +78,39 @@ export default function Step5GenderScreen() {
         >
           {i18n.t('onboarding.gender.subtitle')}
         </Text>
+
+        {/* Development Only Buttons - Remove before production */}
+        {__DEV__ && (
+          <View className="mb-6 p-4 bg-yellow-100 rounded-lg border border-yellow-300">
+            <Text className="text-yellow-800 text-sm font-medium mb-3 text-center">
+              🚧 DEV ONLY - Skip Onboarding
+            </Text>
+            <View className="flex-row gap-3">
+              <TouchableOpacity
+                className="flex-1 py-3 px-4 bg-blue-500 rounded-lg"
+                onPress={() => {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                  router.replace('/(tabs)/');
+                }}
+              >
+                <Text className="text-white text-center font-medium">
+                  → Dashboard
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                className="flex-1 py-3 px-4 bg-green-500 rounded-lg"
+                onPress={() => {
+                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+                  router.replace('/');
+                }}
+              >
+                <Text className="text-white text-center font-medium">
+                  → Home Page
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
 
         <View className="flex-1 justify-center">
           {GENDER_OPTIONS.map(renderOption)}
