@@ -9,6 +9,8 @@ import * as Haptics from 'expo-haptics';
 import i18n, { isRTL } from '@/utils/i18n';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { useGoToNextPage } from '@/utils/onboarding/navigationHelper';
+import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 
 const NUTRITION_PLAN_STORAGE_KEY = '@nutritionPlan';
 
@@ -49,33 +51,74 @@ export default function PlanResultsScreen() {
     }
   };
 
-  const renderNutritionCircle = (label: string, value: number, unit: string, color: string) => {
+  const renderNutritionCircle = (
+    label: string, 
+    value: number, 
+    unit: string, 
+    color: string, 
+    iconName: string, 
+    iconLibrary: 'MaterialCommunityIcons' | 'FontAwesome5'
+  ) => {
+    const circleSize = 96; // 20% bigger than original 80
+    const iconSize = circleSize * 0.35; // 20% bigger than dashboard icons
+    
     return (
       <View style={{ flex: 1, alignItems: 'center', marginHorizontal: 10 }}>
-        <View style={{
-          width: 80,
-          height: 80,
-          borderRadius: 40,
-          borderWidth: 6,
-          borderColor: color,
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginBottom: 10,
+        <AnimatedCircularProgress
+          size={circleSize}
+          width={8}
+          fill={100} // Always show full circle for results
+          tintColor={color}
+          backgroundColor="#F3F4F6"
+          rotation={0}
+          arcSweepAngle={360}
+          lineCap="round"
+          style={{
+            shadowColor: color,
+            shadowOffset: { width: 0, height: 4 },
+            shadowOpacity: 0.3,
+            shadowRadius: 8,
+            elevation: 8,
+          }}
+        >
+          {() => (
+            <View style={{ alignItems: 'center' }}>
+              {iconLibrary === 'MaterialCommunityIcons' ? (
+                <MaterialCommunityIcons 
+                  name={iconName as any} 
+                  size={iconSize} 
+                  color={color} 
+                  style={{ marginBottom: 4 }}
+                />
+              ) : (
+                <FontAwesome5 
+                  name={iconName as any} 
+                  size={iconSize} 
+                  color={color}
+                  style={{ marginBottom: 4 }}
+                />
+              )}
+              <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#000' }}>
+                {Math.round(value)}
+              </Text>
+              {unit && (
+                <Text style={{ fontSize: 12, color: '#666' }}>
+                  {unit}
+                </Text>
+              )}
+            </View>
+          )}
+        </AnimatedCircularProgress>
+        
+        <Text style={{ 
+          fontSize: 14, 
+          fontWeight: '600', 
+          color: '#000', 
+          textAlign: 'center',
+          marginTop: 12
         }}>
-          <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#000' }}>
-            {Math.round(value)}
-          </Text>
-          <Text style={{ fontSize: 12, color: '#666' }}>
-            {unit}
-          </Text>
-        </View>
-        <Text style={{ fontSize: 14, fontWeight: '600', color: '#000', textAlign: 'center' }}>
           {label}
         </Text>
-        {/* Edit icon placeholder */}
-        <View style={{ marginTop: 5 }}>
-          <Text style={{ fontSize: 16 }}>✏️</Text>
-        </View>
       </View>
     );
   };
@@ -158,13 +201,41 @@ export default function PlanResultsScreen() {
         <View style={{ marginBottom: 40 }}>
           {/* Nutrition circles in 2x2 grid */}
           <View style={{ flexDirection: isRTL() ? 'row-reverse' : 'row', marginBottom: 20 }}>
-            {renderNutritionCircle(i18n.t('onboarding.planResults.calories'), nutritionPlan.targetCalories, '', '#000')}
-            {renderNutritionCircle(i18n.t('onboarding.planResults.carbs'), nutritionPlan.targetCarbsGrams, 'g', '#FF9500')}
+            {renderNutritionCircle(
+              i18n.t('onboarding.planResults.calories'), 
+              nutritionPlan.targetCalories, 
+              '', 
+              palette.accent, // #1C1A23
+              'fire',
+              'MaterialCommunityIcons'
+            )}
+            {renderNutritionCircle(
+              i18n.t('onboarding.planResults.carbs'), 
+              nutritionPlan.targetCarbsGrams, 
+              'g', 
+              palette.carbs, // #D1A46F
+              'barley',
+              'MaterialCommunityIcons'
+            )}
           </View>
           
           <View style={{ flexDirection: isRTL() ? 'row-reverse' : 'row' }}>
-            {renderNutritionCircle(i18n.t('onboarding.planResults.protein'), nutritionPlan.targetProteinGrams, 'g', '#FF3B30')}
-            {renderNutritionCircle(i18n.t('onboarding.planResults.fats'), nutritionPlan.targetFatsGrams, 'g', '#007AFF')}
+            {renderNutritionCircle(
+              i18n.t('onboarding.planResults.protein'), 
+              nutritionPlan.targetProteinGrams, 
+              'g', 
+              palette.protein, // #E24D43
+              'food-drumstick',
+              'MaterialCommunityIcons'
+            )}
+            {renderNutritionCircle(
+              i18n.t('onboarding.planResults.fats'), 
+              nutritionPlan.targetFatsGrams, 
+              'g', 
+              palette.fats, // #F6C45F
+              'tint',
+              'FontAwesome5'
+            )}
           </View>
         </View>
 
