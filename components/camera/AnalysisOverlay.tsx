@@ -295,6 +295,21 @@ const createLinkedStyles = (layout: ReturnType<typeof calculateLayout>) => ({
     borderBottomColor: palette.inactive + '20', // Subtle divider
   },
   
+  // New style for title section during loading (removes divider)
+  titleSectionLoading: {
+    borderBottomWidth: 0, // Remove divider during loading
+    paddingBottom: 8, // Reduced padding to minimize space
+    marginBottom: 8, // Reduced margin to bring cards closer
+  },
+  
+  // Logo style for loading state
+  logoStyle: {
+    width: 120,
+    height: 40,
+    marginTop: -24, // Further increased negative margin to move logo right up to skeleton text
+    marginBottom: -4, // Negative margin to reduce space below logo
+  },
+  
   // STEP 4: Enhanced Nutrition Grid - Better spacing and layout
   nutritionGrid: {
     flex: 0, // Only take needed space for nutrition cards
@@ -641,10 +656,17 @@ export function AnalysisOverlay({
           {/* STEP 5: Fixed Top Section (Title + Nutrition) - Never scrolls */}
           <View style={linkedStyles.fixedTopSection}>
             {/* STEP 5: Title Section - consistent across states */}
-            <View style={linkedStyles.titleSection}>
+            <View style={[linkedStyles.titleSection, isAnalyzing && linkedStyles.titleSectionLoading]}>
               {isAnalyzing ? (
-                // Show skeleton during analysis
-                <TitleSkeleton titleWidth="60%" />
+                // Show skeleton and logo during analysis
+                <>
+                  <TitleSkeleton titleWidth="60%" />
+                  <Image 
+                    source={require('@/assets/images/Seh-ai-logo.png')}
+                    style={linkedStyles.logoStyle}
+                    resizeMode="contain"
+                  />
+                </>
               ) : (
                 // Show real title when results are ready
                 <ThemedText style={styles.resultsTitle}>
