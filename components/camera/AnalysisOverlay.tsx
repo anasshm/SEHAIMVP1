@@ -611,6 +611,10 @@ export function AnalysisOverlay({
 
   // Get localized nutrition config
   const NUTRITION_CONFIG = getNutritionConfig();
+  
+  // Get the appropriate unit based on language
+  const isArabic = isRTL();
+  const gramUnit = isArabic ? 'جم' : 'g';
 
   return (
     // STEP 5: Replace Modal with full-screen positioned overlay
@@ -714,7 +718,7 @@ export function AnalysisOverlay({
                         style={linkedStyles.nutritionIcon}
                       />
                       <ThemedText style={styles.nutritionValueSmall}>
-                        {displayProtein}g
+                        {displayProtein}{gramUnit}
                       </ThemedText>
                       <View style={{ height: 4 }} />
                       <ThemedText style={styles.nutritionUnitSmall}>{NUTRITION_CONFIG.protein.label}</ThemedText>
@@ -729,7 +733,7 @@ export function AnalysisOverlay({
                         style={linkedStyles.nutritionIcon}
                       />
                       <ThemedText style={styles.nutritionValueSmall}>
-                        {displayCarbs}g
+                        {displayCarbs}{gramUnit}
                       </ThemedText>
                       <View style={{ height: 4 }} />
                       <ThemedText style={styles.nutritionUnitSmall}>{NUTRITION_CONFIG.carbs.label}</ThemedText>
@@ -744,7 +748,7 @@ export function AnalysisOverlay({
                         style={linkedStyles.nutritionIcon}
                       />
                       <ThemedText style={styles.nutritionValueSmall}>
-                        {displayFat}g
+                        {displayFat}{gramUnit}
                       </ThemedText>
                       <View style={{ height: 4 }} />
                       <ThemedText style={styles.nutritionUnitSmall}>{NUTRITION_CONFIG.fats.label}</ThemedText>

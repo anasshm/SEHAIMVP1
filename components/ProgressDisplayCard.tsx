@@ -50,21 +50,24 @@ const ProgressDisplayCard: React.FC<ProgressDisplayCardProps> = ({
     return isLeft ? 'dashboard.caloriesLeft' : 'dashboard.caloriesOver';
   };
 
+  // Get the appropriate unit based on language
+  const isArabic = isRTL();
+  const gramUnit = isArabic ? 'جم' : 'g';
+
   if (targetValue > 0) {
     if (currentValue <= targetValue) {
-      displayText = `${Math.round(targetValue - currentValue)}g`;
+      displayText = `${Math.round(targetValue - currentValue)}${gramUnit}`;
       statusText = i18n.t(getStatusTranslationKey(nutrientName, true));
     } else { // currentValue > targetValue
-      displayText = `${Math.round(currentValue - targetValue)}g`;
+      displayText = `${Math.round(currentValue - targetValue)}${gramUnit}`;
       statusText = i18n.t(getStatusTranslationKey(nutrientName, false));
     }
   } else { // targetValue is 0 or undefined, show current consumed
-    displayText = `${Math.round(currentValue)}g`;
+    displayText = `${Math.round(currentValue)}${gramUnit}`;
     statusText = nutrientName; 
   }
 
   const cardDimensions = CARD_PRESETS[variant];
-  const isArabic = isRTL();
 
   return (
     <View 

@@ -127,13 +127,13 @@ export default function ProfileScreen() {
                 <FieldRow 
                   label={i18n.t('profile.height')}
                   value={onboardingData.height 
-                    ? `${onboardingData.height.value} ${onboardingData.height.unit}` 
+                    ? `${onboardingData.height.value} ${isArabic && onboardingData.height.unit === 'cm' ? 'سم' : onboardingData.height.unit}` 
                     : i18n.t('profile.notSet')}
                 />
                 <FieldRow 
                   label={i18n.t('profile.weight')}
                   value={onboardingData.weight 
-                    ? `${onboardingData.weight.value} ${onboardingData.weight.unit}` 
+                    ? `${onboardingData.weight.value} ${isArabic && onboardingData.weight.unit === 'kg' ? 'كغ' : onboardingData.weight.unit}` 
                     : i18n.t('profile.notSet')}
                   isLast={true}
                 />
