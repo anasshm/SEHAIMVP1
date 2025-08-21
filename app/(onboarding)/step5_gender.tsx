@@ -7,6 +7,8 @@ import i18n, { isRTL } from '@/utils/i18n';
 import * as Haptics from 'expo-haptics';
 import { useGoToNextPage } from '@/utils/onboarding/navigationHelper';
 import Constants from 'expo-constants';
+import { useAuth } from '@/src/services/AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Define gender options with translation keys
 const GENDER_OPTIONS = [
@@ -17,7 +19,24 @@ const GENDER_OPTIONS = [
 export default function Step5GenderScreen() {
   const goToNextPage = useGoToNextPage();
   const { setGender } = useOnboarding();
+  const { signOut } = useAuth();
   const [selectedGender, setSelectedGender] = useState<string | null>(null);
+
+  const goToHomePage = async () => {
+    try {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      // Clear authentication state to go back to landing page
+      await signOut();
+      // Clear onboarding progress
+      await AsyncStorage.removeItem('onboardingComplete');
+      // Navigate to register page (the landing page)
+      router.replace('/(auth)/register');
+    } catch (error) {
+      console.error('Error navigating to home page:', error);
+      // Fallback: try direct navigation
+      router.replace('/(auth)/register');
+    }
+  };
 
   const goToNextStep = () => {
     if (selectedGender) {
@@ -99,10 +118,7 @@ export default function Step5GenderScreen() {
               </TouchableOpacity>
               <TouchableOpacity
                 className="flex-1 py-3 px-4 bg-green-500 rounded-lg"
-                onPress={() => {
-                  Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-                  router.replace('/');
-                }}
+                onPress={goToHomePage}
               >
                 <Text className="text-white text-center font-medium">
                   → Home Page
