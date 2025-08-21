@@ -51,9 +51,6 @@ export default function EmptyMealState({ onAddMeal }: EmptyMealStateProps) {
           name="arrow-down-outline" 
           size={32} 
           color={palette.accent}
-          style={{
-            transform: [{ rotate: '45deg' }]
-          }}
         />
       </View>
     </View>
