@@ -268,7 +268,7 @@ export default function LoginScreen() {
           </StyledView>
           
           <StyledTouchableOpacity 
-            className={`flex-row bg-white border-2 border-gray-200 py-5 px-4 rounded-full items-center justify-center mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}
+            className={`flex-row bg-white border-2 border-gray-200 py-5 px-4 rounded-full items-center justify-center mb-8 ${isArabic ? 'flex-row-reverse' : ''}`}
             onPress={handleGoogleSignIn}
             disabled={isGoogleLoading}
           >
@@ -280,16 +280,7 @@ export default function LoginScreen() {
             </StyledText>
           </StyledTouchableOpacity>
           
-          <StyledTouchableOpacity 
-            className={`flex-row bg-white border-2 border-gray-200 py-5 px-4 rounded-full items-center justify-center mb-8 ${isArabic ? 'flex-row-reverse' : ''}`}
-            onPress={() => Alert.alert(i18n.t('auth.comingSoon.title'), i18n.t('auth.comingSoon.appleSignIn'))}
-          >
-            <StyledView className={`w-5 h-5 items-center justify-center ${isArabic ? 'ml-2' : 'mr-2'}`}>
-              <Ionicons name="logo-apple" size={18} color="#000000" />
-            </StyledView>
-            <StyledText className="text-black text-lg font-semibold">{i18n.t('auth.loginWithApple')}</StyledText>
-          </StyledTouchableOpacity>
-          
+
 
         </StyledScrollView>
       </StyledKeyboardAvoidingView>

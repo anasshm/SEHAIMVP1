@@ -16,10 +16,19 @@ export default function SaveProgressScreen() {
   const goToNextPage = useGoToNextPage();
   const isArabic = isRTL();
 
-  const handleAppleSignIn = async () => {
+  const handleGoogleSignIn = async () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    // Apple sign-in is coming soon
-    Alert.alert(i18n.t('auth.comingSoon.title'), i18n.t('auth.comingSoon.appleSignIn'));
+    try {
+      const { error } = await signInWithGoogle();
+      if (error) {
+        Alert.alert('Google Sign-In Failed', 'Please try again.');
+        return;
+      }
+      // If successful, the auth state change will handle navigation
+    } catch (error) {
+      console.error('Google sign-in error:', error);
+      Alert.alert('Google Sign-In Failed', 'An unexpected error occurred.');
+    }
   };
 
   const handleEmailSignIn = () => {
@@ -42,15 +51,15 @@ export default function SaveProgressScreen() {
         </Text>
 
         <View style={styles.buttonsContainer}>
-          {/* Sign in with Apple */}
+          {/* Sign in with Google */}
           <TouchableOpacity 
-            style={styles.appleButton}
-            onPress={handleAppleSignIn}
+            style={styles.googleButton}
+            onPress={handleGoogleSignIn}
           >
             <View style={[styles.buttonContent, isArabic && styles.buttonContentRTL]}>
-              <Ionicons name="logo-apple" size={20} color="white" />
-              <Text style={[styles.appleButtonText, isArabic && styles.buttonTextRTL]}>
-                {i18n.t('onboarding.saveProgress.signInWithApple')}
+              <Ionicons name="logo-google" size={20} color="white" />
+              <Text style={[styles.googleButtonText, isArabic && styles.buttonTextRTL]}>
+                {i18n.t('onboarding.saveProgress.signInWithGoogle')}
               </Text>
             </View>
           </TouchableOpacity>
@@ -108,8 +117,8 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     marginBottom: 40,
   },
-  appleButton: {
-    backgroundColor: '#000',
+  googleButton: {
+    backgroundColor: '#4285F4',
     paddingVertical: 18,
     paddingHorizontal: 24,
     borderRadius: 50,
@@ -117,7 +126,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 16,
   },
-  appleButtonText: {
+  googleButtonText: {
     color: 'white',
     fontSize: 18,
     fontWeight: '600',

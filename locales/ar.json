@@ -376,7 +376,7 @@
     },
     "saveProgress": {
       "title": "احفظ تقدمك",
-      "signInWithApple": "تسجيل الدخول بآبل",
+      "signInWithGoogle": "تسجيل الدخول بجوجل",
       "signInWithEmail": "تسجيل الدخول بالبريد الإلكتروني",
       "wouldYouLikeToSignInLater": "هل تريد تسجيل الدخول لاحقاً؟",
       "skip": "تخطي"
