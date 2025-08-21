@@ -7,6 +7,7 @@ import { useOnboarding } from '../OnboardingContext';
 import { InfoCard } from '@/components/ui/InfoCard';
 import { FieldRow } from '@/components/ui/FieldRow';
 import LanguageSelector from '@/components/LanguageSelector';
+import RTLDiagnosticsCard from '@/components/debug/RTLDiagnosticsCard';
 import i18n, { isRTL } from '@/utils/i18n';
 
 export default function ProfileScreen() {
@@ -186,6 +187,9 @@ export default function ProfileScreen() {
             isLast={true}
           />
         </InfoCard>
+        
+        {/* RTL Diagnostics Card - Temporary for debugging */}
+        <RTLDiagnosticsCard />
         
         {user && (
           <View className="px-4 mb-8">

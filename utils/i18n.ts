@@ -3,6 +3,8 @@ import { getLocales } from 'expo-localization';
 import { I18nManager } from 'react-native';
 import { format } from 'date-fns';
 import { ar as arLocale, enUS as enLocale } from 'date-fns/locale';
+import { Alert } from 'react-native';
+import * as Updates from 'expo-updates';
 
 // Import translation files
 import en from '../locales/en.json';
@@ -24,12 +26,18 @@ i18n.defaultLocale = 'en';
 
 // Configure RTL for Arabic
 const shouldBeRTLInitially = i18n.locale === 'ar';
+console.log(`🌐 Initial RTL setup: locale=${i18n.locale}, shouldBeRTL=${shouldBeRTLInitially}, currentRTL=${I18nManager.isRTL}`);
+
 if (shouldBeRTLInitially && !I18nManager.isRTL) {
+  console.log('🔄 Forcing RTL to true for Arabic');
   I18nManager.forceRTL(true);
   // Note: App needs to restart for RTL changes to take effect
 } else if (!shouldBeRTLInitially && I18nManager.isRTL) {
+  console.log('🔄 Forcing RTL to false for non-Arabic');
   I18nManager.forceRTL(false);
   // Note: App needs to restart for RTL changes to take effect
+} else {
+  console.log('✅ RTL state is already correct');
 }
 
 // Helper function to change language
@@ -40,7 +48,33 @@ export const changeLanguage = (locale: string) => {
   const shouldBeRTL = locale === 'ar';
   if (shouldBeRTL !== I18nManager.isRTL) {
     I18nManager.forceRTL(shouldBeRTL);
-    // Note: You may want to show a restart prompt to the user
+    
+    // Force app reload to apply RTL changes immediately
+    console.log(`🔄 RTL state changed: forcing app reload for ${locale} (RTL: ${shouldBeRTL})`);
+    
+    // Show user notification and reload
+    Alert.alert(
+      locale === 'ar' ? 'تغيير اللغة' : 'Language Change',
+      locale === 'ar' 
+        ? 'سيتم إعادة تشغيل التطبيق لتطبيق التغييرات'
+        : 'App will restart to apply language changes',
+      [
+        {
+          text: locale === 'ar' ? 'موافق' : 'OK',
+          onPress: () => {
+            // Force immediate reload
+            if (__DEV__) {
+              // In development, reload immediately
+              setTimeout(() => Updates.reloadAsync(), 100);
+            } else {
+              // In production, reload immediately
+              Updates.reloadAsync();
+            }
+          }
+        }
+      ],
+      { cancelable: false }
+    );
   }
 };
 

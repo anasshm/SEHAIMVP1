@@ -13,6 +13,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { GlossyBackground } from '@/components/ui/GlossyBackground';
 import { View } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
+import { logRTLDiagnostics } from '@/utils/rtlDiagnostics';
 
 
 function RootLayoutNav() {
@@ -21,6 +22,11 @@ function RootLayoutNav() {
   const segments = useSegments();
 
   useEffect(() => {
+    // Log RTL diagnostics on app start
+    if (__DEV__) {
+      logRTLDiagnostics('App Startup');
+    }
+    
     if (isLoading) {
       if (__DEV__) {
         console.log('[RootLayout] Auth is loading, skipping navigation.');
