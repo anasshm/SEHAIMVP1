@@ -1,13 +1,13 @@
 module.exports = {
   expo: {
     name: "Seh AI",
-    slug: "foodnsap",
+    slug: "seh-ai",
     version: "1.0.0",
     orientation: "portrait",
     icon: "./assets/images/icon.png",
-    scheme: "foodnsap",
+    scheme: "sehai.createvalue.app",
     linking: {
-      prefixes: ["foodnsap://"]
+      prefixes: ["sehai.createvalue.app://"]
     },
     userInterfaceStyle: "automatic",
     newArchEnabled: true,
@@ -21,7 +21,7 @@ module.exports = {
     ],
     ios: {
       supportsTablet: true,
-      bundleIdentifier: "com.foodnsap.app",
+      bundleIdentifier: "sehai.createvalue.app",
       displayName: "Seh AI"
     },
     android: {
@@ -29,7 +29,7 @@ module.exports = {
         foregroundImage: "./assets/images/adaptive-icon.png",
         backgroundColor: "#ffffff"
       },
-      package: "com.foodnsap.app",
+      package: "sehai.createvalue.app",
       permissions: ["CAMERA", "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"],
       edgeToEdgeEnabled: true
     },

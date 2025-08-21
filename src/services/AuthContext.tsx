@@ -187,7 +187,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const resetPassword = async (email: string) => {
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: 'foodnsap://reset-password',
+        redirectTo: 'sehai.createvalue.app://reset-password',
       });
       return { error };
     } catch (error) {

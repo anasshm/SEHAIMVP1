@@ -58,7 +58,7 @@ export const signInWithGoogleOAuth = async () => {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: 'foodnsap://auth/callback'
+      redirectTo: 'sehai.createvalue.app://auth/callback'
     }
   });
   return { data, error };

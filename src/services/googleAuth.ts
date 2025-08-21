@@ -14,7 +14,7 @@ export const signInWithGoogle = async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: 'foodnsap://auth/callback',
+        redirectTo: 'sehai.createvalue.app://auth/callback',
         queryParams: {
           access_type: 'offline',
           prompt: 'select_account',
@@ -37,7 +37,7 @@ export const signInWithGoogle = async () => {
     // Open the OAuth URL in browser
     const result = await WebBrowser.openAuthSessionAsync(
       data.url,
-      'foodnsap://auth/callback'
+      'sehai.createvalue.app://auth/callback'
     );
 
     console.log('WebBrowser result:', result);
