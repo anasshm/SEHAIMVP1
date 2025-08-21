@@ -51,8 +51,7 @@ module.exports = {
       [
         "expo-camera",
         {
-          "cameraPermission": "Allow Foodnsap to access your camera to take photos of food for nutritional analysis.",
-          "microphonePermission": "Allow Foodnsap to access your microphone."
+          "cameraPermission": "Allow Foodnsap to access your camera to take photos of food for nutritional analysis."
         }
       ],
       [
