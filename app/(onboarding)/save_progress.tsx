@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Alert, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useOnboarding } from '../OnboardingContext';
 import { palette } from '@/constants/Colors';
@@ -8,13 +8,23 @@ import * as Haptics from 'expo-haptics';
 import i18n, { isRTL } from '@/utils/i18n';
 import { useAuth } from '@/src/services/AuthContext';
 import { useGoToNextPage } from '@/utils/onboarding/navigationHelper';
+import { isAppleAuthAvailable } from '@/services/appleAuthService';
 
 export default function SaveProgressScreen() {
   const router = useRouter();
   const { setIsOnboardingComplete } = useOnboarding();
-  const { signInWithGoogle } = useAuth();
+  const { signInWithGoogle, signInWithApple, isAppleLoading } = useAuth();
   const goToNextPage = useGoToNextPage();
   const isArabic = isRTL();
+  const [isAppleAvailable, setIsAppleAvailable] = useState(false);
+
+  useEffect(() => {
+    const checkAppleAuth = async () => {
+      const available = await isAppleAuthAvailable();
+      setIsAppleAvailable(available);
+    };
+    checkAppleAuth();
+  }, []);
 
   const handleGoogleSignIn = async () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -28,6 +38,21 @@ export default function SaveProgressScreen() {
     } catch (error) {
       console.error('Google sign-in error:', error);
       Alert.alert('Google Sign-In Failed', 'An unexpected error occurred.');
+    }
+  };
+
+  const handleAppleSignIn = async () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    try {
+      const { error } = await signInWithApple();
+      if (error) {
+        Alert.alert('Apple Sign-In Failed', 'Please try again.');
+        return;
+      }
+      // If successful, the auth state change will handle navigation
+    } catch (error) {
+      console.error('Apple sign-in error:', error);
+      Alert.alert('Apple Sign-In Failed', 'An unexpected error occurred.');
     }
   };
 
@@ -63,6 +88,22 @@ export default function SaveProgressScreen() {
               </Text>
             </View>
           </TouchableOpacity>
+
+          {/* Sign in with Apple - Only show on iOS */}
+          {isAppleAvailable && (
+            <TouchableOpacity 
+              style={styles.appleButton}
+              onPress={handleAppleSignIn}
+              disabled={isAppleLoading}
+            >
+              <View style={[styles.buttonContent, isArabic && styles.buttonContentRTL]}>
+                <Ionicons name="logo-apple" size={20} color="white" />
+                <Text style={[styles.appleButtonText, isArabic && styles.buttonTextRTL]}>
+                  {i18n.t('onboarding.saveProgress.signInWithApple')}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
 
           {/* Sign in with Email */}
           <TouchableOpacity 
@@ -127,6 +168,21 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   googleButtonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: '600',
+    marginLeft: 12,
+  },
+  appleButton: {
+    backgroundColor: '#000',
+    paddingVertical: 18,
+    paddingHorizontal: 24,
+    borderRadius: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  appleButtonText: {
     color: 'white',
     fontSize: 18,
     fontWeight: '600',

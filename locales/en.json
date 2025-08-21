@@ -377,6 +377,7 @@
     "saveProgress": {
       "title": "Save your progress",
       "signInWithGoogle": "Sign in with Google",
+      "signInWithApple": "Sign in with Apple",
       "signInWithEmail": "Sign in with email",
       "wouldYouLikeToSignInLater": "Would you like to sign in later?",
       "skip": "Skip"
