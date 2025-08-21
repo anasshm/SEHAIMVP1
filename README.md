@@ -5,11 +5,27 @@ A React Native/Expo app for tracking food nutrition using AI-powered image analy
 ## Recent Updates
 
 ### January 2025
-- **Google Authentication**: Fixed Google Sign-In integration with Supabase
+- **Google Authentication**: Complete Google Sign-In integration with Supabase
   - Resolved nonce validation issues between Google OAuth and Supabase
   - Simplified authentication flow for better reliability
   - Added proper Google Sign-In configuration for iOS client IDs
-  - Authentication now works seamlessly in development builds
+  - Fixed sign-out functionality with updated API compatibility
+  - Replaced Apple Sign-In placeholders with working Google authentication
+  - Authentication now works seamlessly in development and production builds
+
+- **Navigation & UX Improvements**: Enhanced app startup and user flow
+  - Fixed app startup to show proper landing page instead of jumping to onboarding
+  - App now starts with "Calorie tracking made easy" landing page
+  - Improved food analysis loading page with Seh AI branding
+  - Removed gray divider and added company logo during analysis
+  - Optimized logo positioning for compact, professional layout
+
+- **Enhanced Arabic Localization**: Comprehensive Arabic language support
+  - Added Arabic units in profile page: cm → سم, kg → كغ
+  - Updated nutrition widgets to show جم instead of g in Arabic
+  - Improved personal information section translation
+  - Language-aware unit display throughout the app
+  - Professional Arabic terminology in all user-facing text
 
 ### December 2024
 - **Arabic Localization**: Full Arabic support added throughout the app
@@ -23,12 +39,14 @@ A React Native/Expo app for tracking food nutrition using AI-powered image analy
   - Improved Arabic text flow and terminology
 
 ### Features
-- 📸 AI-powered food analysis via camera
+- 📸 AI-powered food analysis via camera with Seh AI branding
 - 🔍 Barcode scanning for packaged foods
-- 📊 Nutrition tracking and daily goals
-- 🌐 Multi-language support (English & Arabic)
+- 📊 Nutrition tracking and daily goals with Arabic units (جم, سم, كغ)
+- 🌐 Complete multi-language support (English & Arabic) with RTL
 - 🔐 Secure authentication with Supabase & Google OAuth
-- 📱 Native iOS and Android support
+- 📱 Native iOS and Android support with EAS Build
+- 🎨 Professional branded loading experience during food analysis
+- 🔄 Seamless user flow from landing page to dashboard
 
 ## Tech Stack
 - React Native / Expo
@@ -119,15 +137,18 @@ eas secret:create --name EXPO_PUBLIC_SUPABASE_ANON_KEY --value your_key_here
 ## File Directory
 
 ### Core App Files
-- `app/(auth)/register.tsx` - Registration screen with haptic feedback on all buttons
-- `app/(onboarding)/plan_results.tsx` - Nutrition plan results with Arabic support
-- `services/googleAuthService.ts` - Google OAuth integration with Supabase
+- `app/_layout.tsx` - Root navigation logic and authentication routing
+- `app/(auth)/login.tsx` - Login page with Google Sign-In integration
+- `app/(auth)/register.tsx` - Landing page with "Calorie tracking made easy" 
+- `app/(onboarding)/save_progress.tsx` - Save progress page with Google authentication
+- `app/(tabs)/profile.tsx` - Profile page with Arabic units (سم, كغ)
+- `services/googleAuthService.ts` - Complete Google OAuth integration with Supabase
 - `src/services/AuthContext.tsx` - Authentication context and state management
-- `locales/en.json` - English translations
-- `locales/ar.json` - Arabic translations
-- `src/services/NutritionService.ts` - AI nutrition recommendations with Arabic brief generation
-- `utils/i18n.ts` - Internationalization configuration with RTL support
-- `components/LanguageSwitcher.tsx` - Language toggle component
+- `components/camera/AnalysisOverlay.tsx` - Food analysis with Seh AI branding
+- `components/ProgressDisplayCard.tsx` - Nutrition widgets with Arabic units (جم)
+- `locales/en.json` - English translations and units
+- `locales/ar.json` - Arabic translations with native units
+- `utils/i18n.ts` - Internationalization with RTL and unit localization
 
 ### Build & Configuration
 - `eas.json` - EAS Build configuration for iOS/Android builds
