@@ -7,7 +7,7 @@ import { AnalysisProgress } from '@/components/camera/AnalysisProgress';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { palette } from '@/constants/Colors';
 import { TitleSkeleton, NutritionCardSkeleton, DescriptionSkeleton } from '../skeleton';
-import i18n from '@/utils/i18n';
+import i18n, { isRTL } from '@/utils/i18n';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 

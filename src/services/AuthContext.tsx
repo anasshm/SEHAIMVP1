@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 import { Alert } from 'react-native';
 import { supabase, signInWithEmail, signUpWithEmail, signOut as supabaseSignOut, getCurrentUser, getCurrentSession } from './supabase';
 import { signInWithGoogle as googleSignIn, signOutFromGoogle, configureGoogleSignIn } from '../../services/googleAuthService';
+import { signInWithApple as appleSignIn } from '../../services/appleAuthService';
 import { User, Session } from '@supabase/supabase-js'; // Import User and Session types
 
 // Define the shape of our auth context
@@ -10,9 +11,11 @@ interface AuthContextType {
   session: Session | null;
   isLoading: boolean;
   isGoogleLoading: boolean;
+  isAppleLoading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: any | null }>;
   signUp: (email: string, password: string, metadata?: { name?: string }) => Promise<{ error: any | null }>;
   signInWithGoogle: () => Promise<{ error: any | null }>;
+  signInWithApple: () => Promise<{ error: any | null }>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<{ error: any | null }>;
   signInWithTestUser: (testEmail: string) => void; // Added for test user
@@ -24,9 +27,11 @@ const AuthContext = createContext<AuthContextType>({
   session: null,
   isLoading: true,
   isGoogleLoading: false,
+  isAppleLoading: false,
   signIn: async () => ({ error: null }),
   signUp: async () => ({ error: null }),
   signInWithGoogle: async () => ({ error: null }),
+  signInWithApple: async () => ({ error: null }),
   signOut: async () => {},
   resetPassword: async () => ({ error: null }),
   signInWithTestUser: () => {}, // Added for test user
@@ -41,6 +46,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null); // Use Session type
   const [isLoading, setIsLoading] = useState(true);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+  const [isAppleLoading, setIsAppleLoading] = useState(false);
 
   // Check if user is logged in on mount and set up auth state listener
   useEffect(() => {
@@ -160,6 +166,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // Apple Sign-In function
+  const signInWithApple = async () => {
+    try {
+      setIsAppleLoading(true);
+      console.log('Attempting Apple sign in');
+      
+      const { user, session, error, appleUser } = await appleSignIn();
+      
+      if (error) {
+        console.warn('Apple sign in error (AuthContext):', error);
+        return { error };
+      }
+      
+      if (user && session) {
+        console.log('Apple sign in successful:', { 
+          email: user.email, 
+          name: appleUser?.fullName 
+        });
+        // State will be updated by the auth state listener
+        return { error: null };
+      } else {
+        const noSessionError = { message: 'No session created' };
+        console.warn('Apple sign in error - no session:', noSessionError);
+        return { error: noSessionError };
+      }
+    } catch (error) {
+      console.warn('Apple sign in error (AuthContext):', error);
+      return { error };
+    } finally {
+      setIsAppleLoading(false);
+    }
+  };
+
   // Sign out function using our helper function
   const signOut = async () => {
     try {
@@ -231,9 +270,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         session,
         isLoading,
         isGoogleLoading,
+        isAppleLoading,
         signIn,
         signUp,
         signInWithGoogle,
+        signInWithApple,
         signOut,
         resetPassword,
         signInWithTestUser, // Added to provider value

@@ -1,7 +1,7 @@
 module.exports = {
   expo: {
     name: "Seh AI",
-    slug: "seh-ai",
+    slug: "foodnsap",
     version: "1.0.0",
     orientation: "portrait",
     icon: "./assets/images/icon.png",
@@ -22,7 +22,8 @@ module.exports = {
     ios: {
       supportsTablet: true,
       bundleIdentifier: "sehai.createvalue.app",
-      displayName: "Seh AI"
+      displayName: "Seh AI",
+      usesAppleSignIn: true
     },
     android: {
       adaptiveIcon: {
@@ -40,6 +41,7 @@ module.exports = {
     },
     plugins: [
       "expo-router",
+      "expo-apple-authentication",
       [
         "expo-splash-screen",
         {
@@ -68,7 +70,9 @@ module.exports = {
         {
           "iosUrlScheme": "com.googleusercontent.apps.642568612658-oi61gq9du7iolpkud7rik544o5cm4k0u"
         }
-      ]
+      ],
+      "expo-font",
+      "expo-web-browser"
     ],
     experiments: {
       typedRoutes: true
@@ -79,7 +83,7 @@ module.exports = {
     runtimeVersion: "1.0.0",
     platforms: ["ios", "android"],
     extra: {
-      openaiApiKey: process.env.OPENAI_API_KEY,
+      openaiApiKey: process.env.EXPO_PUBLIC_OPENAI_API_KEY,
       supabaseUrl: "https://zytvlzdocsiqnyhjhcbs.supabase.co",
       supabaseAnon: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp5dHZsemRvY3NpcW55aGpoY2JzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU3OTc5NzUsImV4cCI6MjA2MTM3Mzk3NX0.QqNoGgZEZhwmFj6CegGI2nf__FiKeWhVcLyPDItP_XE",
       eas: {

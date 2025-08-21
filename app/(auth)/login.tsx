@@ -18,7 +18,7 @@ const StyledKeyboardAvoidingView = styled(KeyboardAvoidingView);
 
 export default function LoginScreen() {
   const router = useRouter();
-  const { signIn, signUp, signInWithGoogle, isGoogleLoading } = useAuth();
+  const { signIn, signUp, signInWithGoogle, isGoogleLoading, signInWithApple, isAppleLoading } = useAuth();
   const isArabic = isRTL();
   
   const [email, setEmail] = useState('');
@@ -101,6 +101,49 @@ export default function LoginScreen() {
       Alert.alert(i18n.t('auth.errors.googleSignInFailedTitle'), i18n.t('auth.errors.unexpectedError'));
     }
   };
+
+  const handleAppleSignIn = async () => {
+    try {
+      console.log('Attempting Apple sign in');
+      const { error } = await signInWithApple();
+      
+      if (error) {
+        let userFriendlyMessage = i18n.t('auth.errors.unexpectedError');
+        
+        if (error.message === 'Sign-in was cancelled') {
+          // Don't show error for user cancellation
+          return;
+        } else if (error.message === 'Apple Sign In not available on this platform') {
+          userFriendlyMessage = 'Apple Sign In is not available on this device';
+        } else if (error.message) {
+          userFriendlyMessage = 'Apple Sign In failed. Please try again.';
+          console.warn('Apple sign-in error:', error.message);
+        }
+        
+        Alert.alert('Apple Sign In Failed', userFriendlyMessage);
+        return;
+      }
+      
+      // If we got here, Apple sign-in was successful
+      console.log('Apple sign-in successful, navigating to tabs');
+      
+      // Force navigation to tabs after a short delay to allow state to update
+      setTimeout(() => {
+        try {
+          router.replace('/(tabs)');
+        } catch (navError) {
+          console.error('Navigation error after Apple sign-in:', navError);
+          router.navigate('/(tabs)');
+        }
+      }, 500);
+      
+    } catch (error: any) {
+      console.error('Apple sign-in catch block error:', error);
+      Alert.alert('Apple Sign In Failed', i18n.t('auth.errors.unexpectedError'));
+    }
+  };
+
+
 
   const handleLogin = async () => {
     // Mark all fields as touched
@@ -268,7 +311,7 @@ export default function LoginScreen() {
           </StyledView>
           
           <StyledTouchableOpacity 
-            className={`flex-row bg-white border-2 border-gray-200 py-5 px-4 rounded-full items-center justify-center mb-8 ${isArabic ? 'flex-row-reverse' : ''}`}
+            className={`flex-row bg-white border-2 border-gray-200 py-5 px-4 rounded-full items-center justify-center mb-4 ${isArabic ? 'flex-row-reverse' : ''}`}
             onPress={handleGoogleSignIn}
             disabled={isGoogleLoading}
           >
@@ -279,9 +322,28 @@ export default function LoginScreen() {
               {isGoogleLoading ? i18n.t('auth.signingIn') : i18n.t('auth.loginWithGoogle')}
             </StyledText>
           </StyledTouchableOpacity>
+
+          <StyledTouchableOpacity 
+            className={`flex-row bg-white border-2 border-gray-200 py-5 px-4 rounded-full items-center justify-center mb-8 ${isArabic ? 'flex-row-reverse' : ''}`}
+            onPress={handleAppleSignIn}
+            disabled={isAppleLoading}
+          >
+            <StyledView className={`w-5 h-5 items-center justify-center ${isArabic ? 'ml-2' : 'mr-2'}`}>
+              <Ionicons name="logo-apple" size={18} color="#000000" />
+            </StyledView>
+            <StyledText className="text-black text-lg font-semibold">
+              {isAppleLoading ? i18n.t('auth.signingIn') : i18n.t('auth.loginWithApple')}
+            </StyledText>
+          </StyledTouchableOpacity>
           
-
-
+          <StyledView className={`flex-row justify-center ${isArabic ? 'flex-row-reverse' : ''}`}>
+            <StyledText className="text-sm text-gray-600" style={{ textAlign: 'center' }}>{i18n.t('auth.dontHaveAccount')} </StyledText>
+            <Link href="/(auth)/register-form" asChild>
+              <StyledTouchableOpacity>
+                <StyledText className="text-sm font-bold" style={{ color: palette.primary, textAlign: 'center' }}>{i18n.t('auth.signUp')}</StyledText>
+              </StyledTouchableOpacity>
+            </Link>
+          </StyledView>
         </StyledScrollView>
       </StyledKeyboardAvoidingView>
     </StyledView>
