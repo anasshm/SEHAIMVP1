@@ -1,0 +1,34 @@
+Project: V2-UI-AI
+Purpose: An Expo React Native application designed for user profile management, including features like birthday input, height, and weight tracking. It also appears to include functionality related to food analysis and an onboarding process.
+
+Key Technologies:
+- Expo (React Native framework)
+- React Native
+- TypeScript
+- Supabase (for backend services)
+- expo-router (for navigation)
+- @react-native-picker/picker (for dropdown UI elements)
+
+Core Modules/Components & Functionality:
+- app/(tabs)/profile.tsx: Manages the user profile screen. Features include:
+    - Segmented birthday input: Month (using Picker), Day (TextInput), Year (TextInput).
+    - Height and Weight input fields.
+    - Data is persisted using OnboardingContext.
+- OnboardingContext.tsx: Provides global state management for user profile and onboarding data. 
+    - Key function: `updateAndSaveData(partialData)` which updates state and saves to AsyncStorage.
+    - Manages data like `dateOfBirth`, `height`, `weight`.
+- onboardingConfig.js: Defines the structure and steps for the user onboarding flow.
+- FoodAnalysisCard.tsx: A component likely used to display results or information related to food analysis.
+- Navigation: Utilizes `expo-router` for app navigation, including tab-based navigation and potentially onboarding/paywall routes.
+
+Important Project Conventions & Notes:
+- Import Paths: Use relative import paths (e.g., `../../components/MyComponent`) instead of alias paths (e.g., `@/components/MyComponent`). This was a previous convention that was enforced.
+- Styling: [If you have specific styling conventions, e.g., StyleSheet, styled-components, or a global theme file, mention it here.]
+- Supabase Interaction: The application interacts with Supabase for backend operations. Specific details of tables or functions used from the frontend should be referenced by looking at the relevant service/API call files.
+
+Common Development Tasks:
+- Modifying Profile Fields: Changes to user profile inputs or logic are primarily done in `app/(tabs)/profile.tsx` and potentially `OnboardingContext.tsx`.
+- Adding Onboarding Steps: Modify `onboardingConfig.js` and create corresponding screen components.
+
+Troubleshooting/Gotchas:
+- Picker component rendering: Ensure Picker components have appropriate styling (e.g., background color) to avoid visual glitches on different platforms, particularly with text overlay.

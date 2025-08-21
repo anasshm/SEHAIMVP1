@@ -1,0 +1,385 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "back": "Back",
+    "next": "Next",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "auth": {
+    "login": "Log In",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "forgotPassword": "Forgot Password?",
+    "loginWithGoogle": "Continue with Google",
+    "loginWithApple": "Continue with Apple",
+    "createAccount": "Create Account",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "signUp": "Sign Up",
+    "cancel": "Cancel",
+    "loggingIn": "Logging in...",
+    "signingIn": "Signing in...",
+    "or": "OR",
+    "fullName": "Full Name",
+    "logIn": "Log In",
+    "creatingAccount": "Creating Account...",
+    "braceYourself": "Calorie tracking",
+    "forWhatsNext": "made easy",
+    "getStarted": "Get Started",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithApple": "Continue with Apple",
+    "errors": {
+      "emailRequired": "Email is required",
+      "emailInvalid": "Email is invalid",
+      "passwordRequired": "Password is required",
+      "passwordMinLength": "Password must be at least 6 characters",
+      "nameRequired": "Name is required",
+      "confirmPasswordRequired": "Please confirm your password",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "invalidCredentials": "Invalid email or password.",
+      "emailNotConfirmed": "Email not confirmed. Please check your inbox for a confirmation link.",
+      "googleSignInFailed": "Google sign-in failed. Please try again.",
+      "googleSignInCancelled": "Sign-in was cancelled",
+      "googlePlayServicesUnavailable": "Google Play Services not available. Please update Google Play Services and try again.",
+      "signInInProgress": "Sign-in is already in progress. Please wait.",
+      "unexpectedError": "An unexpected error occurred",
+      "loginFailed": "Login Failed",
+      "googleSignInFailedTitle": "Google Sign-In Failed"
+    },
+    "comingSoon": {
+      "title": "Coming Soon",
+      "appleSignIn": "Apple sign-in will be available in a future update."
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "todaysMeals": "Today's Meals",
+    "nutrition": "Nutrition",
+    "calories": "Calories",
+    "protein": "Protein",
+    "carbs": "Carbs",
+    "fat": "Fat",
+    "fats": "Fats",
+    "addMeal": "Add Meal",
+    "recentlyLogged": "Recently logged",
+    "noFoodUploaded": "You haven't uploaded any food",
+    "startTrackingMeals": "Start tracking today's meals by taking a quick picture.",
+    "loadMore": "Load More",
+    "caloriesLeft": "Calories left",
+    "caloriesConsumed": "Calories consumed",
+    "caloriesOver": "Calories over",
+    "proteinLeft": "Protein left",
+    "proteinOver": "Protein over",
+    "carbsLeft": "Carbs left",
+    "carbsOver": "Carbs over",
+    "fatsLeft": "Fats left",
+    "fatsOver": "Fats over",
+    "errorFetchingNutritionPlan": "Error fetching nutrition plan:",
+    "readyToStart": "Ready to start tracking?",
+    "tapPlusButtonBelow": "Tap the + button below to add your first meal"
+  },
+  "camera": {
+    "title": "Food Analysis",
+    "takePhoto": "Take Photo",
+    "analyzing": "Analyzing...",
+    "retake": "Retake",
+    "saveAnalysis": "Save Analysis",
+    "requestingPermissions": "Requesting camera permissions...",
+    "cameraPermissionNeeded": "We need camera permission to take photos of your food.",
+    "grantPermission": "Grant Permission",
+    "permissionRequired": "Permission required",
+    "galleryPermissionNeeded": "We need access to your photo gallery to select images.",
+    "captureError": "Capture Error",
+    "captureFailed": "Could not capture image. Please try again.",
+    "failedToCaptureImage": "Failed to capture image. URI is missing.",
+    "imageProcessingError": "Image Processing Error",
+    "couldNotPrepareImage": "Could not prepare captured image. Please try again.",
+    "couldNotPrepareSelected": "Could not prepare selected image. Please try again.",
+    "analysisError": "Analysis Error",
+    "failedToAnalyze": "Failed to analyze the image. Please try again.",
+    "error": "Error",
+    "errorTakingPicture": "An error occurred while taking the picture.",
+    "failedToTakePicture": "Failed to take picture. Please try again.",
+    "failedToOpenGallery": "Failed to open gallery. Please try again.",
+    "saveError": "Save Error",
+    "failedToSaveImage": "Failed to save the captured image.",
+    "analysisComplete": "Analysis complete!",
+    "noResultsToSave": "No analysis results to save.",
+    "saveFailed": "Save Failed",
+    "failedToSaveMeal": "Failed to save the meal. Please try again.",
+    "discardAnalysis": "Discard Analysis",
+    "discardConfirmation": "Are you sure you want to discard this analysis?",
+    "cancel": "Cancel",
+    "discard": "Discard",
+    "gallery": "Gallery",
+    "barcode": "Barcode",
+    "captureYourFood": "Capture your food in the frame",
+    "pointCameraAtBarcode": "Point camera at barcode to scan",
+    "readyToScanBarcode": "Ready to Scan Barcode",
+    "foodAnalysis": "Food Analysis",
+    "progress": {
+      "analyzingFood": "Analyzing food...",
+      "separatingIngredients": "Separating ingredients...",
+      "breakingDownMacros": "Breaking down macros...",
+      "finalizingResults": "Finalizing results...",
+      "complete": "Complete!"
+    },
+    "showDetails": "Show details",
+    "showLess": "Show less",
+    "saveMeal": "Save meal",
+    "savingMeal": "Saving meal..."
+  },
+  "history": {
+    "title": "Meal History",
+    "noMeals": "No meals found",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "loadingMeals": "Loading meals...",
+    "noMealsLogged": "No meals logged yet. Tap the Camera tab to log your first meal!",
+    "mealDetail": {
+      "loggedAt": "Logged at:",
+      "calories": "Calories",
+      "protein": "Protein",
+      "carbs": "Carbs",
+      "fat": "Fat",
+      "deleteMeal": "Delete Meal",
+      "error": "Error",
+      "mealIdMissing": "Meal ID is missing.",
+      "mealNotFound": "Meal not found.",
+      "failedToLoad": "Failed to load meal details.",
+      "deleteMealTitle": "Delete Meal",
+      "deleteConfirmation": "Are you sure you want to delete \"{mealName}\"?",
+      "cancel": "Cancel",
+      "delete": "Delete",
+      "success": "Success",
+      "mealDeletedSuccess": "Meal deleted successfully.",
+      "failedToDelete": "Failed to delete meal.",
+      "deleteError": "An error occurred while deleting the meal."
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "settings": "Settings",
+    "logout": "Logout",
+    "account": "Account",
+    "myPhysicalInfo": "My physical info",
+    "birthday": "Birthday",
+    "height": "Height",
+    "weight": "Weight",
+    "notSet": "Not set",
+    "appSettings": "App settings",
+    "notifications": "Notifications",
+    "language": "Language",
+    "languageDescription": "Restart app for full RTL support",
+    "legal": "Legal",
+    "privacyPolicy": "Privacy Policy",
+    "termsAndConditions": "Terms and Conditions",
+    "appVersion": "App Version",
+    "logOut": "Log Out",
+    "signInToTrack": "Sign in to track your nutrition",
+    "signInRegister": "Sign In / Register",
+    "error": "Error",
+    "failedToLogOut": "Failed to log out. Please try again.",
+    "unableToOpenPrivacy": "Unable to open Privacy Policy. Please try again.",
+    "unableToOpenTerms": "Unable to open Terms and Conditions. Please try again."
+  },
+  "tabs": {
+    "dashboard": "Dashboard",
+    "camera": "Camera",
+    "history": "History",
+    "profile": "Profile"
+  },
+  "days": {
+    "sun": "SUN",
+    "mon": "MON", 
+    "tue": "TUE",
+    "wed": "WED",
+    "thu": "THU",
+    "fri": "FRI",
+    "sat": "SAT"
+  },
+  "onboarding": {
+    "calorieApps": {
+      "title": "Have you tried other calorie tracking apps?",
+      "subtitle": "This will help us understand your experience.",
+      "options": {
+        "yes": "Yes",
+        "no": "No"
+      }
+    },
+    "paywall": {
+      "title": "Unlock Full Access",
+      "subtitle": "Enter your access code below to continue.",
+      "accessCodePlaceholder": "Access Code",
+      "continueWithCode": "Continue with Code",
+      "paymentPlaceholder": "Future payment options will be here.",
+      "invalidCode": "Invalid access code. Please try again."
+    },
+    "experience": {
+      "title": "Have you tried other calorie tracking apps?",
+      "options": {
+        "no": "No",
+        "yes": "Yes"
+      }
+    },
+    "gender": {
+      "title": "Choose your Gender",
+      "subtitle": "This will be used to calibrate your custom plan.",
+      "options": {
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
+      }
+    },
+    "goal": {
+      "title": "What is your goal?",
+      "subtitle": "This helps us generate a plan for your calorie intake.",
+      "options": {
+        "lose": "Lose weight",
+        "maintain": "Maintain",
+        "gain": "Gain weight"
+      }
+    },
+    "desiredWeight": {
+      "title": "What is your desired weight?",
+      "subtitle": "Set your target weight goal"
+    },
+    "heightWeight": {
+      "title": "Enter your height and weight",
+      "subtitle": "This helps us calculate your calorie needs.",
+      "height": "Height",
+      "weight": "Weight",
+      "cm": "cm",
+      "kg": "kg",
+      "ft": "ft",
+      "lbs": "lbs",
+      "invalidHeight": "Please enter a valid height.",
+      "invalidWeight": "Please enter a valid weight."
+    },
+    "activityLevel": {
+      "title": "What is your usual weekly activity level?",
+      "subtitle": "This will be used to calculate your daily calorie needs.",
+      "options": {
+        "0-2": {
+          "main": "0-2",
+          "sub": "Workouts now and then"
+        },
+        "3-5": {
+          "main": "3-5", 
+          "sub": "A few workouts per week"
+        },
+        "6+": {
+          "main": "6+",
+          "sub": "Dedicated athlete"
+        }
+      }
+    },
+    "diet": {
+      "title": "What is your diet preference?",
+      "subtitle": "This will help us suggest appropriate foods.",
+      "options": {
+        "classic": "Classic",
+        "pescatarian": "Pescatarian",
+        "vegetarian": "Vegetarian",
+        "vegan": "Vegan"
+      }
+    },
+    "dateOfBirth": {
+      "title": "When were you born?",
+      "subtitle": "This will be used to calibrate your custom plan.",
+      "day": "Day",
+      "month": "Month", 
+      "year": "Year",
+      "months": {
+        "january": "January",
+        "february": "February", 
+        "march": "March",
+        "april": "April",
+        "may": "May",
+        "june": "June",
+        "july": "July",
+        "august": "August",
+        "september": "September",
+        "october": "October",
+        "november": "November",
+        "december": "December"
+      }
+    },
+    "accomplishments": {
+      "title": "What would you like to accomplish?",
+      "subtitle": "Tell us about your goals and aspirations.",
+      "options": {
+        "healthier": "Eat and live healthier",
+        "confident": "Feel more confident and attractive", 
+        "energy": "Boost my energy and mood",
+        "body": "Feel better about my body"
+      }
+    },
+    "obstacles": {
+      "title": "What's stopping you from reaching your goals?",
+      "subtitle": "Understanding your challenges helps us support you better.",
+      "options": {
+        "consistency": "Lack of consistency",
+        "habits": "Unhealthy eating habits",
+        "support": "Lack of support",
+        "schedule": "Busy schedule",
+        "inspiration": "Lack of meal inspiration"
+      }
+    },
+    "source": {
+      "title": "How did you hear about us?",
+      "subtitle": "We'd love to know how you found us."
+    },
+    "workouts": {
+      "title": "What types of workouts do you enjoy?",
+      "subtitle": "This helps us understand your activity preferences."
+    },
+    "common": {
+      "continue": "Continue",
+      "back": "Back",
+      "skip": "Skip",
+      "done": "Done"
+    },
+    "calculatingPlan": {
+      "mainHeading": "We're setting\neverything up for you",
+      "dailyRecommendationHeading": "Daily recommendation for",
+      "dailyRecommendationCalories": "• Calories",
+      "dailyRecommendationCarbs": "• Carbs",
+      "dailyRecommendationProtein": "• Protein",
+      "dailyRecommendationFats": "• Fats",
+      "stages": {
+        "customizing": "Customizing health plan...",
+        "applyingFormula": "Applying BMR formula...",
+        "estimatingAge": "Estimating your metabolic age...",
+        "finalizing": "Finalizing results..."
+      }
+    },
+    "planResults": {
+      "congratulations": "Congratulations",
+      "customPlanReady": "your custom plan is ready!",
+      "dailyRecommendation": "Daily recommendation",
+      "canEditAnytime": "You can edit this anytime",
+      "calories": "Calories",
+      "carbs": "Carbs",
+      "protein": "Protein",
+      "fats": "Fats",
+      "letsGetStarted": "Let's get started!",
+      "loading": "Loading...",
+      "errorLoading": "Error loading your nutrition plan. Please try again.",
+      "goBack": "Go Back"
+    },
+    "saveProgress": {
+      "title": "Save your progress",
+      "signInWithApple": "Sign in with Apple",
+      "signInWithEmail": "Sign in with email",
+      "wouldYouLikeToSignInLater": "Would you like to sign in later?",
+      "skip": "Skip"
+    }
+  }
+} 

@@ -1,0 +1,399 @@
+{
+  "common": {
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "continue": "متابعة",
+    "back": "رجوع",
+    "next": "التالي",
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجح"
+  },
+  "auth": {
+    "login": "تسجيل الدخول",
+    "register": "إنشاء حساب",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "confirmPassword": "تأكيد كلمة المرور",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "loginWithGoogle": "متابعة بجوجل",
+    "loginWithApple": "متابعة بآبل",
+    "createAccount": "إنشاء حساب جديد",
+    "alreadyHaveAccount": "لديك حساب بالفعل؟",
+    "dontHaveAccount": "ليس لديك حساب؟",
+    "signUp": "إنشاء حساب",
+    "cancel": "إلغاء",
+    "loggingIn": "جاري تسجيل الدخول...",
+    "signingIn": "جاري تسجيل الدخول...",
+    "or": "أو",
+    "fullName": "الاسم الكامل",
+    "logIn": "تسجيل الدخول",
+    "creatingAccount": "جاري إنشاء الحساب...",
+    "braceYourself": "جسمك الصحي",
+    "forWhatsNext": "يبدأ هنا",
+    "getStarted": "ابدأ الآن",
+    "continueWithGoogle": "متابعة بجوجل",
+    "continueWithApple": "متابعة بآبل",
+    "errors": {
+      "emailRequired": "البريد الإلكتروني مطلوب",
+      "emailInvalid": "البريد الإلكتروني غير صحيح",
+      "passwordRequired": "كلمة المرور مطلوبة",
+      "passwordMinLength": "كلمة المرور يجب أن تكون 6 أحرف على الأقل",
+      "nameRequired": "الاسم مطلوب",
+      "confirmPasswordRequired": "يرجى تأكيد كلمة المرور",
+      "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
+      "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+      "emailNotConfirmed": "البريد الإلكتروني غير مؤكد. يرجى التحقق من صندوق الوارد للحصول على رابط التأكيد.",
+      "googleSignInFailed": "فشل تسجيل الدخول بجوجل. يرجى المحاولة مرة أخرى.",
+      "googleSignInCancelled": "تم إلغاء تسجيل الدخول",
+      "googlePlayServicesUnavailable": "خدمات جوجل بلاي غير متوفرة. يرجى تحديث خدمات جوجل بلاي والمحاولة مرة أخرى.",
+      "signInInProgress": "تسجيل الدخول قيد التقدم. يرجى الانتظار.",
+      "unexpectedError": "حدث خطأ غير متوقع",
+      "loginFailed": "فشل تسجيل الدخول",
+      "googleSignInFailedTitle": "فشل تسجيل الدخول بجوجل"
+    },
+    "comingSoon": {
+      "title": "قريباً",
+      "appleSignIn": "تسجيل الدخول بآبل سيكون متاحاً في تحديث مستقبلي."
+    }
+  },
+  "dashboard": {
+    "title": "الرئيسية",
+    "todaysMeals": "وجبات اليوم",
+    "nutrition": "التغذية",
+    "calories": "سعرات حرارية",
+    "protein": "بروتين",
+    "carbs": "نشويات",
+    "fat": "دهون",
+    "fats": "دهون",
+    "addMeal": "إضافة وجبة",
+    "recentlyLogged": "وجباتك الأخيرة",
+    "noFoodUploaded": "لم ترفع أي طعام",
+    "startTrackingMeals": "ابدأ تتبع وجبات اليوم بأخذ صورة سريعة.",
+    "loadMore": "تحميل المزيد",
+    "caloriesLeft": "سعرة متبقية",
+    "caloriesConsumed": "سعرات مستهلكة",
+    "caloriesOver": "سعرات زائدة",
+    "proteinLeft": "بروتين متبقي",
+    "proteinOver": "بروتين زائد",
+    "carbsLeft": "نشى متبقي",
+    "carbsOver": "نشى زائد",
+    "fatsLeft": "دهون متبقية",
+    "fatsOver": "دهون زائدة",
+    "errorFetchingNutritionPlan": "خطأ في جلب خطة التغذية:",
+    "readyToStart": "جاهز لبدء التتبع؟",
+    "tapPlusButtonBelow": "اضغط على زر + أدناه لإضافة وجبتك الأولى"
+  },
+  "camera": {
+    "title": "تحليل الطعام",
+    "takePhoto": "التقط صورة",
+    "analyzing": "جاري التحليل...",
+    "retake": "إعادة التقاط",
+    "saveAnalysis": "حفظ التحليل",
+    "requestingPermissions": "جاري طلب أذونات الكاميرا...",
+    "cameraPermissionNeeded": "نحتاج إذن الكاميرا لالتقاط صور طعامك.",
+    "grantPermission": "منح الإذن",
+    "permissionRequired": "الإذن مطلوب",
+    "galleryPermissionNeeded": "نحتاج الوصول إلى معرض الصور لاختيار الصور.",
+    "captureError": "خطأ في الالتقاط",
+    "captureFailed": "لا يمكن التقاط الصورة. يرجى المحاولة مرة أخرى.",
+    "failedToCaptureImage": "فشل في التقاط الصورة. العنوان مفقود.",
+    "imageProcessingError": "خطأ في معالجة الصورة",
+    "couldNotPrepareImage": "لا يمكن إعداد الصورة الملتقطة. يرجى المحاولة مرة أخرى.",
+    "couldNotPrepareSelected": "لا يمكن إعداد الصورة المحددة. يرجى المحاولة مرة أخرى.",
+    "analysisError": "خطأ في التحليل",
+    "failedToAnalyze": "فشل في تحليل الصورة. يرجى المحاولة مرة أخرى.",
+    "error": "خطأ",
+    "errorTakingPicture": "حدث خطأ أثناء التقاط الصورة.",
+    "failedToTakePicture": "فشل في التقاط الصورة. يرجى المحاولة مرة أخرى.",
+    "failedToOpenGallery": "فشل في فتح المعرض. يرجى المحاولة مرة أخرى.",
+    "saveError": "خطأ في الحفظ",
+    "failedToSaveImage": "فشل في حفظ الصورة الملتقطة.",
+    "analysisComplete": "اكتمل التحليل!",
+    "noResultsToSave": "لا توجد نتائج تحليل للحفظ.",
+    "saveFailed": "فشل الحفظ",
+    "failedToSaveMeal": "فشل في حفظ الوجبة. يرجى المحاولة مرة أخرى.",
+    "discardAnalysis": "تجاهل التحليل",
+    "discardConfirmation": "هل أنت متأكد من أنك تريد تجاهل هذا التحليل؟",
+    "cancel": "إلغاء",
+    "discard": "تجاهل",
+    "gallery": "الصور",
+    "barcode": "الباركود",
+    "captureYourFood": "ضع طعامك داخل الإطار",
+    "pointCameraAtBarcode": "وجّه الكاميرا على الباركود للمسح",
+    "readyToScanBarcode": "جاهز لمسح الباركود",
+    "foodAnalysis": "تحليل الطعام",
+    "progress": {
+      "analyzingFood": "جاري تحليل الطعام...",
+      "separatingIngredients": "جاري فصل المكونات...",
+      "breakingDownMacros": "جاري تحليل العناصر الغذائية...",
+      "finalizingResults": "جاري إنهاء النتائج...",
+      "complete": "اكتمل!"
+    },
+    "showDetails": "إظهار التفاصيل",
+    "showLess": "إظهار أقل",
+    "saveMeal": "حفظ الوجبة",
+    "savingMeal": "جاري حفظ الوجبة..."
+  },
+  "history": {
+    "title": "سجل الوجبات",
+    "noMeals": "لا توجد وجبات",
+    "today": "اليوم",
+    "yesterday": "أمس",
+    "loadingMeals": "جاري تحميل الوجبات...",
+    "noMealsLogged": "لم يتم تسجيل أي وجبات بعد. اضغط على علامة التبويب كاميرا لتسجيل وجبتك الأولى!",
+    "mealDetail": {
+      "loggedAt": "مسجل في:",
+      "calories": "سعرات حرارية",
+      "protein": "بروتين",
+      "carbs": "نشويات",
+      "fat": "دهون",
+      "deleteMeal": "حذف الوجبة",
+      "error": "خطأ",
+      "mealIdMissing": "معرف الوجبة مفقود.",
+      "mealNotFound": "الوجبة غير موجودة.",
+      "failedToLoad": "فشل في تحميل تفاصيل الوجبة.",
+      "deleteMealTitle": "حذف الوجبة",
+      "deleteConfirmation": "هل أنت متأكد من أنك تريد حذف \"{mealName}\"؟",
+      "cancel": "إلغاء",
+      "delete": "حذف",
+      "success": "نجح",
+      "mealDeletedSuccess": "تم حذف الوجبة بنجاح.",
+      "failedToDelete": "فشل في حذف الوجبة.",
+      "deleteError": "حدث خطأ أثناء حذف الوجبة."
+    }
+  },
+  "profile": {
+    "title": "الملف الشخصي",
+    "settings": "الإعدادات",
+    "logout": "تسجيل الخروج",
+    "account": "الحساب",
+    "myPhysicalInfo": "معلوماتي الجسدية",
+    "birthday": "تاريخ الميلاد",
+    "height": "الطول",
+    "weight": "الوزن",
+    "notSet": "غير محدد",
+    "appSettings": "إعدادات التطبيق",
+    "notifications": "الإشعارات",
+    "language": "اللغة",
+    "languageDescription": "أعد تشغيل التطبيق للحصول على دعم كامل للكتابة من اليمين لليسار",
+    "legal": "قانوني",
+    "privacyPolicy": "سياسة الخصوصية",
+    "termsAndConditions": "الشروط والأحكام",
+    "appVersion": "إصدار التطبيق",
+    "logOut": "تسجيل الخروج",
+    "signInToTrack": "سجل الدخول لتتبع تغذيتك",
+    "signInRegister": "تسجيل الدخول / التسجيل",
+    "error": "خطأ",
+    "failedToLogOut": "فشل في تسجيل الخروج. يرجى المحاولة مرة أخرى.",
+    "unableToOpenPrivacy": "لا يمكن فتح سياسة الخصوصية. يرجى المحاولة مرة أخرى.",
+    "unableToOpenTerms": "لا يمكن فتح الشروط والأحكام. يرجى المحاولة مرة أخرى."
+  },
+  "tabs": {
+    "dashboard": "الرئيسية",
+    "camera": "الكاميرا",
+    "history": "السجل",
+    "profile": "الملف الشخصي"
+  },
+  "days": {
+    "sun": "الأحد",
+    "mon": "الاثنين",
+    "tue": "الثلاثاء", 
+    "wed": "الأربعاء",
+    "thu": "الخميس",
+    "fri": "الجمعة",
+    "sat": "السبت"
+  },
+  "onboarding": {
+    "calorieApps": {
+      "title": "هل جربت تطبيقات أخرى لتتبع السعرات الحرارية؟",
+      "subtitle": "هذا سيساعدنا في فهم تجربتك.",
+      "options": {
+        "yes": "نعم",
+        "no": "لا"
+      }
+    },
+    "paywall": {
+      "title": "إلغاء قفل الوصول الكامل",
+      "subtitle": "أدخل رمز الوصول الخاص بك أدناه للمتابعة.",
+      "accessCodePlaceholder": "رمز الوصول",
+      "continueWithCode": "متابعة باستخدام الرمز",
+      "paymentPlaceholder": "ستكون خيارات الدفع المستقبلية هنا.",
+      "invalidCode": "رمز وصول غير صحيح. يرجى المحاولة مرة أخرى."
+    },
+    "experience": {
+      "title": "هل جربت تطبيقات أخرى لتتبع السعرات الحرارية؟",
+      "options": {
+        "no": "لا",
+        "yes": "نعم"
+      }
+    },
+    "gender": {
+      "title": "اختر جنسك",
+      "subtitle": "سيتم استخدام هذا لمعايرة خطتك المخصصة.",
+      "options": {
+        "male": "ذكر",
+        "female": "أنثى",
+        "other": "آخر"
+      }
+    },
+    "goal": {
+      "title": "ما هو هدفك؟",
+      "subtitle": "هذا يساعدنا في إنشاء خطة لتناول السعرات الحرارية.",
+      "options": {
+        "lose": "فقدان الوزن",
+        "maintain": "الحفاظ على الوزن",
+        "gain": "زيادة الوزن"
+      }
+    },
+    "desiredWeight": {
+      "title": "ما هو وزنك المرغوب؟",
+      "subtitle": "حرّك المسطرة لاختيار وزنك المرغوب"
+    },
+    "heightWeight": {
+      "title": "أدخل طولك ووزنك",
+      "subtitle": "هذا يساعدنا في حساب احتياجاتك من السعرات الحرارية.",
+      "height": "الطول (سم)",
+      "weight": "الوزن (كغ)",
+      "cm": "سم",
+      "kg": "كغ",
+      "ft": "قدم",
+      "lbs": "رطل",
+      "invalidHeight": "يرجى إدخال طول صحيح.",
+      "invalidWeight": "يرجى إدخال وزن صحيح."
+    },
+    "activityLevel": {
+      "title": "ما هو مستوى نشاطك الأسبوعي المعتاد؟",
+      "subtitle": "سيتم استخدام هذا لحساب احتياجاتك اليومية من السعرات الحرارية.",
+      "options": {
+        "0-2": {
+          "main": "0-2",
+          "sub": "تمارين من حين لآخر"
+        },
+        "3-5": {
+          "main": "3-5",
+          "sub": "بضعة تمارين في الأسبوع"
+        },
+        "6+": {
+          "main": "6+",
+          "sub": "رياضي متفان"
+        }
+      }
+    },
+    "diet": {
+      "title": "ما هو تفضيلك الغذائي؟",
+      "subtitle": "هذا سيساعدنا في اقتراح الأطعمة المناسبة.",
+      "options": {
+        "classic": "كلاسيكي",
+        "pescatarian": "نباتي سمكي",
+        "vegetarian": "نباتي",
+        "vegan": "نباتي صرف"
+      }
+    },
+    "dateOfBirth": {
+      "title": "متى ولدت؟",
+      "subtitle": "سيتم استخدام هذا لمعايرة خطتك المخصصة.",
+      "day": "اليوم",
+      "month": "الشهر",
+      "year": "السنة",
+      "months": {
+        "january": "يناير",
+        "february": "فبراير",
+        "march": "مارس",
+        "april": "أبريل",
+        "may": "مايو",
+        "june": "يونيو",
+        "july": "يوليو",
+        "august": "أغسطس",
+        "september": "سبتمبر",
+        "october": "أكتوبر",
+        "november": "نوفمبر",
+        "december": "ديسمبر"
+      }
+    },
+    "accomplishments": {
+      "title": "ماذا تريد أن تحقق؟",
+      "subtitle": "أخبرنا عن أهدافك وطموحاتك.",
+      "options": {
+        "healthier": "أكل وعيش بصحة أفضل",
+        "confident": "الشعور بثقة أكبر وجاذبية أكثر",
+        "energy": "زيادة طاقتي ومزاجي",
+        "body": "الشعور بشكل أفضل حول جسمي"
+      }
+    },
+    "obstacles": {
+      "title": "ما الذي يمنعك من تحقيق أهدافك؟",
+      "subtitle": "فهم تحدياتك يساعدنا في دعمك بشكل أفضل.",
+      "options": {
+        "consistency": "عدم الاستمرارية",
+        "habits": "عادات الأكل غير الصحية",
+        "support": "نقص الدعم",
+        "schedule": "جدول مزدحم",
+        "inspiration": "نقص الإلهام في الوجبات"
+      }
+    },
+    "source": {
+      "title": "كيف سمعت عنا؟",
+      "subtitle": "نود أن نعرف كيف عثرت علينا."
+    },
+    "workouts": {
+      "title": "ما هي أنواع التمارين التي تستمتع بها؟",
+      "subtitle": "هذا يساعدنا في فهم تفضيلاتك في النشاط."
+    },
+    "common": {
+      "continue": "متابعة",
+      "back": "رجوع",
+      "skip": "تخطي",
+      "done": "تم"
+    },
+    "calculatingPlan": {
+      "mainHeading": "جارٍ إعداد خطتك الغذائية المخصّصة بواسطة الذكاء اصطناعي",
+      "dailyRecommendationHeading": "التوصيات اليومية لـ",
+      "dailyRecommendationCalories": "• السعرات الحرارية",
+      "dailyRecommendationCarbs": "• النشويات",
+      "dailyRecommendationProtein": "• البروتين",
+      "dailyRecommendationFats": "• الدهون",
+      "stages": {
+        "customizing": "تخصيص خطة صحية...",
+        "applyingFormula": "تطبيق معادلة BMR...",
+        "estimatingAge": "تقدير عمرك الأيضي...",
+        "finalizing": "إنهاء النتائج..."
+      }
+    },
+    "planResults": {
+      "congratulations": "تهانينا",
+      "customPlanReady": "خطتك المخصصة جاهزة!",
+      "dailyRecommendation": "التوصية اليومية",
+      "canEditAnytime": "يمكنك تعديل هذا في أي وقت",
+      "calories": "السعرات الحرارية",
+      "carbs": "النشويات",
+      "protein": "البروتين",
+      "fats": "الدهون",
+      "letsGetStarted": "لنبدأ!",
+      "loading": "جاري التحميل...",
+      "errorLoading": "خطأ في تحميل خطة التغذية. يرجى المحاولة مرة أخرى.",
+      "goBack": "العودة"
+    },
+    "saveProgress": {
+      "title": "احفظ تقدمك",
+      "signInWithApple": "تسجيل الدخول بآبل",
+      "signInWithEmail": "تسجيل الدخول بالبريد الإلكتروني",
+      "wouldYouLikeToSignInLater": "هل تريد تسجيل الدخول لاحقاً؟",
+      "skip": "تخطي"
+    }
+  },
+  "months": {
+    "jan": "يناير",
+    "feb": "فبراير", 
+    "mar": "مارس",
+    "apr": "أبريل",
+    "may": "مايو",
+    "jun": "يونيو",
+    "jul": "يوليو",
+    "aug": "أغسطس",
+    "sep": "سبتمبر",
+    "oct": "أكتوبر",
+    "nov": "نوفمبر",
+    "dec": "ديسمبر"
+  }
+} 
