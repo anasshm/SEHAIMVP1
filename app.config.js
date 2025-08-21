@@ -1,6 +1,6 @@
 module.exports = {
   expo: {
-    name: "foodnsap",
+    name: "Seh AI",
     slug: "foodnsap",
     version: "1.0.0",
     orientation: "portrait",
@@ -21,7 +21,8 @@ module.exports = {
     ],
     ios: {
       supportsTablet: true,
-      bundleIdentifier: "sehai.createvalue.app"
+      bundleIdentifier: "com.foodnsap.app",
+      displayName: "Seh AI"
     },
     android: {
       adaptiveIcon: {
@@ -51,14 +52,14 @@ module.exports = {
       [
         "expo-camera",
         {
-          "cameraPermission": "Allow Foodnsap to access your camera to take photos of food for nutritional analysis."
+          "cameraPermission": "Allow Seh AI to access your camera to take photos of food for nutritional analysis."
         }
       ],
       [
         "expo-media-library",
         {
-          "photosPermission": "Allow Foodnsap to access your photos to save captured food images.",
-          "savePhotosPermission": "Allow Foodnsap to save photos to your photo library.",
+          "photosPermission": "Allow Seh AI to access your photos to save captured food images.",
+          "savePhotosPermission": "Allow Seh AI to save photos to your photo library.",
           "isAccessMediaLocationEnabled": true
         }
       ],
