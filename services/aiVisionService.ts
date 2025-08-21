@@ -2,7 +2,7 @@ import Constants from "expo-constants";
 import * as FileSystem from 'expo-file-system';
 
 // Access the API key from environment variables via Constants
-const OPENAI_KEY = Constants.expoConfig?.extra?.openaiApiKey || process.env.EXPO_PUBLIC_OPENAI_API_KEY;
+const OPENAI_KEY = Constants.expoConfig?.extra?.openaiApiKey || process.env.OPENAI_API_KEY;
 const OPENAI_URL = "https://api.openai.com/v1/chat/completions";
 
 // --- Original Simple Interface (the function will now return this again) ---
