@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { View, Text, TouchableOpacity, Animated } from 'react-native';
+import { View, Text, TouchableOpacity, Animated, I18nManager } from 'react-native';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { styled } from 'nativewind';
 import { Ionicons } from '@expo/vector-icons';
@@ -33,6 +33,16 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
   const { hasMeals, isLoading } = useMealCount();
   const pulseAnim = useRef(new Animated.Value(1)).current;
 
+  // Define the desired tab order to ensure consistency regardless of RTL
+  const tabOrder = ['index', 'history', 'profile', 'camera'];
+  
+  // Sort routes according to our desired order
+  const sortedRoutes = state.routes.sort((a, b) => {
+    const aIndex = tabOrder.indexOf(a.name);
+    const bIndex = tabOrder.indexOf(b.name);
+    return aIndex - bIndex;
+  });
+
   // Pulse animation for + button when no meals
   useEffect(() => {
     if (!isLoading && !hasMeals) {
@@ -62,12 +72,16 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
     return null;
   }
   
-  // Otherwise, render the tab bar
+  // Otherwise, render the tab bar with forced LTR layout
   return (
-    <StyledView style={{ backgroundColor: palette.surface, borderTopColor: palette.inactive, borderTopWidth: 1 }} className="flex-row">
-      {/* SafeAreaView for bottom padding on iOS */} 
-      <SafeAreaView edges={['bottom']} style={{ flex: 1, flexDirection: 'row' }}> 
-        {state.routes.map((route, index) => {
+    <StyledView style={{ backgroundColor: palette.surface, borderTopColor: palette.inactive, borderTopWidth: 1 }}>
+      {/* Force LTR direction for the entire tab bar container */}
+      <View style={{ direction: 'ltr', writingDirection: 'ltr' }} className="flex-row">
+        {/* SafeAreaView for bottom padding on iOS */} 
+        <SafeAreaView edges={['bottom']} style={{ flex: 1, flexDirection: 'row' }}> 
+        {sortedRoutes.map((route, displayIndex) => {
+          // Find the original index in state.routes for active state detection
+          const originalIndex = state.routes.findIndex(r => r.key === route.key);
           const { options } = descriptors[route.key];
           // Cast route.name to our defined RouteName type
           const config = routeConfig[route.name as RouteName]; 
@@ -76,7 +90,7 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
           const label = config?.label ?? options.title ?? route.name;
           
           // Determine active state
-          const isActive = state.index === index;
+          const isActive = state.index === originalIndex;
           
           // Get icon names from config
           const iconName = isActive ? config?.icon : config?.iconOutline;
@@ -158,7 +172,8 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
             </StyledTouchableOpacity>
           );
         })}
-      </SafeAreaView>
+        </SafeAreaView>
+      </View>
     </StyledView>
   );
 }
