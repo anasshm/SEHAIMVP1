@@ -52,7 +52,8 @@ module.exports = {
       [
         "expo-camera",
         {
-          "cameraPermission": "Allow Seh AI to access your camera to take photos of food for nutritional analysis."
+          "cameraPermission": "Allow Seh AI to access your camera to take photos of food for nutritional analysis.",
+          "cameraPermissionWhenInUse": "Allow Seh AI to access your camera to take photos of food for nutritional analysis."
         }
       ],
       [

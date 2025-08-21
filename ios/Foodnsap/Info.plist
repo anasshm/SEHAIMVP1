@@ -7,7 +7,7 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>$(DEVELOPMENT_LANGUAGE)</string>
     <key>CFBundleDisplayName</key>
-    <string>foodnsap</string>
+    <string>Seh AI</string>
     <key>CFBundleExecutable</key>
     <string>$(EXECUTABLE_NAME)</string>
     <key>CFBundleIdentifier</key>
@@ -45,13 +45,12 @@
       <true/>
     </dict>
     <key>NSCameraUsageDescription</key>
-    <string>Allow Foodnsap to access your camera to take photos of food for nutritional analysis.</string>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>Allow Foodnsap to access your microphone.</string>
+    <string>Allow Seh AI to access your camera to take photos of food for nutritional analysis.</string>
+
     <key>NSPhotoLibraryAddUsageDescription</key>
-    <string>Allow Foodnsap to save photos to your photo library.</string>
+    <string>Allow Seh AI to save photos to your photo library.</string>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string>Allow Foodnsap to access your photos to save captured food images.</string>
+    <string>Allow Seh AI to access your photos to save captured food images.</string>
     <key>NSUserActivityTypes</key>
     <array>
       <string>$(PRODUCT_BUNDLE_IDENTIFIER).expo.index_route</string>

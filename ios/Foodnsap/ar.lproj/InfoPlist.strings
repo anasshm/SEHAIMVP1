@@ -1,0 +1,12 @@
+/* Arabic InfoPlist.strings for Seh AI */
+
+/* Camera permission */
+"NSCameraUsageDescription" = "السماح لـ سه أي بالوصول إلى كاميرتك لالتقاط صور الطعام لتحليل القيم الغذائية.";
+
+/* Photo library permissions */
+"NSPhotoLibraryUsageDescription" = "السماح لـ سه أي بالوصول إلى صورك لحفظ صور الطعام الملتقطة.";
+"NSPhotoLibraryAddUsageDescription" = "السماح لـ سه أي بحفظ الصور في مكتبة الصور.";
+
+/* Bundle display name */
+"CFBundleDisplayName" = "سه أي";
+"CFBundleName" = "سه أي";

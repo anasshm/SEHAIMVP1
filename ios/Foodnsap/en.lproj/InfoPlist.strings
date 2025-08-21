@@ -1,0 +1,12 @@
+/* English InfoPlist.strings for Seh AI */
+
+/* Camera permission */
+"NSCameraUsageDescription" = "Allow Seh AI to access your camera to take photos of food for nutritional analysis.";
+
+/* Photo library permissions */
+"NSPhotoLibraryUsageDescription" = "Allow Seh AI to access your photos to save captured food images.";
+"NSPhotoLibraryAddUsageDescription" = "Allow Seh AI to save photos to your photo library.";
+
+/* Bundle display name */
+"CFBundleDisplayName" = "Seh AI";
+"CFBundleName" = "Seh AI";
