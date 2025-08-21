@@ -62,11 +62,22 @@ module.exports = {
           "savePhotosPermission": "Allow Foodnsap to save photos to your photo library.",
           "isAccessMediaLocationEnabled": true
         }
+      ],
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.642568612658-oi61gq9du7iolpkud7rik544o5cm4k0u"
+        }
       ]
     ],
     experiments: {
       typedRoutes: true
     },
+    updates: {
+      url: "https://u.expo.dev/c0ad657c-554c-4db7-aef5-474b946a6959"
+    },
+    runtimeVersion: "1.0.0",
+    platforms: ["ios", "android"],
     extra: {
       openaiApiKey: process.env.EXPO_PUBLIC_OPENAI_API_KEY,
       supabaseUrl: "https://zytvlzdocsiqnyhjhcbs.supabase.co",

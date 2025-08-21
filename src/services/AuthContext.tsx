@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Alert } from 'react-native';
 import { supabase, signInWithEmail, signUpWithEmail, signOut as supabaseSignOut, getCurrentUser, getCurrentSession } from './supabase';
-import { signInWithGoogle as googleSignIn, signOutFromGoogle, configureGoogleSignIn } from './googleAuth';
+import { signInWithGoogle as googleSignIn, signOutFromGoogle, configureGoogleSignIn } from '../../services/googleAuthService';
 import { User, Session } from '@supabase/supabase-js'; // Import User and Session types
 
 // Define the shape of our auth context

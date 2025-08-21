@@ -4,6 +4,13 @@ A React Native/Expo app for tracking food nutrition using AI-powered image analy
 
 ## Recent Updates
 
+### January 2025
+- **Google Authentication**: Fixed Google Sign-In integration with Supabase
+  - Resolved nonce validation issues between Google OAuth and Supabase
+  - Simplified authentication flow for better reliability
+  - Added proper Google Sign-In configuration for iOS client IDs
+  - Authentication now works seamlessly in development builds
+
 ### December 2024
 - **Arabic Localization**: Full Arabic support added throughout the app
   - Plan results page now fully translated
@@ -20,7 +27,7 @@ A React Native/Expo app for tracking food nutrition using AI-powered image analy
 - 🔍 Barcode scanning for packaged foods
 - 📊 Nutrition tracking and daily goals
 - 🌐 Multi-language support (English & Arabic)
-- 🔐 Secure authentication with Supabase
+- 🔐 Secure authentication with Supabase & Google OAuth
 - 📱 Native iOS and Android support
 
 ## Tech Stack
@@ -102,7 +109,11 @@ The app requires these environment variables for full functionality:
 
 For EAS builds, set sensitive variables via:
 ```bash
+# Required: Set OpenAI API key as EAS secret (not in eas.json for security)
 eas secret:create --name EXPO_PUBLIC_OPENAI_API_KEY --value your_key_here
+
+# Other secrets can also be set this way for production
+eas secret:create --name EXPO_PUBLIC_SUPABASE_ANON_KEY --value your_key_here
 ```
 
 ## File Directory
@@ -110,6 +121,8 @@ eas secret:create --name EXPO_PUBLIC_OPENAI_API_KEY --value your_key_here
 ### Core App Files
 - `app/(auth)/register.tsx` - Registration screen with haptic feedback on all buttons
 - `app/(onboarding)/plan_results.tsx` - Nutrition plan results with Arabic support
+- `services/googleAuthService.ts` - Google OAuth integration with Supabase
+- `src/services/AuthContext.tsx` - Authentication context and state management
 - `locales/en.json` - English translations
 - `locales/ar.json` - Arabic translations
 - `src/services/NutritionService.ts` - AI nutrition recommendations with Arabic brief generation
