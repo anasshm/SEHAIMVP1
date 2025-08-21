@@ -130,13 +130,13 @@ export const signOutFromGoogle = async () => {
   try {
     console.log('Signing out from Google');
     
-    // Check if user is signed in to Google
-    const isSignedIn = await GoogleSignin.isSignedIn();
-    if (isSignedIn) {
+    // Check if user has previous sign-in (replacement for isSignedIn)
+    const hasPreviousSignIn = await GoogleSignin.hasPreviousSignIn();
+    if (hasPreviousSignIn) {
       await GoogleSignin.signOut();
       console.log('Google sign-out successful');
     } else {
-      console.log('User was not signed in to Google');
+      console.log('No previous Google sign-in; skipping sign-out');
     }
   } catch (error) {
     console.error('Google sign-out error:', error);
@@ -146,7 +146,7 @@ export const signOutFromGoogle = async () => {
 // Check if user is signed in to Google
 export const isGoogleSignedIn = async (): Promise<boolean> => {
   try {
-    return await GoogleSignin.isSignedIn();
+    return await GoogleSignin.hasPreviousSignIn();
   } catch (error) {
     console.error('Error checking Google sign-in status:', error);
     return false;
@@ -156,8 +156,8 @@ export const isGoogleSignedIn = async (): Promise<boolean> => {
 // Get current Google user info
 export const getCurrentGoogleUser = async () => {
   try {
-    const isSignedIn = await GoogleSignin.isSignedIn();
-    if (!isSignedIn) {
+    const hasPreviousSignIn = await GoogleSignin.hasPreviousSignIn();
+    if (!hasPreviousSignIn) {
       return null;
     }
     
@@ -182,8 +182,8 @@ export const getCurrentGoogleUser = async () => {
 // Get Google access token (if needed for API calls)
 export const getGoogleAccessToken = async (): Promise<string | null> => {
   try {
-    const isSignedIn = await GoogleSignin.isSignedIn();
-    if (!isSignedIn) {
+    const hasPreviousSignIn = await GoogleSignin.hasPreviousSignIn();
+    if (!hasPreviousSignIn) {
       return null;
     }
     
