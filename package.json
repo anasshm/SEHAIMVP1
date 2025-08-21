@@ -117,5 +117,11 @@
         "react-native-gesture-handler"
       ]
     }
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "react-native-elements",
+      "unrs-resolver"
+    ]
   }
 }

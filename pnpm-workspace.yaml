@@ -1,6 +1,2 @@
 packages:
   - '.'
-
-onlyBuiltDependencies:
-  - react-native-elements
-  - unrs-resolver
