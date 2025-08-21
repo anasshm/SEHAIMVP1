@@ -52,12 +52,12 @@ function RootLayoutNav() {
 
     // SIMPLIFIED LOGIC: Only check if user is logged in
     if (!user) {
-      // User is not signed in - redirect to onboarding
+      // User is not signed in - redirect to auth register page (home page with "Calorie tracking made easy")
       if (!inAuthGroup && !inOnboardingGroup) { 
         if (__DEV__) {
-          console.log('[RootLayout] User not logged in, redirecting to onboarding...');
+          console.log('[RootLayout] User not logged in, redirecting to register page...');
         }
-        router.replace('/(onboarding)/step5_gender');
+        router.replace('/(auth)/register');
       } else {
         if (__DEV__) {
           console.log('[RootLayout] User not logged in, staying in auth or onboarding group.');
