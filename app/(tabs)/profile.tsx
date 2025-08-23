@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Switch, ScrollView, Alert, ActivityIndicator, SafeAreaView } from 'react-native';
+import { View, Text, TouchableOpacity, Switch, ScrollView, Alert, ActivityIndicator, SafeAreaView, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import { useAuth } from '@/src/services/AuthContext';
@@ -10,15 +10,16 @@ import LanguageSelector from '@/components/LanguageSelector';
 import i18n, { isRTL } from '@/utils/i18n';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NutritionRecommendation } from '@/src/services/NutritionService';
-import MacroEditModal from '@/components/MacroEditModal';
 import * as Haptics from 'expo-haptics';
+import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
+import { palette } from '@/constants/Colors';
 
 const NUTRITION_PLAN_STORAGE_KEY = '@nutritionPlan';
 
 export default function ProfileScreen() {
   const router = useRouter();
   const { user, signOut } = useAuth();
-  const { onboardingData, isLoading: isOnboardingDataLoading } = useOnboarding();
+  const { onboardingData, isLoading: isOnboardingDataLoading, updateOnboardingData } = useOnboarding();
   const isArabic = isRTL();
   
   // User data state
@@ -31,7 +32,17 @@ export default function ProfileScreen() {
 
   // Macro editing state
   const [nutritionPlan, setNutritionPlan] = useState<NutritionRecommendation | null>(null);
-  const [modalVisible, setModalVisible] = useState(false);
+  
+  // Inline editing states
+  const [editingField, setEditingField] = useState<string | null>(null);
+  const [tempValues, setTempValues] = useState({
+    calories: '',
+    carbs: '',
+    protein: '',
+    fats: '',
+    height: '',
+    weight: ''
+  });
   
   // Update user data when auth state changes
   useEffect(() => {
@@ -71,10 +82,126 @@ export default function ProfileScreen() {
     }
   }, [user]);
 
-  // Handle edit macros button press
-  const handleEditMacros = () => {
+  // Handle inline edit start
+  const handleStartEdit = (field: string, currentValue: number) => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    setModalVisible(true);
+    setEditingField(field);
+    setTempValues({
+      ...tempValues,
+      [field]: currentValue.toString()
+    });
+  };
+
+  // Handle inline edit save
+  const handleSaveInlineEdit = async (field: string) => {
+    try {
+      const value = parseInt(tempValues[field]) || 0;
+      
+      if (['calories', 'carbs', 'protein', 'fats'].includes(field)) {
+        // Handle macro editing
+        if (!nutritionPlan) return;
+        
+        const updatedPlan: NutritionRecommendation = {
+          ...nutritionPlan,
+          [`target${field.charAt(0).toUpperCase() + field.slice(1)}${field === 'calories' ? '' : 'Grams'}`]: value
+        };
+
+        // Save to AsyncStorage
+        await AsyncStorage.setItem(NUTRITION_PLAN_STORAGE_KEY, JSON.stringify(updatedPlan));
+        setNutritionPlan(updatedPlan);
+      } else if (['height', 'weight'].includes(field)) {
+        // Handle personal info editing
+        if (field === 'height') {
+          await updateOnboardingData({ 
+            height: { value: value, unit: 'cm' }
+          });
+        } else if (field === 'weight') {
+          await updateOnboardingData({ 
+            weight: { value: value, unit: 'kg' }
+          });
+        }
+      }
+      
+      setEditingField(null);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    } catch (error) {
+      console.error('[Profile] Error saving data:', error);
+    }
+  };
+
+  // Handle inline edit cancel
+  const handleCancelInlineEdit = () => {
+    setEditingField(null);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  };
+
+  // Render editable value
+  const renderEditableValue = (field: string, value: number, unit: string) => {
+    const isEditing = editingField === field;
+    
+    if (isEditing) {
+      return (
+        <View style={{
+          backgroundColor: '#F0F0F0',
+          paddingHorizontal: 10,
+          paddingVertical: 4,
+          borderRadius: 6,
+          flexDirection: isArabic ? 'row-reverse' : 'row',
+          alignItems: 'center',
+        }}>
+          <TextInput
+            value={tempValues[field]}
+            onChangeText={(text) => setTempValues({ ...tempValues, [field]: text })}
+            onBlur={() => handleSaveInlineEdit(field)}
+            onSubmitEditing={() => handleSaveInlineEdit(field)}
+            keyboardType="numeric"
+            style={{
+              fontSize: 15,
+              color: '#000',
+              minWidth: 40,
+              textAlign: isArabic ? 'right' : 'left',
+              padding: 0,
+              margin: 0,
+            }}
+            autoFocus
+          />
+          <Text style={{ 
+            marginLeft: isArabic ? 0 : 4, 
+            marginRight: isArabic ? 4 : 0,
+            fontSize: 15,
+            color: '#6E7685'
+          }}>
+            {unit}
+          </Text>
+        </View>
+      );
+    }
+    
+    return (
+      <TouchableOpacity 
+        onPress={() => handleStartEdit(field, value)}
+        style={{
+          backgroundColor: '#F5F5F7',
+          paddingHorizontal: 10,
+          paddingVertical: 4,
+          borderRadius: 6,
+          flexDirection: isArabic ? 'row-reverse' : 'row',
+          alignItems: 'center',
+        }}
+      >
+        <Text style={{ fontSize: 15, color: '#000', fontWeight: '500' }}>
+          {value}
+        </Text>
+        <Text style={{ 
+          marginLeft: isArabic ? 0 : 4, 
+          marginRight: isArabic ? 4 : 0,
+          fontSize: 15,
+          color: '#6E7685'
+        }}>
+          {unit}
+        </Text>
+      </TouchableOpacity>
+    );
   };
   
   // Handle logout
@@ -146,7 +273,93 @@ export default function ProfileScreen() {
           </>
         )}
         
-        {/* Section for Onboarding Data */}
+        {/* Macros Card */}
+        {user && nutritionPlan && (
+          <InfoCard 
+            title={
+              <View style={{ 
+                flexDirection: isArabic ? 'row-reverse' : 'row', 
+                alignItems: 'center',
+                textAlign: isArabic ? 'right' : 'left'
+              }}>
+                <MaterialCommunityIcons 
+                  name="chart-donut" 
+                  size={22} 
+                  color={palette.primary}
+                  style={{ marginRight: isArabic ? 0 : 8, marginLeft: isArabic ? 8 : 0 }}
+                />
+                <Text style={{ 
+                  fontSize: 18, 
+                  fontWeight: '600', 
+                  color: '#1D1923',
+                  textAlign: isArabic ? 'right' : 'left'
+                }}>
+                  {i18n.t('profile.dailyMacroGoals')}
+                </Text>
+              </View>
+            }
+          >
+            <FieldRow 
+              label={
+                <View style={{ flexDirection: isArabic ? 'row-reverse' : 'row', alignItems: 'center' }}>
+                  <MaterialCommunityIcons 
+                    name="fire" 
+                    size={18} 
+                    color={palette.accent}
+                    style={{ marginRight: isArabic ? 0 : 6, marginLeft: isArabic ? 6 : 0 }}
+                  />
+                  <Text style={{ fontSize: 15, color: '#1D1923' }}>{i18n.t('profile.calories')}</Text>
+                </View>
+              }
+              value={renderEditableValue('calories', nutritionPlan.targetCalories, i18n.t('profile.kcal'))}
+            />
+            <FieldRow 
+              label={
+                <View style={{ flexDirection: isArabic ? 'row-reverse' : 'row', alignItems: 'center' }}>
+                  <MaterialCommunityIcons 
+                    name="barley" 
+                    size={18} 
+                    color={palette.carbs}
+                    style={{ marginRight: isArabic ? 0 : 6, marginLeft: isArabic ? 6 : 0 }}
+                  />
+                  <Text style={{ fontSize: 15, color: '#1D1923' }}>{i18n.t('profile.carbs')}</Text>
+                </View>
+              }
+              value={renderEditableValue('carbs', nutritionPlan.targetCarbsGrams, i18n.t('profile.grams'))}
+            />
+            <FieldRow 
+              label={
+                <View style={{ flexDirection: isArabic ? 'row-reverse' : 'row', alignItems: 'center' }}>
+                  <MaterialCommunityIcons 
+                    name="food-drumstick" 
+                    size={18} 
+                    color={palette.protein}
+                    style={{ marginRight: isArabic ? 0 : 6, marginLeft: isArabic ? 6 : 0 }}
+                  />
+                  <Text style={{ fontSize: 15, color: '#1D1923' }}>{i18n.t('profile.protein')}</Text>
+                </View>
+              }
+              value={renderEditableValue('protein', nutritionPlan.targetProteinGrams, i18n.t('profile.grams'))}
+            />
+            <FieldRow 
+              label={
+                <View style={{ flexDirection: isArabic ? 'row-reverse' : 'row', alignItems: 'center' }}>
+                  <FontAwesome5 
+                    name="tint" 
+                    size={18} 
+                    color={palette.fats}
+                    style={{ marginRight: isArabic ? 0 : 6, marginLeft: isArabic ? 6 : 0 }}
+                  />
+                  <Text style={{ fontSize: 15, color: '#1D1923' }}>{i18n.t('profile.fats')}</Text>
+                </View>
+              }
+              value={renderEditableValue('fats', nutritionPlan.targetFatsGrams, i18n.t('profile.grams'))}
+              isLast={true}
+            />
+          </InfoCard>
+        )}
+
+        {/* Section for Physical Info */}
         {user && (
           <InfoCard title={i18n.t('profile.myPhysicalInfo')}>
             {isOnboardingDataLoading ? (
@@ -162,33 +375,14 @@ export default function ProfileScreen() {
                 <FieldRow 
                   label={i18n.t('profile.height')}
                   value={onboardingData.height 
-                    ? `${onboardingData.height.value} ${isArabic && onboardingData.height.unit === 'cm' ? 'سم' : onboardingData.height.unit}` 
+                    ? renderEditableValue('height', onboardingData.height.value, isArabic ? 'سم' : 'cm')
                     : i18n.t('profile.notSet')}
                 />
                 <FieldRow 
                   label={i18n.t('profile.weight')}
                   value={onboardingData.weight 
-                    ? `${onboardingData.weight.value} ${isArabic && onboardingData.weight.unit === 'kg' ? 'كغ' : onboardingData.weight.unit}` 
+                    ? renderEditableValue('weight', onboardingData.weight.value, isArabic ? 'كغ' : 'kg')
                     : i18n.t('profile.notSet')}
-                />
-                <FieldRow 
-                  label={i18n.t('profile.macros')}
-                  value={nutritionPlan 
-                    ? `${nutritionPlan.targetCalories} cal` 
-                    : i18n.t('profile.notSet')}
-                  right={
-                    nutritionPlan && (
-                      <TouchableOpacity onPress={handleEditMacros}>
-                        <Text style={{ 
-                          color: '#007AFF', 
-                          fontSize: 15,
-                          fontWeight: '500'
-                        }}>
-                          {i18n.t('profile.edit')}
-                        </Text>
-                      </TouchableOpacity>
-                    )
-                  }
                   isLast={true}
                 />
               </>
@@ -253,14 +447,6 @@ export default function ProfileScreen() {
         )}
       </ScrollView>
       </View>
-
-      {/* Macro Edit Modal */}
-      <MacroEditModal 
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        nutritionPlan={nutritionPlan}
-        onSave={(updatedPlan) => setNutritionPlan(updatedPlan)}
-      />
     </SafeAreaView>
   );
 }

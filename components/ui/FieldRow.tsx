@@ -4,8 +4,8 @@ import { styled } from 'nativewind';
 import { isRTL } from '@/utils/i18n';
 
 interface FieldRowProps {
-  label: string;
-  value?: string | number; // Used if 'right' prop is not provided
+  label: string | React.ReactNode;
+  value?: string | number | React.ReactNode; // Used if 'right' prop is not provided
   right?: React.ReactNode; // Custom component for the right side (e.g., a Switch)
   isLast?: boolean; // If true, bottom border will be omitted
 }
@@ -23,19 +23,27 @@ export const FieldRow: React.FC<FieldRowProps> = ({ label, value, right, isLast 
       className={`flex-row justify-between items-center h-12 ${(!hasCustomRightContent && !isLast) ? 'border-b border-[#E1E3E8]' : ''}`}
       style={{ flexDirection: isArabic ? 'row-reverse' : 'row' }}
     >
-      <StyledText 
-        className="text-[15px] text-[#1D1923]"
-        style={{ textAlign: isArabic ? 'right' : 'left' }}
-      >
-        {label}
-      </StyledText>
-      {hasCustomRightContent ? right : (
+      {typeof label === 'string' ? (
         <StyledText 
-          className="text-[15px] font-semibold text-[#1D1923]"
-          style={{ textAlign: isArabic ? 'left' : 'right' }}
+          className="text-[15px] text-[#1D1923]"
+          style={{ textAlign: isArabic ? 'right' : 'left' }}
         >
-          {String(value)} {/* Ensure value is a string for Text component */}
+          {label}
         </StyledText>
+      ) : (
+        label
+      )}
+      {hasCustomRightContent ? right : (
+        typeof value === 'string' || typeof value === 'number' ? (
+          <StyledText 
+            className="text-[15px] font-semibold text-[#1D1923]"
+            style={{ textAlign: isArabic ? 'left' : 'right' }}
+          >
+            {String(value)}
+          </StyledText>
+        ) : (
+          value
+        )
       )}
     </StyledView>
   );
