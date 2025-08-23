@@ -172,6 +172,8 @@
     "birthday": "Birthday",
     "height": "Height",
     "weight": "Weight",
+    "macros": "Macros",
+    "edit": "Edit",
     "notSet": "Not set",
     "appSettings": "App settings",
     "notifications": "Notifications",

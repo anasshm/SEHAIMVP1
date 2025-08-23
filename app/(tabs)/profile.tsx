@@ -8,6 +8,12 @@ import { InfoCard } from '@/components/ui/InfoCard';
 import { FieldRow } from '@/components/ui/FieldRow';
 import LanguageSelector from '@/components/LanguageSelector';
 import i18n, { isRTL } from '@/utils/i18n';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NutritionRecommendation } from '@/src/services/NutritionService';
+import MacroEditModal from '@/components/MacroEditModal';
+import * as Haptics from 'expo-haptics';
+
+const NUTRITION_PLAN_STORAGE_KEY = '@nutritionPlan';
 
 export default function ProfileScreen() {
   const router = useRouter();
@@ -22,6 +28,10 @@ export default function ProfileScreen() {
     notifications: true,
     darkMode: false,
   });
+
+  // Macro editing state
+  const [nutritionPlan, setNutritionPlan] = useState<NutritionRecommendation | null>(null);
+  const [modalVisible, setModalVisible] = useState(false);
   
   // Update user data when auth state changes
   useEffect(() => {
@@ -41,6 +51,31 @@ export default function ProfileScreen() {
       });
     }
   }, [user]);
+
+  // Load nutrition plan from AsyncStorage
+  useEffect(() => {
+    const loadNutritionPlan = async () => {
+      try {
+        const storedPlanString = await AsyncStorage.getItem(NUTRITION_PLAN_STORAGE_KEY);
+        if (storedPlanString) {
+          const plan = JSON.parse(storedPlanString) as NutritionRecommendation;
+          setNutritionPlan(plan);
+        }
+      } catch (error) {
+        console.error('[Profile] Error loading nutrition plan:', error);
+      }
+    };
+
+    if (user) {
+      loadNutritionPlan();
+    }
+  }, [user]);
+
+  // Handle edit macros button press
+  const handleEditMacros = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    setModalVisible(true);
+  };
   
   // Handle logout
   const handleLogout = async () => {
@@ -135,6 +170,25 @@ export default function ProfileScreen() {
                   value={onboardingData.weight 
                     ? `${onboardingData.weight.value} ${isArabic && onboardingData.weight.unit === 'kg' ? 'كغ' : onboardingData.weight.unit}` 
                     : i18n.t('profile.notSet')}
+                />
+                <FieldRow 
+                  label={i18n.t('profile.macros')}
+                  value={nutritionPlan 
+                    ? `${nutritionPlan.targetCalories} cal` 
+                    : i18n.t('profile.notSet')}
+                  right={
+                    nutritionPlan && (
+                      <TouchableOpacity onPress={handleEditMacros}>
+                        <Text style={{ 
+                          color: '#007AFF', 
+                          fontSize: 15,
+                          fontWeight: '500'
+                        }}>
+                          {i18n.t('profile.edit')}
+                        </Text>
+                      </TouchableOpacity>
+                    )
+                  }
                   isLast={true}
                 />
               </>
@@ -199,6 +253,14 @@ export default function ProfileScreen() {
         )}
       </ScrollView>
       </View>
+
+      {/* Macro Edit Modal */}
+      <MacroEditModal 
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        nutritionPlan={nutritionPlan}
+        onSave={(updatedPlan) => setNutritionPlan(updatedPlan)}
+      />
     </SafeAreaView>
   );
 }
