@@ -572,7 +572,7 @@ export default function CameraScreen() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
 
-  const handleOverlaySave = async () => {
+  const handleOverlaySave = async (editedResults?: { calories: number; protein: number; carbs: number; fat: number }) => {
     if (!analysisResults || !capturedImageUri) {
       Alert.alert(i18n.t('camera.error'), i18n.t('camera.noResultsToSave'));
       return;
@@ -586,6 +586,7 @@ export default function CameraScreen() {
       
       console.log('Starting meal save process...');
       console.log('Analysis results:', analysisResults);
+      console.log('Edited results:', editedResults);
       console.log('Image URI:', capturedImageUri);
       
       // 1. Upload the thumbnail first
@@ -600,15 +601,15 @@ export default function CameraScreen() {
         console.log('Continuing without thumbnail...');
       }
       
-      // 2. Prepare meal data
+      // 2. Prepare meal data - use edited values if available
       const mealData = {
         name: analysisResults.name || 'Unknown Food',
         image_url: thumbnailUrl || undefined,
         meal_time: new Date().toISOString(),
-        calories: analysisResults.calories || 0,
-        protein: analysisResults.protein || 0,
-        carbs: analysisResults.carbs || 0,
-        fat: analysisResults.fat || 0,
+        calories: editedResults?.calories ?? analysisResults.calories ?? 0,
+        protein: editedResults?.protein ?? analysisResults.protein ?? 0,
+        carbs: editedResults?.carbs ?? analysisResults.carbs ?? 0,
+        fat: editedResults?.fat ?? analysisResults.fat ?? 0,
       };
       
       console.log('Saving meal data:', mealData);

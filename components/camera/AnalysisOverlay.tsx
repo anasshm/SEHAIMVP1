@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Image, Dimensions, TouchableOpacity, ScrollView, Modal } from 'react-native';
+import { View, StyleSheet, Image, Dimensions, TouchableOpacity, ScrollView, Modal, TextInput, Keyboard, Text, KeyboardAvoidingView, Platform } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ThemedText } from '@/components/ThemedText';
@@ -8,6 +8,7 @@ import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { palette } from '@/constants/Colors';
 import { TitleSkeleton, NutritionCardSkeleton, DescriptionSkeleton } from '../skeleton';
 import i18n, { isRTL } from '@/utils/i18n';
+import * as Haptics from 'expo-haptics';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
@@ -546,7 +547,7 @@ interface AnalysisOverlayProps {
   showResults: boolean;
   isSaving?: boolean;
   onClose?: () => void;
-  onSave?: () => void;
+  onSave?: (editedResults: { calories: number; protein: number; carbs: number; fat: number }) => void;
   onDiscard?: () => void;
 }
 
@@ -564,6 +565,15 @@ export function AnalysisOverlay({
 }: AnalysisOverlayProps) {
   const [isDescriptionExpanded, setIsDescriptionExpanded] = React.useState(false);
   
+  // Editing states for macros
+  const [editingField, setEditingField] = React.useState<string | null>(null);
+  const [editedValues, setEditedValues] = React.useState({
+    calories: 0,
+    protein: 0,
+    carbs: 0,
+    fat: 0,
+  });
+  
   // STEP 1: Get safe area insets for proper button positioning
   const insets = useSafeAreaInsets();
   
@@ -571,8 +581,21 @@ export function AnalysisOverlay({
   React.useEffect(() => {
     if (!visible) {
       setIsDescriptionExpanded(false);
+      setEditingField(null);
     }
   }, [visible]);
+  
+  // Initialize edited values when analysis results are available
+  React.useEffect(() => {
+    if (showResults && analysisResults) {
+      setEditedValues({
+        calories: analysisResults.calories || 0,
+        protein: analysisResults.protein || 0,
+        carbs: analysisResults.carbs || 0,
+        fat: analysisResults.fat || 0,
+      });
+    }
+  }, [showResults, analysisResults]);
   
   // RESET DESCRIPTION STATE: Reset description expansion when new analysis starts  
   React.useEffect(() => {
@@ -603,11 +626,11 @@ export function AnalysisOverlay({
   const isAnalyzing = !showResults;
   const displayName = showResults && analysisResults?.name ? analysisResults.name : i18n.t('camera.foodAnalysis');
   
-  // Use real data if available, otherwise show dummy data
-  const displayCalories = showResults && analysisResults?.calories ? analysisResults.calories : 0;
-  const displayProtein = showResults && analysisResults?.protein ? Math.floor(analysisResults.protein) : 0;
-  const displayCarbs = showResults && analysisResults?.carbs ? Math.floor(analysisResults.carbs) : 0;
-  const displayFat = showResults && analysisResults?.fat ? Math.floor(analysisResults.fat) : 0;
+  // Use edited values if available, otherwise use original analysis results
+  const displayCalories = showResults ? editedValues.calories : 0;
+  const displayProtein = showResults ? Math.floor(editedValues.protein) : 0;
+  const displayCarbs = showResults ? Math.floor(editedValues.carbs) : 0;
+  const displayFat = showResults ? Math.floor(editedValues.fat) : 0;
 
   // Get localized nutrition config
   const NUTRITION_CONFIG = getNutritionConfig();
@@ -615,6 +638,25 @@ export function AnalysisOverlay({
   // Get the appropriate unit based on language
   const isArabic = isRTL();
   const gramUnit = isArabic ? 'جم' : 'g';
+
+  // Handle macro editing
+  const handleStartEdit = (field: string) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    setEditingField(field);
+  };
+  
+  const handleEndEdit = () => {
+    setEditingField(null);
+    Keyboard.dismiss();
+  };
+  
+  const handleValueChange = (field: string, value: string) => {
+    const numValue = parseInt(value) || 0;
+    setEditedValues(prev => ({
+      ...prev,
+      [field]: numValue
+    }));
+  };
 
   return (
     // STEP 5: Replace Modal with full-screen positioned overlay
@@ -690,7 +732,11 @@ export function AnalysisOverlay({
                 // Show real nutrition data when results are ready
                 <>
                   {/* Large Calories Card - Full Width */}
-                  <View style={linkedStyles.caloriesCard}>
+                  <TouchableOpacity 
+                    style={linkedStyles.caloriesCard}
+                    onPress={() => handleStartEdit('calories')}
+                    activeOpacity={0.7}
+                  >
                     <View style={linkedStyles.caloriesIconCircle}>
                       <FontAwesome5 
                         name={NUTRITION_CONFIG.calories.icon} 
@@ -700,59 +746,142 @@ export function AnalysisOverlay({
                       />
                     </View>
                     <View style={{ alignItems: 'center' }}>
-                      <ThemedText style={styles.nutritionValue}>
-                        {displayCalories}
-                      </ThemedText>
+                      {editingField === 'calories' ? (
+                        <TextInput
+                          style={[styles.nutritionValue, styles.nutritionInput]}
+                          value={String(editedValues.calories)}
+                          onChangeText={(value) => handleValueChange('calories', value)}
+                          onBlur={handleEndEdit}
+                          onSubmitEditing={handleEndEdit}
+                          keyboardType="numeric"
+                          returnKeyType="done"
+                          autoFocus
+                          selectTextOnFocus
+                        />
+                      ) : (
+                        <ThemedText style={styles.nutritionValue}>
+                          {displayCalories}
+                        </ThemedText>
+                      )}
                       <ThemedText style={styles.nutritionLabel}>{NUTRITION_CONFIG.calories.label}</ThemedText>
                     </View>
-                  </View>
+                  </TouchableOpacity>
                   
                   {/* Macro Cards Row - Protein, Carbs, Fats */}
                   <View style={linkedStyles.macroRow}>
                     {/* Protein Card */}
-                    <View style={linkedStyles.macroCard}>
+                    <TouchableOpacity 
+                      style={linkedStyles.macroCard}
+                      onPress={() => handleStartEdit('protein')}
+                      activeOpacity={0.7}
+                    >
                       <MaterialCommunityIcons 
                         name={NUTRITION_CONFIG.protein.icon} 
                         size={layout.base.nutrition.iconSize.macro} 
                         color={NUTRITION_CONFIG.protein.color}
                         style={linkedStyles.nutritionIcon}
                       />
-                      <ThemedText style={styles.nutritionValueSmall}>
-                        {displayProtein}{gramUnit}
-                      </ThemedText>
-                      <View style={{ height: 4 }} />
+                      {editingField === 'protein' ? (
+                        <View style={{ alignItems: 'center', width: '100%' }}>
+                          <TextInput
+                            style={[styles.nutritionValueSmall, styles.nutritionInputSmall]}
+                            value={String(editedValues.protein)}
+                            onChangeText={(value) => handleValueChange('protein', value)}
+                            onBlur={handleEndEdit}
+                            onSubmitEditing={handleEndEdit}
+                            keyboardType="numeric"
+                            returnKeyType="done"
+                            autoFocus
+                            selectTextOnFocus
+                          />
+                          <Text style={styles.nutritionUnitInline}>{gramUnit}</Text>
+                        </View>
+                      ) : (
+                        <>
+                          <ThemedText style={styles.nutritionValueSmall}>
+                            {displayProtein}{gramUnit}
+                          </ThemedText>
+                          <View style={{ height: 4 }} />
+                        </>
+                      )}
                       <ThemedText style={styles.nutritionUnitSmall}>{NUTRITION_CONFIG.protein.label}</ThemedText>
-                    </View>
+                    </TouchableOpacity>
                     
                     {/* Carbs Card */}
-                    <View style={linkedStyles.macroCard}>
+                    <TouchableOpacity 
+                      style={linkedStyles.macroCard}
+                      onPress={() => handleStartEdit('carbs')}
+                      activeOpacity={0.7}
+                    >
                       <MaterialCommunityIcons 
                         name={NUTRITION_CONFIG.carbs.icon} 
                         size={layout.base.nutrition.iconSize.macro} 
                         color={NUTRITION_CONFIG.carbs.color}
                         style={linkedStyles.nutritionIcon}
                       />
-                      <ThemedText style={styles.nutritionValueSmall}>
-                        {displayCarbs}{gramUnit}
-                      </ThemedText>
-                      <View style={{ height: 4 }} />
+                      {editingField === 'carbs' ? (
+                        <View style={{ alignItems: 'center', width: '100%' }}>
+                          <TextInput
+                            style={[styles.nutritionValueSmall, styles.nutritionInputSmall]}
+                            value={String(editedValues.carbs)}
+                            onChangeText={(value) => handleValueChange('carbs', value)}
+                            onBlur={handleEndEdit}
+                            onSubmitEditing={handleEndEdit}
+                            keyboardType="numeric"
+                            returnKeyType="done"
+                            autoFocus
+                            selectTextOnFocus
+                          />
+                          <Text style={styles.nutritionUnitInline}>{gramUnit}</Text>
+                        </View>
+                      ) : (
+                        <>
+                          <ThemedText style={styles.nutritionValueSmall}>
+                            {displayCarbs}{gramUnit}
+                          </ThemedText>
+                          <View style={{ height: 4 }} />
+                        </>
+                      )}
                       <ThemedText style={styles.nutritionUnitSmall}>{NUTRITION_CONFIG.carbs.label}</ThemedText>
-                    </View>
+                    </TouchableOpacity>
                     
                     {/* Fats Card */}
-                    <View style={linkedStyles.macroCard}>
+                    <TouchableOpacity 
+                      style={linkedStyles.macroCard}
+                      onPress={() => handleStartEdit('fat')}
+                      activeOpacity={0.7}
+                    >
                       <FontAwesome5 
                         name={NUTRITION_CONFIG.fats.icon} 
                         size={layout.base.nutrition.iconSize.macro} 
                         color={NUTRITION_CONFIG.fats.color}
                         style={linkedStyles.nutritionIcon}
                       />
-                      <ThemedText style={styles.nutritionValueSmall}>
-                        {displayFat}{gramUnit}
-                      </ThemedText>
-                      <View style={{ height: 4 }} />
+                      {editingField === 'fat' ? (
+                        <View style={{ alignItems: 'center', width: '100%' }}>
+                          <TextInput
+                            style={[styles.nutritionValueSmall, styles.nutritionInputSmall]}
+                            value={String(editedValues.fat)}
+                            onChangeText={(value) => handleValueChange('fat', value)}
+                            onBlur={handleEndEdit}
+                            onSubmitEditing={handleEndEdit}
+                            keyboardType="numeric"
+                            returnKeyType="done"
+                            autoFocus
+                            selectTextOnFocus
+                          />
+                          <Text style={styles.nutritionUnitInline}>{gramUnit}</Text>
+                        </View>
+                      ) : (
+                        <>
+                          <ThemedText style={styles.nutritionValueSmall}>
+                            {displayFat}{gramUnit}
+                          </ThemedText>
+                          <View style={{ height: 4 }} />
+                        </>
+                      )}
                       <ThemedText style={styles.nutritionUnitSmall}>{NUTRITION_CONFIG.fats.label}</ThemedText>
-                    </View>
+                    </TouchableOpacity>
                   </View>
                 </>
               )}
@@ -855,7 +984,7 @@ export function AnalysisOverlay({
             
             <TouchableOpacity 
               style={[linkedStyles.button, linkedStyles.primaryButton]}
-              onPress={onSave}
+              onPress={() => onSave?.(editedValues)}
               activeOpacity={0.7}
               disabled={!showResults || isSaving}
             >
@@ -866,6 +995,17 @@ export function AnalysisOverlay({
           </View>
         )}
       </View>
+      
+      {/* Done button overlay when editing */}
+      {editingField && (
+        <TouchableOpacity 
+          style={styles.doneButton}
+          onPress={handleEndEdit}
+          activeOpacity={0.8}
+        >
+          <ThemedText style={styles.doneButtonText}>{i18n.t('common.done')}</ThemedText>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -1038,5 +1178,56 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     height: 24, // 24pt as specified
+  },
+  // Input styles for editing macros
+  nutritionInput: {
+    fontSize: screenHeight < 700 ? 20 : 24,
+    fontWeight: '700',
+    color: palette.primary,
+    marginBottom: 5,
+    borderBottomWidth: 2,
+    borderBottomColor: palette.primary,
+    paddingHorizontal: 8,
+    minWidth: 80,
+    textAlign: 'center',
+  },
+  nutritionInputSmall: {
+    fontSize: screenHeight < 700 ? 18 : 20,
+    fontWeight: '700',
+    color: palette.primary,
+    borderBottomWidth: 2,
+    borderBottomColor: palette.primary,
+    paddingHorizontal: 4,
+    minWidth: 50,
+    textAlign: 'center',
+  },
+  nutritionUnitInline: {
+    fontSize: screenHeight < 700 ? 14 : 16,
+    fontWeight: '500',
+    color: palette.inactive,
+    position: 'absolute',
+    right: -10,
+    top: 2,
+  },
+  // Done button for editing
+  doneButton: {
+    position: 'absolute',
+    bottom: 340, // Above the keyboard
+    right: 20,
+    backgroundColor: palette.primary,
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 25,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    zIndex: 1001,
+  },
+  doneButtonText: {
+    color: palette.surface,
+    fontSize: 16,
+    fontWeight: '600',
   },
 }); 

@@ -10,6 +10,7 @@
     "success": "نجح",
     "ok": "موافق",
     "warning": "تحذير",
+    "done": "تم",
     "mealSavedSuccessfully": "تم حفظ الوجبة بنجاح",
     "failedToSaveMeal": "فشل حفظ الوجبة",
     "unknownError": "خطأ غير معروف",
