@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, RefreshControl, FlatList, TouchableOpacity, ActivityIndicator, Button, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, RefreshControl, FlatList, TouchableOpacity, ActivityIndicator, Button, StyleSheet, Image } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { useRouter, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { listMeals, getMealsForDate } from '@/services/mealService';
@@ -245,8 +245,15 @@ export default function DashboardScreen() {
           />
         }
       >
+        {/* Logo at the top center */}
+        <View style={styles.logoContainer}>
+          <Image 
+            source={require('@/assets/images/Seh-ai-logo.png')} 
+            style={styles.logo}
+            resizeMode="contain"
+          />
+        </View>
 
-        
         {/* Day Carousel */}
         <DayCarousel selectedDate={selectedDate} onDateSelect={handleDateSelect} />
 
@@ -362,5 +369,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     padding: 10,
+  },
+  logoContainer: {
+    alignItems: 'center',
+    marginTop: 5,
+  },
+  logo: {
+    width: 120,
+    height: 60,
   },
 });

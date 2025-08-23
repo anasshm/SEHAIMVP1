@@ -19,7 +19,7 @@ const NUTRITION_PLAN_STORAGE_KEY = '@nutritionPlan';
 export default function ProfileScreen() {
   const router = useRouter();
   const { user, signOut } = useAuth();
-  const { onboardingData, isLoading: isOnboardingDataLoading, updateOnboardingData } = useOnboarding();
+  const { onboardingData, isLoading: isOnboardingDataLoading, setHeight, setWeight } = useOnboarding();
   const isArabic = isRTL();
   
   // User data state
@@ -120,13 +120,9 @@ export default function ProfileScreen() {
       } else if (['height', 'weight'].includes(field)) {
         // Handle personal info editing
         if (field === 'height') {
-          await updateOnboardingData({ 
-            height: { value: value, unit: 'cm' }
-          });
+          setHeight({ value: value.toString(), unit: 'cm' });
         } else if (field === 'weight') {
-          await updateOnboardingData({ 
-            weight: { value: value, unit: 'kg' }
-          });
+          setWeight({ value: value.toString(), unit: 'kg' });
         }
       }
       
@@ -419,13 +415,13 @@ export default function ProfileScreen() {
                 <FieldRow 
                   label={i18n.t('profile.height')}
                   value={onboardingData.height 
-                    ? renderEditableValue('height', onboardingData.height.value, isArabic ? 'سم' : 'cm')
+                    ? renderEditableValue('height', parseInt(onboardingData.height.value) || 0, isArabic ? 'سم' : 'cm')
                     : i18n.t('profile.notSet')}
                 />
                 <FieldRow 
                   label={i18n.t('profile.weight')}
                   value={onboardingData.weight 
-                    ? renderEditableValue('weight', onboardingData.weight.value, isArabic ? 'كغ' : 'kg')
+                    ? renderEditableValue('weight', parseInt(onboardingData.weight.value) || 0, isArabic ? 'كغ' : 'kg')
                     : i18n.t('profile.notSet')}
                   isLast={true}
                 />
