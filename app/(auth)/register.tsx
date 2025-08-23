@@ -145,7 +145,7 @@ export default function RegisterScreen() {
     // Navigate to page 1 of the new onboarding system
     const firstPageScreen = getScreenName(1);
     if (firstPageScreen) {
-      router.push(`/(onboarding)/${firstPageScreen}`);
+      router.replace(`/(onboarding)/${firstPageScreen}`);
     }
     setLoading(false);
   };

@@ -7,14 +7,13 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import i18n, { isRTL } from '@/utils/i18n';
 import { useAuth } from '@/src/services/AuthContext';
-import { useGoToNextPage } from '@/utils/onboarding/navigationHelper';
+
 import { isAppleAuthAvailable } from '@/services/appleAuthService';
 
 export default function SaveProgressScreen() {
   const router = useRouter();
   const { setIsOnboardingComplete } = useOnboarding();
   const { signInWithGoogle, signInWithApple, isAppleLoading } = useAuth();
-  const goToNextPage = useGoToNextPage();
   const isArabic = isRTL();
   const [isAppleAvailable, setIsAppleAvailable] = useState(false);
 
@@ -62,11 +61,7 @@ export default function SaveProgressScreen() {
     router.push('/(auth)/register-form');
   };
 
-  const handleSkip = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-    // Navigate to the next page in onboarding (which will be paywall)
-    goToNextPage();
-  };
+
 
   return (
     <View style={styles.container}>
@@ -116,18 +111,6 @@ export default function SaveProgressScreen() {
                 {i18n.t('onboarding.saveProgress.signInWithEmail')}
               </Text>
             </View>
-          </TouchableOpacity>
-        </View>
-
-        {/* Skip option */}
-        <View style={[styles.skipContainer, isArabic && styles.skipContainerRTL]}>
-          <Text style={[styles.skipText, isArabic && styles.skipTextRTL]}>
-            {i18n.t('onboarding.saveProgress.wouldYouLikeToSignInLater')}
-          </Text>
-          <TouchableOpacity onPress={handleSkip}>
-            <Text style={styles.skipButton}>
-              {i18n.t('onboarding.saveProgress.skip')}
-            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -215,27 +198,5 @@ const styles = StyleSheet.create({
     marginLeft: 0,
     marginRight: 12,
   },
-  skipContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  skipContainerRTL: {
-    flexDirection: 'row-reverse',
-  },
-  skipText: {
-    fontSize: 16,
-    color: '#666',
-    marginRight: 8,
-  },
-  skipTextRTL: {
-    marginRight: 0,
-    marginLeft: 8,
-  },
-  skipButton: {
-    fontSize: 16,
-    color: '#000',
-    fontWeight: '600',
-    textDecorationLine: 'underline',
-  },
+
 }); 

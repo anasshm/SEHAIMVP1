@@ -228,7 +228,7 @@ export default function CalculatingPlanScreen() {
 
   const proceedToResults = () => {
     console.log('[CalculatingPlan] Proceeding to results page');
-    router.push('/(onboarding)/plan_results');
+    router.replace('/(onboarding)/plan_results');
   };
 
   const renderCheckmark = (stageIndex: number) => {

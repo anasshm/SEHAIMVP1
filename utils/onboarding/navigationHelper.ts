@@ -39,7 +39,7 @@ export function useGoToNextPage() {
     const nextScreenName = getScreenName(nextPageNumber);
     
     if (nextScreenName) {
-      router.push(`/(onboarding)/${nextScreenName}`);
+      router.replace(`/(onboarding)/${nextScreenName}`);
     } else {
       console.error(`No screen mapped for page ${nextPageNumber}`);
     }
@@ -66,7 +66,7 @@ export function useGoToPreviousPage() {
     const previousScreenName = getScreenName(previousPageNumber);
     
     if (previousScreenName) {
-      router.push(`/(onboarding)/${previousScreenName}`);
+      router.replace(`/(onboarding)/${previousScreenName}`);
     } else {
       console.error(`No screen mapped for page ${previousPageNumber}`);
     }
@@ -88,7 +88,7 @@ export function useGoToPage() {
     const screenName = getScreenName(pageNumber);
     
     if (screenName) {
-      router.push(`/(onboarding)/${screenName}`);
+      router.replace(`/(onboarding)/${screenName}`);
     } else {
       console.error(`No screen mapped for page ${pageNumber}`);
     }
