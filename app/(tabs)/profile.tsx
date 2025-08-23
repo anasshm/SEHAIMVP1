@@ -63,6 +63,9 @@ export default function ProfileScreen() {
     }
   }, [user]);
 
+  // Store original nutrition plan for reset functionality
+  const [originalNutritionPlan, setOriginalNutritionPlan] = useState<NutritionRecommendation | null>(null);
+
   // Load nutrition plan from AsyncStorage
   useEffect(() => {
     const loadNutritionPlan = async () => {
@@ -71,6 +74,11 @@ export default function ProfileScreen() {
         if (storedPlanString) {
           const plan = JSON.parse(storedPlanString) as NutritionRecommendation;
           setNutritionPlan(plan);
+          
+          // Store original values if not already set
+          if (!originalNutritionPlan) {
+            setOriginalNutritionPlan(plan);
+          }
         }
       } catch (error) {
         console.error('[Profile] Error loading nutrition plan:', error);
@@ -80,7 +88,7 @@ export default function ProfileScreen() {
     if (user) {
       loadNutritionPlan();
     }
-  }, [user]);
+  }, [user, originalNutritionPlan]);
 
   // Handle inline edit start
   const handleStartEdit = (field: string, currentValue: number) => {
@@ -133,6 +141,22 @@ export default function ProfileScreen() {
   const handleCancelInlineEdit = () => {
     setEditingField(null);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  };
+
+  // Handle reset macros to original values
+  const handleResetMacros = async () => {
+    if (!originalNutritionPlan) return;
+    
+    try {
+      // Reset to original values
+      await AsyncStorage.setItem(NUTRITION_PLAN_STORAGE_KEY, JSON.stringify(originalNutritionPlan));
+      setNutritionPlan(originalNutritionPlan);
+      
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      console.log('[Profile] Macros reset to original values');
+    } catch (error) {
+      console.error('[Profile] Error resetting macros:', error);
+    }
   };
 
   // Render editable value
@@ -280,14 +304,9 @@ export default function ProfileScreen() {
               <View style={{ 
                 flexDirection: isArabic ? 'row-reverse' : 'row', 
                 alignItems: 'center',
-                textAlign: isArabic ? 'right' : 'left'
+                justifyContent: 'space-between',
+                width: '100%'
               }}>
-                <MaterialCommunityIcons 
-                  name="chart-donut" 
-                  size={22} 
-                  color={palette.primary}
-                  style={{ marginRight: isArabic ? 0 : 8, marginLeft: isArabic ? 8 : 0 }}
-                />
                 <Text style={{ 
                   fontSize: 18, 
                   fontWeight: '600', 
@@ -296,6 +315,31 @@ export default function ProfileScreen() {
                 }}>
                   {i18n.t('profile.dailyMacroGoals')}
                 </Text>
+                <TouchableOpacity 
+                  onPress={handleResetMacros}
+                  style={{
+                    flexDirection: isArabic ? 'row-reverse' : 'row',
+                    alignItems: 'center',
+                    paddingHorizontal: 8,
+                    paddingVertical: 4,
+                    borderRadius: 6,
+                    backgroundColor: '#F5F5F7',
+                  }}
+                >
+                  <MaterialCommunityIcons 
+                    name="restore" 
+                    size={16} 
+                    color="#007AFF"
+                    style={{ marginRight: isArabic ? 0 : 4, marginLeft: isArabic ? 4 : 0 }}
+                  />
+                  <Text style={{ 
+                    color: '#007AFF', 
+                    fontSize: 14,
+                    fontWeight: '500'
+                  }}>
+                    {i18n.t('profile.reset')}
+                  </Text>
+                </TouchableOpacity>
               </View>
             }
           >
