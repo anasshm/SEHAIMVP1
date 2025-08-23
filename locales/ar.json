@@ -7,7 +7,17 @@
     "next": "التالي",
     "loading": "جاري التحميل...",
     "error": "خطأ",
-    "success": "نجح"
+    "success": "نجح",
+    "ok": "موافق",
+    "warning": "تحذير",
+    "mealSavedSuccessfully": "تم حفظ الوجبة بنجاح",
+    "failedToSaveMeal": "فشل حفظ الوجبة",
+    "unknownError": "خطأ غير معروف",
+    "missingDataToSaveMeal": "البيانات المطلوبة لحفظ الوجبة غير موجودة",
+    "noImageAvailableContinue": "لا توجد صورة متاحة لهذه الوجبة. هل تريد المتابعة؟",
+    "noImageDataFound": "لم يتم العثور على بيانات الصورة. يرجى المحاولة مرة أخرى.",
+    "analysisError": "خطأ في التحليل",
+    "problemAnalyzingImage": "حدثت مشكلة في تحليل صورة الطعام. يرجى المحاولة مرة أخرى."
   },
   "auth": {
     "login": "تسجيل الدخول",

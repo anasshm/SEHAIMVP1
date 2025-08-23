@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, StyleSheet } from 'react-native';
 import { View, Text, TouchableOpacity, Alert, ScrollView, Image } from 'react-native'; // Added Image
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { FoodAnalysisCard } from '@/components/food/FoodAnalysisCard';
 import { analyzeFoodImage, FoodAnalysisResult } from '@/services/aiVisionService';
 import { ThemedText } from '@/components/ThemedText';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import * as FileSystem from 'expo-file-system';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -16,11 +15,40 @@ import { syncSupabaseAuth } from '@/services/authUtils';
 import { supabase } from '@/services/db';
 import { styled } from 'nativewind';
 import { fetchProductDetails, ProductNutritionInfo } from '@/services/productLookupService';
+import i18n, { isRTL } from '@/utils/i18n';
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
 const StyledTouchableOpacity = styled(TouchableOpacity);
 const StyledImage = styled(Image); // For displaying the food image
+
+// NUTRITION ICON AND COLOR MAPPING - Matches camera analysis
+const getNutritionConfig = () => ({
+  calories: {
+    icon: 'fire' as const,
+    iconLibrary: 'FontAwesome5' as const,
+    color: palette.accent, // #1C1A23
+    label: i18n.t('dashboard.calories'),
+  },
+  protein: {
+    icon: 'food-drumstick' as const,
+    iconLibrary: 'MaterialCommunityIcons' as const,
+    color: palette.protein, // #E24D43
+    label: i18n.t('dashboard.protein'),
+  },
+  carbs: {
+    icon: 'barley' as const,
+    iconLibrary: 'MaterialCommunityIcons' as const,
+    color: palette.carbs, // #D1A46F
+    label: i18n.t('dashboard.carbs'),
+  },
+  fats: {
+    icon: 'tint' as const,
+    iconLibrary: 'FontAwesome5' as const,
+    color: palette.fats, // #F6C45F
+    label: i18n.t('dashboard.fats'),
+  },
+});
 
 const styles = StyleSheet.create({
   barcodeText: {
@@ -29,18 +57,143 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     paddingHorizontal: 20,
   },
-  savingOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 10, // Ensure it's on top
+  // Macro card styles matching camera analysis
+  nutritionContainer: {
+    backgroundColor: 'white',
+    borderRadius: 16,
+    padding: 20,
+    marginHorizontal: 16,
+    marginVertical: 8,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
   },
-  savingText: {
-    color: palette.surface,
-    marginTop: 12,
-    fontSize: 16,
+  nutritionTitle: {
+    fontSize: 20,
     fontWeight: '600',
+    color: palette.primary,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  caloriesCard: {
+    width: '100%',
+    backgroundColor: palette.background,
+    borderRadius: 12,
+    padding: 14,
+    alignItems: 'center',
+    minHeight: 70,
+    justifyContent: 'center',
+    marginBottom: 10,
+    flexDirection: 'row',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  caloriesIconCircle: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: palette.accent + '10',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 16,
+  },
+  macroRow: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 12,
+  },
+  macroCard: {
+    flex: 1,
+    backgroundColor: palette.background,
+    borderRadius: 12,
+    padding: 10,
+    alignItems: 'center',
+    minHeight: 60,
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  nutritionIcon: {
+    marginBottom: 4,
+  },
+  nutritionValue: {
+    fontSize: 24,
+    fontWeight: '700',
+    color: palette.primary,
+    marginBottom: 5,
+  },
+  nutritionLabel: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: palette.inactive,
+    letterSpacing: 0.5,
+  },
+  nutritionValueSmall: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: palette.primary,
+    marginBottom: 4,
+    textAlign: 'center',
+  },
+  nutritionUnitSmall: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: palette.inactive,
+    letterSpacing: 0.5,
+    textAlign: 'center',
+  },
+  // Button styles matching camera analysis
+  buttonContainer: {
+    flexDirection: 'row',
+    gap: 12,
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 20,
+    backgroundColor: 'white',
+    borderTopWidth: 1,
+    borderTopColor: palette.inactive + '20',
+  },
+  button: {
+    flex: 1,
+    backgroundColor: palette.background,
+    borderRadius: 12,
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 52,
+    borderWidth: 1,
+    borderColor: palette.inactive,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  primaryButton: {
+    backgroundColor: palette.primary,
+    borderColor: palette.primary,
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 4,
+  },
+  buttonText: {
+    fontSize: 17,
+    fontWeight: '600',
+    color: palette.primary,
+  },
+  primaryButtonText: {
+    color: palette.surface,
   },
 });
 
@@ -149,7 +302,7 @@ export default function ResultsScreen() {
         setError('No image data found to analyze.');
         setIsLoading(false);
         setDisplayMode('error');
-        Alert.alert('Error', 'No image data found. Please try again.', [{ text: 'OK', onPress: () => router.replace('/(tabs)/camera') }]);
+        Alert.alert(i18n.t('common.error'), i18n.t('common.noImageDataFound'), [{ text: i18n.t('common.ok'), onPress: () => router.replace('/(tabs)/camera') }]);
         return;
       }
       
@@ -172,10 +325,10 @@ export default function ResultsScreen() {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       
       Alert.alert(
-        'Analysis Error',
-        'There was a problem analyzing your food image. Please try again.',
+        i18n.t('common.analysisError'),
+        i18n.t('common.problemAnalyzingImage'),
         [{ 
-          text: 'OK', 
+          text: i18n.t('common.ok'), 
           onPress: () => {
             // Navigate back to camera on error
             router.replace('/(tabs)/camera');
@@ -202,7 +355,7 @@ export default function ResultsScreen() {
     // Check if we have the necessary data to save a meal
     if (!result || !user) {
       console.log('Missing data:', { hasResult: !!result, hasUser: !!user });
-      Alert.alert('Error', 'Missing data required to save meal');
+      Alert.alert(i18n.t('common.error'), i18n.t('common.missingDataToSaveMeal'));
       return;
     }
     
@@ -210,9 +363,9 @@ export default function ResultsScreen() {
     const hasImageSource = !!imageUri || (scanSource === 'barcode' && productInfo?.imageUrl);    
     if (!hasImageSource) {
       console.log('No image source available for thumbnail');
-      Alert.alert('Warning', 'No image available for this meal. Continue anyway?', [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Continue', onPress: () => saveMealWithOrWithoutImage() }
+      Alert.alert(i18n.t('common.warning'), i18n.t('common.noImageAvailableContinue'), [
+        { text: i18n.t('common.cancel'), style: 'cancel' },
+        { text: i18n.t('common.continue'), onPress: () => saveMealWithOrWithoutImage() }
       ]);
       return;
     }
@@ -224,7 +377,7 @@ export default function ResultsScreen() {
   const saveMealWithOrWithoutImage = async () => {
     // Safety check - ensure we have result and user
     if (!result || !user) {
-      Alert.alert('Error', 'Missing data required to save meal');
+      Alert.alert(i18n.t('common.error'), i18n.t('common.missingDataToSaveMeal'));
       return;
     }
 
@@ -302,12 +455,12 @@ export default function ResultsScreen() {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         
         // Show success message
-        Alert.alert('Success', 'Meal saved successfully', [
-          { text: 'OK', onPress: () => router.replace('/') }
+        Alert.alert(i18n.t('common.success'), i18n.t('common.mealSavedSuccessfully'), [
+          { text: i18n.t('common.ok'), onPress: () => router.replace('/') }
         ]);
       } catch (insertError: any) {
         console.error('Error saving meal:', insertError);
-        Alert.alert('Error', 'Failed to save meal: ' + (insertError.message || 'Unknown error'));
+        Alert.alert(i18n.t('common.error'), i18n.t('common.failedToSaveMeal') + ': ' + (insertError.message || i18n.t('common.unknownError')));
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       } finally {
         setIsSaving(false); // Ensure saving state is reset after the DB operation
@@ -316,7 +469,7 @@ export default function ResultsScreen() {
     } catch (err: any) {
       console.error('Error saving meal:', err);
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      Alert.alert('Error', `Failed to save meal: ${err?.message || 'Unknown error'}`);
+      Alert.alert(i18n.t('common.error'), `${i18n.t('common.failedToSaveMeal')}: ${err?.message || i18n.t('common.unknownError')}`);
       // Ensure isSaving is false if an error occurred before the inner finally block
       if (isSaving) {
           setIsSaving(false);
@@ -334,9 +487,14 @@ export default function ResultsScreen() {
     <StyledView className="flex-1" style={{ backgroundColor: '#F8F9FA' }}>
       {/* Main content area */}
       <StyledView className="flex-1 pt-24">
-        {/* Loading State - Uses FoodAnalysisCard's built-in loading UI */}
+        {/* Loading State */}
         {displayMode === 'loading' && isLoading && !error && (
-          <FoodAnalysisCard isLoading={true} />
+          <StyledView className="items-center p-6">
+            <ActivityIndicator size="large" color={palette.primary} />
+            <ThemedText type="subtitle" style={{ marginTop: 16, color: palette.primary }}>
+              {scanSource === 'barcode' ? 'Looking up product information...' : 'Analyzing your food...'}
+            </ThemedText>
+          </StyledView>
         )}
 
         {/* Error Display */}
@@ -375,37 +533,131 @@ export default function ResultsScreen() {
               />
             )}
             
-            {/* Food Analysis Card - works for both image analysis and barcode data */}
-            <FoodAnalysisCard result={result} />
+            {/* Food Title */}
+            <StyledView style={styles.nutritionContainer}>
+              <ThemedText style={styles.nutritionTitle}>
+                {result.name}
+              </ThemedText>
+              
+              {/* Macro Cards - matches camera analysis design */}
+              {(() => {
+                const NUTRITION_CONFIG = getNutritionConfig();
+                const isArabic = isRTL();
+                const gramUnit = isArabic ? 'جم' : 'g';
+                
+                return (
+                  <>
+                    {/* Large Calories Card - Full Width */}
+                    <View style={styles.caloriesCard}>
+                      <View style={styles.caloriesIconCircle}>
+                        <FontAwesome5 
+                          name={NUTRITION_CONFIG.calories.icon} 
+                          size={20} 
+                          color={NUTRITION_CONFIG.calories.color}
+                          style={styles.nutritionIcon}
+                        />
+                      </View>
+                      <View style={{ alignItems: 'center' }}>
+                        <ThemedText style={styles.nutritionValue}>
+                          {result.calories}
+                        </ThemedText>
+                        <ThemedText style={styles.nutritionLabel}>{NUTRITION_CONFIG.calories.label}</ThemedText>
+                      </View>
+                    </View>
+                    
+                    {/* Macro Cards Row - Protein, Carbs, Fats */}
+                    <View style={[styles.macroRow, isArabic && { flexDirection: 'row-reverse' }]}>
+                      {/* Protein Card */}
+                      <View style={styles.macroCard}>
+                        <MaterialCommunityIcons 
+                          name={NUTRITION_CONFIG.protein.icon} 
+                          size={18} 
+                          color={NUTRITION_CONFIG.protein.color}
+                          style={styles.nutritionIcon}
+                        />
+                        <ThemedText style={styles.nutritionValueSmall}>
+                          {Math.floor(result.protein)}{gramUnit}
+                        </ThemedText>
+                        <View style={{ height: 4 }} />
+                        <ThemedText style={styles.nutritionUnitSmall}>{NUTRITION_CONFIG.protein.label}</ThemedText>
+                      </View>
+                      
+                      {/* Carbs Card */}
+                      <View style={styles.macroCard}>
+                        <MaterialCommunityIcons 
+                          name={NUTRITION_CONFIG.carbs.icon} 
+                          size={18} 
+                          color={NUTRITION_CONFIG.carbs.color}
+                          style={styles.nutritionIcon}
+                        />
+                        <ThemedText style={styles.nutritionValueSmall}>
+                          {Math.floor(result.carbs)}{gramUnit}
+                        </ThemedText>
+                        <View style={{ height: 4 }} />
+                        <ThemedText style={styles.nutritionUnitSmall}>{NUTRITION_CONFIG.carbs.label}</ThemedText>
+                      </View>
+                      
+                      {/* Fats Card */}
+                      <View style={styles.macroCard}>
+                        <FontAwesome5 
+                          name={NUTRITION_CONFIG.fats.icon} 
+                          size={18} 
+                          color={NUTRITION_CONFIG.fats.color}
+                          style={styles.nutritionIcon}
+                        />
+                        <ThemedText style={styles.nutritionValueSmall}>
+                          {Math.floor(result.fat)}{gramUnit}
+                        </ThemedText>
+                        <View style={{ height: 4 }} />
+                        <ThemedText style={styles.nutritionUnitSmall}>{NUTRITION_CONFIG.fats.label}</ThemedText>
+                      </View>
+                    </View>
+                  </>
+                );
+              })()}
+              
+              {/* Serving Size / Description */}
+              {result.description && (
+                <ThemedText style={{ 
+                  marginTop: 16, 
+                  fontSize: 14, 
+                  color: palette.inactive, 
+                  textAlign: 'center',
+                  paddingTop: 16,
+                  borderTopWidth: 1,
+                  borderTopColor: palette.inactive + '20'
+                }}>
+                  {result.description}
+                </ThemedText>
+              )}
+            </StyledView>
             
-            {/* Action Buttons */}
-            <StyledView className="flex-row justify-around mt-4 mb-6 px-4">
-              <StyledTouchableOpacity
-                className="py-3 px-8 rounded-lg"
-                style={{ backgroundColor: palette.inactive }}
+            {/* Action Buttons - matching camera analysis style */}
+            <StyledView style={[styles.buttonContainer, isRTL() && { flexDirection: 'row-reverse' }]}>
+              <TouchableOpacity 
+                style={styles.button}
                 onPress={handleBack}
+                activeOpacity={0.7}
               >
-                <ThemedText type="defaultSemiBold" style={{ color: palette.surface }}>Back</ThemedText>
-              </StyledTouchableOpacity>
-              <StyledTouchableOpacity
-                className="py-3 px-8 rounded-lg"
-                style={{ backgroundColor: palette.primary }}
+                <ThemedText style={styles.buttonText}>{i18n.t('camera.cancel')}</ThemedText>
+              </TouchableOpacity>
+              
+              <TouchableOpacity 
+                style={[styles.button, styles.primaryButton]}
                 onPress={handleSaveMeal}
+                activeOpacity={0.7}
+                disabled={isSaving}
               >
-                <ThemedText type="defaultSemiBold" style={{ color: palette.surface }}>Save Meal</ThemedText>
-              </StyledTouchableOpacity>
+                <ThemedText style={[styles.buttonText, styles.primaryButtonText]}>
+                  {isSaving ? i18n.t('camera.savingMeal') : i18n.t('camera.saveMeal')}
+                </ThemedText>
+              </TouchableOpacity>
             </StyledView>
           </ScrollView>
         )}
       </StyledView>
 
-      {/* Saving Meal Overlay */}
-      {isSaving && (
-        <StyledView style={styles.savingOverlay}>
-          <ActivityIndicator size="large" color={palette.surface} />
-          <StyledText style={styles.savingText}>Saving Meal...</StyledText>
-        </StyledView>
-      )}
+
     </StyledView>
   );
 }

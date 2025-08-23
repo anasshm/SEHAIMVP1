@@ -7,7 +7,17 @@
     "next": "Next",
     "loading": "Loading...",
     "error": "Error",
-    "success": "Success"
+    "success": "Success",
+    "ok": "OK",
+    "warning": "Warning",
+    "mealSavedSuccessfully": "Meal saved successfully",
+    "failedToSaveMeal": "Failed to save meal",
+    "unknownError": "Unknown error",
+    "missingDataToSaveMeal": "Missing data required to save meal",
+    "noImageAvailableContinue": "No image available for this meal. Continue anyway?",
+    "noImageDataFound": "No image data found. Please try again.",
+    "analysisError": "Analysis Error",
+    "problemAnalyzingImage": "There was a problem analyzing your food image. Please try again."
   },
   "auth": {
     "login": "Log In",
