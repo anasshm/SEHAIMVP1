@@ -27,6 +27,9 @@ export default function PlanResultsScreen() {
   const [editedCarbs, setEditedCarbs] = useState('');
   const [editedProtein, setEditedProtein] = useState('');
   const [editedFats, setEditedFats] = useState('');
+  
+  // Focus states for input styling
+  const [focusedInput, setFocusedInput] = useState<string | null>(null);
 
   useEffect(() => {
     loadNutritionPlan();
@@ -86,6 +89,7 @@ export default function PlanResultsScreen() {
       // Update local state
       setNutritionPlan(updatedPlan);
       setModalVisible(false);
+      setFocusedInput(null);
       
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       console.log('[PlanResults] Nutrition plan updated successfully');
@@ -96,6 +100,7 @@ export default function PlanResultsScreen() {
 
   const handleCancelEdit = () => {
     setModalVisible(false);
+    setFocusedInput(null);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
 
@@ -391,20 +396,37 @@ export default function PlanResultsScreen() {
 
               {/* Input fields */}
               <View style={{ marginBottom: 15 }}>
-                <Text style={{ fontSize: 14, color: '#666', marginBottom: 5 }}>
-                  {i18n.t('onboarding.planResults.calories')}
-                </Text>
+                <View style={{ 
+                  flexDirection: isRTL() ? 'row-reverse' : 'row', 
+                  alignItems: 'center', 
+                  marginBottom: 8 
+                }}>
+                  <MaterialCommunityIcons 
+                    name="fire" 
+                    size={20} 
+                    color={palette.accent}
+                    style={isRTL() ? { marginLeft: 8 } : { marginRight: 8 }}
+                  />
+                  <Text style={{ fontSize: 14, color: '#666', textAlign: isRTL() ? 'right' : 'left' }}>
+                    {i18n.t('onboarding.planResults.calories')}
+                  </Text>
+                </View>
                 <TextInput
                   style={{
-                    borderWidth: 1,
-                    borderColor: '#E0E0E0',
+                    borderWidth: 2,
+                    borderColor: focusedInput === 'calories' ? palette.accent : '#E0E0E0',
                     borderRadius: 8,
                     padding: 12,
                     fontSize: 16,
                     color: '#000',
+                    backgroundColor: focusedInput === 'calories' ? '#F8F9FA' : 'white',
+                    textAlign: isRTL() ? 'right' : 'left',
+                    writingDirection: isRTL() ? 'rtl' : 'ltr',
                   }}
                   value={editedCalories}
                   onChangeText={setEditedCalories}
+                  onFocus={() => setFocusedInput('calories')}
+                  onBlur={() => setFocusedInput(null)}
                   keyboardType="numeric"
                   placeholder={nutritionPlan?.targetCalories.toString()}
                   placeholderTextColor="#999"
@@ -412,20 +434,37 @@ export default function PlanResultsScreen() {
               </View>
 
               <View style={{ marginBottom: 15 }}>
-                <Text style={{ fontSize: 14, color: '#666', marginBottom: 5 }}>
-                  {i18n.t('onboarding.planResults.carbs')} (g)
-                </Text>
+                <View style={{ 
+                  flexDirection: isRTL() ? 'row-reverse' : 'row', 
+                  alignItems: 'center', 
+                  marginBottom: 8 
+                }}>
+                  <MaterialCommunityIcons 
+                    name="barley" 
+                    size={20} 
+                    color={palette.carbs}
+                    style={isRTL() ? { marginLeft: 8 } : { marginRight: 8 }}
+                  />
+                  <Text style={{ fontSize: 14, color: '#666', textAlign: isRTL() ? 'right' : 'left' }}>
+                    {i18n.t('onboarding.planResults.carbs')} (g)
+                  </Text>
+                </View>
                 <TextInput
                   style={{
-                    borderWidth: 1,
-                    borderColor: '#E0E0E0',
+                    borderWidth: 2,
+                    borderColor: focusedInput === 'carbs' ? palette.carbs : '#E0E0E0',
                     borderRadius: 8,
                     padding: 12,
                     fontSize: 16,
                     color: '#000',
+                    backgroundColor: focusedInput === 'carbs' ? '#F8F9FA' : 'white',
+                    textAlign: isRTL() ? 'right' : 'left',
+                    writingDirection: isRTL() ? 'rtl' : 'ltr',
                   }}
                   value={editedCarbs}
                   onChangeText={setEditedCarbs}
+                  onFocus={() => setFocusedInput('carbs')}
+                  onBlur={() => setFocusedInput(null)}
                   keyboardType="numeric"
                   placeholder={nutritionPlan?.targetCarbsGrams.toString()}
                   placeholderTextColor="#999"
@@ -433,20 +472,37 @@ export default function PlanResultsScreen() {
               </View>
 
               <View style={{ marginBottom: 15 }}>
-                <Text style={{ fontSize: 14, color: '#666', marginBottom: 5 }}>
-                  {i18n.t('onboarding.planResults.protein')} (g)
-                </Text>
+                <View style={{ 
+                  flexDirection: isRTL() ? 'row-reverse' : 'row', 
+                  alignItems: 'center', 
+                  marginBottom: 8 
+                }}>
+                  <MaterialCommunityIcons 
+                    name="food-drumstick" 
+                    size={20} 
+                    color={palette.protein}
+                    style={isRTL() ? { marginLeft: 8 } : { marginRight: 8 }}
+                  />
+                  <Text style={{ fontSize: 14, color: '#666', textAlign: isRTL() ? 'right' : 'left' }}>
+                    {i18n.t('onboarding.planResults.protein')} (g)
+                  </Text>
+                </View>
                 <TextInput
                   style={{
-                    borderWidth: 1,
-                    borderColor: '#E0E0E0',
+                    borderWidth: 2,
+                    borderColor: focusedInput === 'protein' ? palette.protein : '#E0E0E0',
                     borderRadius: 8,
                     padding: 12,
                     fontSize: 16,
                     color: '#000',
+                    backgroundColor: focusedInput === 'protein' ? '#F8F9FA' : 'white',
+                    textAlign: isRTL() ? 'right' : 'left',
+                    writingDirection: isRTL() ? 'rtl' : 'ltr',
                   }}
                   value={editedProtein}
                   onChangeText={setEditedProtein}
+                  onFocus={() => setFocusedInput('protein')}
+                  onBlur={() => setFocusedInput(null)}
                   keyboardType="numeric"
                   placeholder={nutritionPlan?.targetProteinGrams.toString()}
                   placeholderTextColor="#999"
@@ -454,20 +510,37 @@ export default function PlanResultsScreen() {
               </View>
 
               <View style={{ marginBottom: 20 }}>
-                <Text style={{ fontSize: 14, color: '#666', marginBottom: 5 }}>
-                  {i18n.t('onboarding.planResults.fats')} (g)
-                </Text>
+                <View style={{ 
+                  flexDirection: isRTL() ? 'row-reverse' : 'row', 
+                  alignItems: 'center', 
+                  marginBottom: 8 
+                }}>
+                  <FontAwesome5 
+                    name="tint" 
+                    size={20} 
+                    color={palette.fats}
+                    style={isRTL() ? { marginLeft: 8 } : { marginRight: 8 }}
+                  />
+                  <Text style={{ fontSize: 14, color: '#666', textAlign: isRTL() ? 'right' : 'left' }}>
+                    {i18n.t('onboarding.planResults.fats')} (g)
+                  </Text>
+                </View>
                 <TextInput
                   style={{
-                    borderWidth: 1,
-                    borderColor: '#E0E0E0',
+                    borderWidth: 2,
+                    borderColor: focusedInput === 'fats' ? palette.fats : '#E0E0E0',
                     borderRadius: 8,
                     padding: 12,
                     fontSize: 16,
                     color: '#000',
+                    backgroundColor: focusedInput === 'fats' ? '#F8F9FA' : 'white',
+                    textAlign: isRTL() ? 'right' : 'left',
+                    writingDirection: isRTL() ? 'rtl' : 'ltr',
                   }}
                   value={editedFats}
                   onChangeText={setEditedFats}
+                  onFocus={() => setFocusedInput('fats')}
+                  onBlur={() => setFocusedInput(null)}
                   keyboardType="numeric"
                   placeholder={nutritionPlan?.targetFatsGrams.toString()}
                   placeholderTextColor="#999"
@@ -475,12 +548,33 @@ export default function PlanResultsScreen() {
               </View>
 
               {/* Buttons */}
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <View style={{ 
+                flexDirection: isRTL() ? 'row-reverse' : 'row', 
+                justifyContent: 'space-between' 
+              }}>
+                <TouchableOpacity
+                  onPress={handleSaveEdit}
+                  style={{
+                    flex: 1,
+                    marginRight: isRTL() ? 0 : 10,
+                    marginLeft: isRTL() ? 10 : 0,
+                    paddingVertical: 12,
+                    borderRadius: 8,
+                    backgroundColor: palette.primary,
+                    alignItems: 'center',
+                  }}
+                >
+                  <Text style={{ color: 'white', fontSize: 16, fontWeight: '600' }}>
+                    {i18n.t('onboarding.planResults.save')}
+                  </Text>
+                </TouchableOpacity>
+
                 <TouchableOpacity
                   onPress={handleCancelEdit}
                   style={{
                     flex: 1,
-                    marginRight: 10,
+                    marginLeft: isRTL() ? 0 : 10,
+                    marginRight: isRTL() ? 10 : 0,
                     paddingVertical: 12,
                     borderRadius: 8,
                     borderWidth: 1,
@@ -490,22 +584,6 @@ export default function PlanResultsScreen() {
                 >
                   <Text style={{ color: '#666', fontSize: 16, fontWeight: '600' }}>
                     {i18n.t('onboarding.planResults.cancel')}
-                  </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  onPress={handleSaveEdit}
-                  style={{
-                    flex: 1,
-                    marginLeft: 10,
-                    paddingVertical: 12,
-                    borderRadius: 8,
-                    backgroundColor: palette.primary,
-                    alignItems: 'center',
-                  }}
-                >
-                  <Text style={{ color: 'white', fontSize: 16, fontWeight: '600' }}>
-                    {i18n.t('onboarding.planResults.save')}
                   </Text>
                 </TouchableOpacity>
               </View>
